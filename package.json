@@ -63,8 +63,11 @@
   },
   "dependencies": {
     "@material/slider": "^11.0.0",
+    "chart.js": "^3.4.1",
+    "chartjs": "^0.3.24",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-google-charts": "^3.0.15",
     "tone": "^14.7.77"
   }
 }

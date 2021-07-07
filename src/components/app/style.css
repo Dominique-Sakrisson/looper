@@ -12,3 +12,8 @@
    width: 50px;
    height: 200px;
 }
+
+.keyButton:nth-child(){
+    background-color: black;
+    color: white;
+}
