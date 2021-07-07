@@ -74,17 +74,25 @@ const KeySection = () => {
   };
 
   const handleNoteInput = (e) => {
-    console.log(e.target.value);
     setNote(e.target.value);
   };
   
   const handleKeyPress = (e) => {
     console.log(e);
     setNote(e);
+    // handleNoteButtonSubmit();
   };
+
+
+  useEffect(() => {
+    document.addEventListener('keydown', ({ key }) => {
+      handleKeyPress(key);
+    });
+  }, []);
   //held together in duct tape
   //enables the user to play the same note multiple times back to back
   useEffect(() => {
+  console.log(note, 'note');
     handleNoteButtonSubmit();
     //set note here doesnt cause inifinite loop, nothing happens in above function if the note is not a defined value
     setNote('');
@@ -111,24 +119,19 @@ const KeySection = () => {
   }
 
   function keyToKeyString(){
-    return (note + 4).toUpperCase();
+    const keyString = (note + 4).toUpperCase();
+    return keyString; 
   }
 
   const handleNoteButtonSubmit =  () => {
     //create a synth and connect it to the main output (your speakers)
     //check if user entered key is a real musical note
     if(keys.find(checkKey) !== undefined){
-      
       const keyString = keyToKeyString();
-      // const timing = Tone.now();
-      // if(recordNow){
-      //   setRecording(prevRecord => {
-      //     prevRecord.push({ key: keyString, duration, timing });
-      //     return prevRecord;
-      //   });
-      // }
       checkAndSetRecording(keyString);
-      let totalDuration = 0;  
+
+      let totalDuration = 0; 
+
       recording.forEach(item => {
         totalDuration += item.timing - totalDuration;
       });
@@ -137,20 +140,8 @@ const KeySection = () => {
     } 
   };
 
-  document.addEventListener('keydown', ({ key }) => {
-    // do something
-    handleKeyPress(key);
-    console.log(note);
-    synthInstance().triggerAttackRelease(keyToKeyString(), duration);
-    // if(recordNow){
+ 
 
-    // }
-    
-  });
-
-
-
-  
   function handleRecordNow(){
     if(recordNow){
       setRecordNow(false);
@@ -184,9 +175,6 @@ const KeySection = () => {
 
   return (<>
     <p>First hit record, then play notes</p>
-
-    {/* <button onClick={synthInstance}>Record</button> */}
-
     <label>
       <h2>play a note</h2>
       <form>
@@ -195,16 +183,12 @@ const KeySection = () => {
         <input onChange={handleDurationInput} value={duration}   placeholder="4n"/>
       </form>
     </label>
-
-    
-
     <h2>Heres some piano keys for you</h2>
     <p>(1)Hit record</p>
     <p>(2)Play notes</p>
     <p>(3)Hit record</p>
     <p>(4)Hit playback</p>
     <p>(4)Wait a few seconds</p>
-    
     {
       keys.map(item => {
         return <span key={item.key} >
@@ -212,11 +196,9 @@ const KeySection = () => {
         </span>;
       })
     }
-
     <button onClick={handleRecordNow}>record</button> 
     <div className={(recordNow) ?  style.light : style.dark}></div>
     <button onClick={handlePlayback}>Playback</button>
-    
     <Chart
       width={'100%'}
       height={'200px'}
@@ -246,11 +228,7 @@ const KeySection = () => {
       {renderRecording()}
     </ul>
   </>
-
-
   ); 
-
-
 };
 
 export default KeySection;
