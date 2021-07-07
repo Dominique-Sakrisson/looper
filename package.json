@@ -62,6 +62,7 @@
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "@material/slider": "^11.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "tone": "^14.7.77"
