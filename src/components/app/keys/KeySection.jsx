@@ -74,13 +74,17 @@ const KeySection = () => {
   };
 
   const handleNoteInput = (e) => {
+    console.log(e.target.value);
     setNote(e.target.value);
   };
   
+  const handleKeyPress = (e) => {
+    console.log(e);
+    setNote(e);
+  };
   //held together in duct tape
   //enables the user to play the same note multiple times back to back
   useEffect(() => {
-    console.log('jhjhh');
     handleNoteButtonSubmit();
     //set note here doesnt cause inifinite loop, nothing happens in above function if the note is not a defined value
     setNote('');
@@ -96,17 +100,34 @@ const KeySection = () => {
     } 
   }
   
+  function checkAndSetRecording(keyString){
+    if(recordNow){
+      const timing = Tone.now();
+      setRecording(prevRecord => {
+        prevRecord.push({ key: keyString, duration, timing });
+        return prevRecord;
+      });
+    }
+  }
+
+  function keyToKeyString(){
+    return (note + 4).toUpperCase();
+  }
+
   const handleNoteButtonSubmit =  () => {
     //create a synth and connect it to the main output (your speakers)
+    //check if user entered key is a real musical note
     if(keys.find(checkKey) !== undefined){
-      const keyString = (note + '4').toUpperCase();
-      const timing = Tone.now();
-      if(recordNow){
-        setRecording(prevRecord => {
-          prevRecord.push({ key: keyString, duration, timing });
-          return prevRecord;
-        });
-      }
+      
+      const keyString = keyToKeyString();
+      // const timing = Tone.now();
+      // if(recordNow){
+      //   setRecording(prevRecord => {
+      //     prevRecord.push({ key: keyString, duration, timing });
+      //     return prevRecord;
+      //   });
+      // }
+      checkAndSetRecording(keyString);
       let totalDuration = 0;  
       recording.forEach(item => {
         totalDuration += item.timing - totalDuration;
@@ -118,6 +139,13 @@ const KeySection = () => {
 
   document.addEventListener('keydown', ({ key }) => {
     // do something
+    handleKeyPress(key);
+    console.log(note);
+    synthInstance().triggerAttackRelease(keyToKeyString(), duration);
+    // if(recordNow){
+
+    // }
+    
   });
 
 
@@ -139,7 +167,20 @@ const KeySection = () => {
     });
   }
 
- 
+  function renderRecording(){
+    const list = recording.map((item, index) => {
+      index++;
+      const { key, duration, timing } = item;
+      return <li key={`${key + duration + timing}`}>
+        <span>({index})</span>
+        <span>{key} </span>
+        <span>{duration} </span>
+        <span>{timing} </span>
+      </li>;
+    });
+   
+    return list;
+  }
 
   return (<>
     <p>First hit record, then play notes</p>
@@ -157,8 +198,13 @@ const KeySection = () => {
 
     
 
-    <h2>Same functionality as 'play a note'</h2>
-    <p>If you hit record, each note will be saved along with the time and duration of the note</p>
+    <h2>Heres some piano keys for you</h2>
+    <p>(1)Hit record</p>
+    <p>(2)Play notes</p>
+    <p>(3)Hit record</p>
+    <p>(4)Hit playback</p>
+    <p>(4)Wait a few seconds</p>
+    
     {
       keys.map(item => {
         return <span key={item.key} >
@@ -167,7 +213,8 @@ const KeySection = () => {
       })
     }
 
-    <button onClick={handleRecordNow}>start recording</button>
+    <button onClick={handleRecordNow}>record</button> 
+    <div className={(recordNow) ?  style.light : style.dark}></div>
     <button onClick={handlePlayback}>Playback</button>
     
     <Chart
@@ -185,23 +232,19 @@ const KeySection = () => {
         [
           'Track 01',
           'Piano',
-          new Date(0, 0, 0, 0, 0, trackLength),
-          new Date(0, 0, 0, 0, 0, 300),
+          new Date(0, 0, 0, 0, 0, 0),
+          new Date(0, 0, 0, 0, 0, Tone.now()),
         ],
         ['Track 02', 
-        'Hi hats', 
-        new Date(0, 0, 0), 
-        new Date(0, 0, 0)],
-        [
-          'President',
-          'Thomas Jefferson',
-          new Date(0, 0, 0),
-          new Date(0, 0, 0),
-        ],
+          'Hi hats', 
+          new Date(0, 0, 0), 
+          new Date(0, 0, 0)],
       ]}
       rootProps={{ 'data-testid': '3' }}
     />
-
+    <ul className={style.trackNotes}>
+      {renderRecording()}
+    </ul>
   </>
 
 

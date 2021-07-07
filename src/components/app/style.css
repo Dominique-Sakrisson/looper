@@ -17,3 +17,23 @@
     background-color: black;
     color: white;
 }
+
+.light{
+    display: inline-block;
+    width:20px;
+    height:20px;
+    border-radius: 30%;
+    background-color: red;
+}
+.dark{
+    display: inline-block;
+    width:20px;
+    height:20px;
+    border-radius: 30%;
+    background-color: grey;
+}
+
+.trackNotes{
+    overflow: scroll;
+    height: 200px;
+}
