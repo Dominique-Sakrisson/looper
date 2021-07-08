@@ -27,6 +27,7 @@ const Drop = () => {
     osc.frequency.value = dropStart;
     // ramp to "C2" over 2 seconds
     osc.frequency.rampTo(dropEnd, 2);
+   
     // start the oscillator for 2 seconds
     osc.start().stop(dropDuration);
   };
