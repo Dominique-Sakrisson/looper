@@ -32,15 +32,26 @@
 .playbackControls{
     display: flex;
     height: 40px;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
 }
 .playbackControls button{
     height: 50%;
 }
-.playbackControls :nth-child(1){
+.playbackControls :nth-child(2) {
     position: relative;
     right: 5%;
+}
+.playbackControls :nth-child(3){
+    position: relative;
+    right: 10%;
+}
+
+.volume{
+    display: flex;
+    justify-content: space-between;
+   width: 40%;
 }
 
 .light{

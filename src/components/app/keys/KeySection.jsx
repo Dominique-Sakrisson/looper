@@ -5,6 +5,7 @@ import * as Tone from 'tone';
 import { MDCSlider } from '@material/slider';
 import style from '../style.css';
 import { Chart } from 'react-google-charts';
+import speaker from './speaker.png'
 
 
 export const keys = [
@@ -64,6 +65,7 @@ const KeySection = () => {
 
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
+  const [volume, setVolume] = useState(0);
   //track starts on load currently
   const [trackLength, setTrackLength] = useState(0);
   const [userTrack, setUserTrack] = useState([]);
@@ -72,10 +74,14 @@ const KeySection = () => {
 
   const synthInstance = () => {
     return new Tone.Synth({
-      volume: -20
+      volume,
+      maxVolume: 0,
     }).toDestination();
   };
 
+  const handleVolumeChange = (e) => {
+    setVolume(e.target.value);
+  };
   const handleNoteInput = (e) => {
     setNote(e.target.value);
   };
@@ -239,6 +245,10 @@ const KeySection = () => {
         <button onClick={handlePlayback}>Playback</button>
         <button onClick={handleRecordNow}>record</button> 
         <div className={(recordNow) ?  style.light : style.dark}></div>
+        <div className={style.volume}>
+          <img src={speaker} width="20px" alt="volume speaker icon" />
+          <input onChange={handleVolumeChange} type="range" min="-40" max="0" value={volume} />
+        </div>
       </section>
       <section className={style.keys}>
         {
