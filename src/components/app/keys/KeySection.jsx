@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
-// import useInterval from '../../hooks/hooks';
+import { useInterval } from '../../../hooks/hooks' 
 import * as Tone from 'tone';
 import { MDCSlider } from '@material/slider';
 import style from '../style.css';
@@ -60,17 +60,20 @@ export const timings = [
 const KeySection = () => {
   const [keyStatus, setKeyStatus] = useState(false);
   const [note, setNote] = useState('');
-
-  const [duration, setDuration] = useState('8n');
-  const [recording, setRecording] = useState([]);
+  const [duration, setDuration] = useState(1);
 
   const [recordNow, setRecordNow] = useState(false);
+  const [recording, setRecording] = useState([]);
+  //track starts on load currently
   const [trackLength, setTrackLength] = useState(0);
+  const [userTrack, setUserTrack] = useState([]);
   // const [loopNote, setLoopNote] = useState('');
   // const [loopDuration, setLoopDuration] = useState('4n');
 
   const synthInstance = () => {
-    return new Tone.Synth().toDestination();
+    return new Tone.Synth({
+      volume: -20
+    }).toDestination();
   };
 
   const handleNoteInput = (e) => {
@@ -83,20 +86,55 @@ const KeySection = () => {
     // handleNoteButtonSubmit();
   };
 
+  // console.log(Tone.now());  
+  useInterval(() => {
+    setTrackLength(Tone.now());
+  }, 1000);
+
 
   useEffect(() => {
     document.addEventListener('keydown', ({ key }) => {
       handleKeyPress(key);
     });
+    setTrackLength(Tone.now());
+
   }, []);
+
+  
+
   //held together in duct tape
   //enables the user to play the same note multiple times back to back
   useEffect(() => {
-  console.log(note, 'note');
+    console.log(note, 'note');
     handleNoteButtonSubmit();
     //set note here doesnt cause inifinite loop, nothing happens in above function if the note is not a defined value
     setNote('');
   }, [note]);
+
+  useEffect(() => {
+    if(!recordNow){
+      console.log(...recording);
+      const rec = recording;
+      const arr = [];
+      rec.map(item => {
+        setUserTrack(prevUserTrack => {
+          arr.push({
+            note: item.key,
+            start: item.timing,
+            end: item.timing + item.duration
+          });
+          return arr;
+          // console.log(prevUserTrack);
+          // // prevUserTrack.push(item);
+          // return rec;
+        });
+      });
+      console.log(rec);
+      console.log(userTrack);
+    
+    }
+    
+  }, [recordNow]);
 
   const handleDurationInput = (e) => {
     setDuration(e.target.value);
@@ -135,7 +173,8 @@ const KeySection = () => {
       recording.forEach(item => {
         totalDuration += item.timing - totalDuration;
       });
-      setTrackLength(totalDuration);
+
+      // setTrackLength(Tone.now());
       synthInstance().triggerAttackRelease(keyString, duration);
     } 
   };
@@ -176,29 +215,43 @@ const KeySection = () => {
   return (<>
     <p>First hit record, then play notes</p>
     <label>
-      <h2>play a note</h2>
+      <h2>Set the duration of the note</h2>
+      <p>Time (in seconds, decimals for under a second)</p>
       <form>
-        <button className={(keyStatus) ? 'pressed' : 'unPressed'} value="seee" onClick={handleNoteButtonSubmit}> play a note</button>
-        {/* <input onChange={handleNoteInput} value={note}   placeholder="note ( a, b, c, d, e, f, g ) "/> */}
+        {/* <button className={(keyStatus) ? 'pressed' : 'unPressed'} value="seee" onClick={handleNoteButtonSubmit}> play a note</button> */}
         <input onChange={handleDurationInput} value={duration}   placeholder="4n"/>
       </form>
     </label>
-    <h2>Heres some piano keys for you</h2>
-    <p>(1)Hit record</p>
-    <p>(2)Play notes</p>
-    <p>(3)Hit record</p>
-    <p>(4)Hit playback</p>
-    <p>(4)Wait a few seconds</p>
-    {
-      keys.map(item => {
-        return <span key={item.key} >
-          <button key={item.key} className={style.keyButton} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
-        </span>;
-      })
-    }
-    <button onClick={handleRecordNow}>record</button> 
-    <div className={(recordNow) ?  style.light : style.dark}></div>
-    <button onClick={handlePlayback}>Playback</button>
+    <ul className={style.trackNotes}>
+      <li>Your recorded notes go here</li>
+      {renderRecording()}
+    </ul>
+    <div className={style.piano}>
+      <section className={style.pianoInstructions}>
+        <h2>Heres some piano keys for you</h2>
+        <p>(1)Hit record</p>
+        <p>(2)Play notes</p>
+        <p>(3)Hit record</p>
+        <p>(4)Hit playback</p>
+        <p>(4)Wait a few seconds</p>
+      </section>
+      <section className={style.playbackControls}>
+        <button onClick={handlePlayback}>Playback</button>
+        <button onClick={handleRecordNow}>record</button> 
+        <div className={(recordNow) ?  style.light : style.dark}></div>
+      </section>
+      <section className={style.keys}>
+        {
+          keys.map(item => {
+            return <span key={item.key} >
+              <button key={item.key} className={style.keyButton} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
+            </span>;
+          })
+        }
+
+      </section>
+    </div>
+    
     <Chart
       width={'100%'}
       height={'200px'}
@@ -213,20 +266,18 @@ const KeySection = () => {
         ],
         [
           'Track 01',
-          'Piano',
+          'Total Time',
           new Date(0, 0, 0, 0, 0, 0),
-          new Date(0, 0, 0, 0, 0, Tone.now()),
+          new Date(0, 0, 0, 0, 0, trackLength),
         ],
         ['Track 02', 
-          'Hi hats', 
-          new Date(0, 0, 0), 
-          new Date(0, 0, 0)],
+          'Piano', 
+          new Date(0, 0, 0, 0, 0, 0), 
+          new Date(0, 0, 0, 0, 0, 0)],
       ]}
       rootProps={{ 'data-testid': '3' }}
     />
-    <ul className={style.trackNotes}>
-      {renderRecording()}
-    </ul>
+   
   </>
   ); 
 };

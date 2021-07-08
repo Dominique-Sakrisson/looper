@@ -7,33 +7,64 @@
 .unPressed{
     background-color: white
 }
-
+.piano{
+    
+    width: 40%;
+    margin: 0 auto;
+    background-color: grey;
+    padding: 10px;
+}
+.pianoInstructions{
+    text-align: center;
+}
+.keys{
+    text-align: center;
+}
 .keyButton{
    width: 50px;
    height: 200px;
 }
 
-.keyButton:nth-child(){
+.keyButton:nth-child(2){
     background-color: black;
     color: white;
+}
+.playbackControls{
+    display: flex;
+    height: 40px;
+    justify-content: flex-end;
+    align-items: center;
+}
+.playbackControls button{
+    height: 50%;
+}
+.playbackControls :nth-child(1){
+    position: relative;
+    right: 5%;
 }
 
 .light{
     display: inline-block;
     width:20px;
     height:20px;
-    border-radius: 30%;
+    border-radius: 50%;
     background-color: red;
+    border: 2px solid darkslategray;
 }
 .dark{
     display: inline-block;
     width:20px;
     height:20px;
-    border-radius: 30%;
+    border-radius: 50%;
     background-color: grey;
+    border: 2px solid darkslategray;
 }
 
 .trackNotes{
+    padding: 0 10px 0 0;
+    list-style: none;
     overflow: scroll;
-    height: 200px;
+    height: 300px;
+    width: 20%;
+    float: left;
 }
