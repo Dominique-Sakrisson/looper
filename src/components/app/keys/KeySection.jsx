@@ -63,10 +63,10 @@ const KeySection = () => {
   const [keyStatus, setKeyStatus] = useState(false);
   const [note, setNote] = useState('');
   const [duration, setDuration] = useState(1);
-
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
   const [volume, setVolume] = useState(-20);
+
   //track starts on load currently
   const [trackLength, setTrackLength] = useState(0);
   const [userTrack, setUserTrack] = useState([]);
@@ -89,8 +89,6 @@ const KeySection = () => {
       new Date(0, 0, 0, 0, 0, 0)],
   ]);
   const [chart, setChart] = useState({});
-  // const [loopNote, setLoopNote] = useState('');
-  // const [loopDuration, setLoopDuration] = useState('4n');
 
   const synthInstance = () => {
     return new Tone.PolySynth({
@@ -100,7 +98,6 @@ const KeySection = () => {
   };
 
   const handleVolumeChange = (e) => {
-    console.log(e.target.value);
     setVolume(e.target.value);
   };
   const handleNoteInput = (e) => {
@@ -112,17 +109,16 @@ const KeySection = () => {
   };
 
   useEffect(() => {
-    console.log(synth);
     setSynth(synthInstance({ volume })
     );
   }, [volume]);
 
 
   useEffect(() => {
-    setSynth(synthInstance());
+    // setSynth(synthInstance());
     setChart({
       width: '100%',
-      height: '1000px',
+      height: '400px',
       chartType: 'Timeline',
       loader : '<div>Loading Chart</div>',
       data: songData,
@@ -131,8 +127,6 @@ const KeySection = () => {
       handleKeyPress(key);
     });
     setTrackLength(Tone.now());
-    
-
   }, []);
 
 
@@ -202,14 +196,10 @@ const KeySection = () => {
             new Date(0, 0, 0, 0, 0, eachNote.timing),
             new Date(0, 0, 0, 0, 0, (eachNote.timing + eachNote.duration)),
           ];
-          
-          console.log(arr);
-          console.log(songIndex);
           arr.push(songIndex);
-          console.log(arr);
           return arr;
-        })
-      })
+        });
+      });
     }
   }
   
