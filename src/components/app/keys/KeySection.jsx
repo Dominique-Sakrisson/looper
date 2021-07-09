@@ -78,6 +78,7 @@ export const timings = [
     key : '+4',
   }
 ];
+
 const volume = -20;
 const synthInstance = () => {
   return new Tone.PolySynth({
@@ -85,7 +86,6 @@ const synthInstance = () => {
     maxVolume: 0,
   }).toDestination();
 };
-
 
 const KeySection = () => {
   const [synth, setSynth] = useState(synthInstance());
@@ -127,13 +127,9 @@ const KeySection = () => {
 
   useEffect(() => {
     document.addEventListener('keydown', ({ key }) => {
-      console.log(key);
-     
       handleKeyPress(key);
     });
   }, []); 
-
-  
 
   useEffect(() => {
     //enables the user to play the same note multiple times back to back
@@ -237,7 +233,6 @@ const KeySection = () => {
   }
 
   function handlePlayback(){
-    // const now = Tone.now();
     recording.forEach(item => {
       const { key, duration, timing } = item;
       synth.triggerAttackRelease(key, duration, Tone.now() + timing);
@@ -278,9 +273,9 @@ const KeySection = () => {
 
       <section>
         <label className={style.duration}>
-        <h3>Has keyboard support!</h3>
-        <p>Press keys c, d, e, f, g, a, b</p>
-        <p>Press keys 1 - 5 to play sharp notes</p>
+          <h3>Has keyboard support!</h3>
+          <p>Press keys c, d, e, f, g, a, b</p>
+          <p>Press keys 1 - 5 to play sharp notes</p>
           <p>Time (seconds)</p>
           <form >
             <input type="number" onChange={handleDurationInput} placeholder={duration}/>
@@ -300,7 +295,6 @@ const KeySection = () => {
           <img src={speaker} width="20px" alt="volume speaker icon" />
           <input onChange={handleVolumeChange} type="range" min="-40" max="0" value={volume} />
         </div>
-        
       </section>
 
       <section className={style.keys}>
@@ -326,8 +320,8 @@ const KeySection = () => {
           })
         }
       </section>
-      
     </div>
+
     <Chart 
       width={chart.width}
       height={chart.height}
