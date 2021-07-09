@@ -3,18 +3,16 @@
     top: -1px;
     background-color: beige;
 }
-
 .unPressed{
     background-color: white
 }
 .piano{
-    
     width: 40%;
     margin: 0 auto;
     background-color: grey;
+    border-radius: 5% 50% 5% 5%;
     padding: 10px;
 }
-
 .pianoInstructions h2{
     text-align: left;
     width: 25%;
@@ -36,7 +34,6 @@
     
 }
 .keyButtonSharp:active{
-   
 }
 .itemSharp{
     display: flex;
@@ -44,7 +41,6 @@
     justify-content:space-between;
     margin: auto;
     width:80%;
-   
 }
 
 .keyButtonSharp{
@@ -66,7 +62,6 @@
 }
 .itemSharp :nth-child(2) button, .itemSharp :nth-child(4) button{
     position: relative;
-    /* width: 35px; */
     bottom: 200px; 
     color: white;
     align-items: center;
@@ -74,31 +69,12 @@
 }
 .itemSharp :nth-child(5) button{
     position: relative;
-    /* width: 35px; */
     right: 20px;
     bottom: 200px; 
     color: white;
     align-items: center;
     justify-content: center;
 }
-
-
-/* .g{
-  color: white;
-  background: black;
-}
-.b{
-    color: white;
-    background: black; 
-}
-.c{
-    color: white;
-    background: black; 
-}
-.e{
-    color: white;
-    background: black;
-} */
 
 .keyButton:nth-child(2){
     background-color: black;
@@ -122,13 +98,11 @@
     position: relative;
     right: 10%;
 }
-
 .volume{
     display: flex;
     justify-content: space-between;
-   width: 40%;
+    width: 40%;
 }
-
 .light{
     display: inline-block;
     width:20px;
@@ -145,7 +119,6 @@
     background-color: grey;
     border: 2px solid darkslategray;
 }
-
 .trackNotes{
     padding: 0 10px 0 0;
     list-style: none;

@@ -1,11 +1,9 @@
 /* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
-import { useInterval } from '../../../hooks/hooks' 
 import * as Tone from 'tone';
-import { MDCSlider } from '@material/slider';
 import style from '../style.css';
 import { Chart } from 'react-google-charts';
-import speaker from './speaker.png'
+import speaker from './speaker.png';
 
 
 export const keys = [
@@ -97,7 +95,6 @@ const KeySection = () => {
   const [recording, setRecording] = useState([]);
   const [volume, setVolume] = useState(volume);
   const [octave, setOctave] = useState(4);
- 
   //track starts on load currently
   const [songData, setSongData] = useState([
     [
@@ -130,15 +127,15 @@ const KeySection = () => {
 
   useEffect(() => {
     document.addEventListener('keydown', ({ key }) => {
+      console.log(key);
+     
       handleKeyPress(key);
     });
-  }, []);
+  }, []); 
+
   
+
   useEffect(() => {
-    if(!note){
-      return null;
-    }
-    //held together in duct tape
     //enables the user to play the same note multiple times back to back
     handleNoteButtonSubmit();
     if(note){
@@ -148,7 +145,7 @@ const KeySection = () => {
           setSongData(prevSongData => {
             prevSongData.push([
               `${recentNote.key}`,
-              `piano`,
+              'piano',
               Number((recentNote.timing * 1000).toFixed(4)),
               Number(recentNote.timing * 1000 + recentNote.duration * 1000)
             ]);
@@ -162,7 +159,6 @@ const KeySection = () => {
   }, [note]);
 
   const handleDurationInput = (e) => {
-    console.log(e.target.value);
     setDuration(e.target.value);
   };
 
@@ -189,8 +185,7 @@ const KeySection = () => {
   }
 
   const handleNoteButtonSubmit =  () => {
-    //create a synth and connect it to the main output (your speakers)
-    //check if user entered key is a real musical note
+    //the check ensures the synth wont sound without a valid note
     if(keys.find(checkKey) !== undefined){
       const keyString = keyToKeyString();
       checkAndSetRec(keyString);
@@ -201,23 +196,35 @@ const KeySection = () => {
       checkAndSetRec(keyString);
       synth.triggerAttackRelease(keyString, duration);
     }
-
   };
- console.log(recording);
   const handleVolumeChange = (e) => {
     setVolume(e.target.value);
   };
 
-  const handleOctaveChange = ({target}) => {
+  const handleOctaveChange = ({ target }) => {
     setOctave(target.value);
   };
 
   const handleNoteInput = (e) => {
-    console.log(e.target.value);
     setNote(e.target.value);
   };
   
   const handleKeyPress = (e) => {
+    if(e === '1'){
+      setNote('c#');
+    }
+    if(e === '2'){
+      setNote('d#');
+    }
+    if(e === '3'){
+      setNote('f#');
+    }
+    if(e === '4'){
+      setNote('g#');
+    }
+    if(e === '5'){
+      setNote('a#');
+    }
     setNote(e);
   };
 
@@ -257,6 +264,7 @@ const KeySection = () => {
       <li>Recordings</li>
       {renderRecording()}
     </ul>
+
     <div className={style.piano}>
 
       <section className={style.pianoInstructions}>
@@ -270,7 +278,9 @@ const KeySection = () => {
 
       <section>
         <label className={style.duration}>
-          <h2>Set the duration of the note</h2>
+        <h3>Has keyboard support!</h3>
+        <p>Press keys c, d, e, f, g, a, b</p>
+        <p>Press keys 1 - 5 to play sharp notes</p>
           <p>Time (seconds)</p>
           <form >
             <input type="number" onChange={handleDurationInput} placeholder={duration}/>
@@ -290,23 +300,19 @@ const KeySection = () => {
           <img src={speaker} width="20px" alt="volume speaker icon" />
           <input onChange={handleVolumeChange} type="range" min="-40" max="0" value={volume} />
         </div>
-      </section>
-      <section className={style.keys}>
         
+      </section>
+
+      <section className={style.keys}>
         {
           keys.map(item => {
-            // if(['c', 'd', 'f',  'g', 'a'].includes(item.key)){
-            //   return <span key={item.key} >
-            //   <button key={item.key} className={`${style.keyButton} ${style[item.key]}`} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
-            //   <button key={item.key + '#'} className={`${style.keyButton} ${style.keyButtonSharp}`}> {item.key + '#'}</button>
-            // </span>;  
-            // };
             return <span key={item.key} >
               <button key={item.key} className={`${style.keyButton} ${style[item.key]}`} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
             </span>;
           })
         }
       </section>
+
       <section className={style.itemSharp}>
         {
           keys.map(item => {
@@ -320,6 +326,7 @@ const KeySection = () => {
           })
         }
       </section>
+      
     </div>
     <Chart 
       width={chart.width}
