@@ -78,6 +78,7 @@ export const timings = [
     key : '+4',
   }
 ];
+
 const volume = -20;
 const synthInstance = () => {
   return new Tone.PolySynth({
@@ -85,7 +86,6 @@ const synthInstance = () => {
     maxVolume: 0,
   }).toDestination();
 };
-
 
 const KeySection = () => {
   const [synth, setSynth] = useState(synthInstance());
@@ -115,6 +115,7 @@ const KeySection = () => {
       1000, //finish
     ],
   ]);
+  const [keyDown, setKeyDown] = useState({ start: 0, end: 0, down: false });
 
   const [chart, setChart] = useState({
     width: '100%',
@@ -124,16 +125,60 @@ const KeySection = () => {
     data: songData,
     rootProps: { 'data-testid': '3' } 
   });
+  const [arr, setArr] = useState([]);
+  const [noteCount, setNoteCount] = useState(1);
+
+  //currently gets laggy at about 80 notes
+  console.log(noteCount);
 
   useEffect(() => {
+    let start;
+    let end;
+    let delta;
+    // const arr = [];
+
     document.addEventListener('keydown', ({ key }) => {
-      console.log(key);
-     
+      setNoteCount(prev => {
+        console.log(prev);
+        prev++;
+        return prev;
+      });
+      start = Number(new Date());
+      // arr.push(key);
+      setArr(prevArr => {
+        prevArr.push(key);
+        return prevArr;
+      });
+      if(arr[arr.length - 1] !== arr[arr.length - 2]){
+        setKeyDown(prevKeyDown => {
+          prevKeyDown.down = true;
+          prevKeyDown.start = Number(start);
+          // console.log(keyDown.start, keyDown.end);
+          if(keyDown.start - prevKeyDown.start > -1000){
+            return prevKeyDown;
+          }
+          return keyDown;
+        });
+        
+        if(keyDown.start && !keyDown.end){
+          handleKeyPress(key);
+        }  
+      } 
+      
+    });
+    document.addEventListener('keyup', ({ key }) => {
+      end = Number(new Date());
+      setKeyDown(prevKeyDown => {
+        prevKeyDown.down = false;
+        prevKeyDown.end = end;
+        return prevKeyDown;
+      });
+      delta = keyDown.end - keyDown.start;
+      setDuration((delta / 1000 > 0) ? delta / 1000 : .01);
       handleKeyPress(key);
     });
   }, []); 
 
-  
 
   useEffect(() => {
     //enables the user to play the same note multiple times back to back
@@ -237,7 +282,6 @@ const KeySection = () => {
   }
 
   function handlePlayback(){
-    // const now = Tone.now();
     recording.forEach(item => {
       const { key, duration, timing } = item;
       synth.triggerAttackRelease(key, duration, Tone.now() + timing);
@@ -278,9 +322,9 @@ const KeySection = () => {
 
       <section>
         <label className={style.duration}>
-        <h3>Has keyboard support!</h3>
-        <p>Press keys c, d, e, f, g, a, b</p>
-        <p>Press keys 1 - 5 to play sharp notes</p>
+          <h3>Has keyboard support!</h3>
+          <p>Press keys c, d, e, f, g, a, b</p>
+          <p>Press keys 1 - 5 to play sharp notes</p>
           <p>Time (seconds)</p>
           <form >
             <input type="number" onChange={handleDurationInput} placeholder={duration}/>
@@ -300,7 +344,6 @@ const KeySection = () => {
           <img src={speaker} width="20px" alt="volume speaker icon" />
           <input onChange={handleVolumeChange} type="range" min="-40" max="0" value={volume} />
         </div>
-        
       </section>
 
       <section className={style.keys}>
@@ -326,8 +369,8 @@ const KeySection = () => {
           })
         }
       </section>
-      
     </div>
+
     <Chart 
       width={chart.width}
       height={chart.height}
