@@ -115,6 +115,7 @@ const KeySection = () => {
       1000, //finish
     ],
   ]);
+  const [keyDown, setKeyDown] = useState({ start: 0, end: 0, down: false });
 
   const [chart, setChart] = useState({
     width: '100%',
@@ -124,12 +125,60 @@ const KeySection = () => {
     data: songData,
     rootProps: { 'data-testid': '3' } 
   });
+  const [arr, setArr] = useState([]);
+  const [noteCount, setNoteCount] = useState(1);
+
+  //currently gets laggy at about 80 notes
+  console.log(noteCount);
 
   useEffect(() => {
+    let start;
+    let end;
+    let delta;
+    // const arr = [];
+
     document.addEventListener('keydown', ({ key }) => {
+      setNoteCount(prev => {
+        console.log(prev);
+        prev++;
+        return prev;
+      });
+      start = Number(new Date());
+      // arr.push(key);
+      setArr(prevArr => {
+        prevArr.push(key);
+        return prevArr;
+      });
+      if(arr[arr.length - 1] !== arr[arr.length - 2]){
+        setKeyDown(prevKeyDown => {
+          prevKeyDown.down = true;
+          prevKeyDown.start = Number(start);
+          // console.log(keyDown.start, keyDown.end);
+          if(keyDown.start - prevKeyDown.start > -1000){
+            return prevKeyDown;
+          }
+          return keyDown;
+        });
+        
+        if(keyDown.start && !keyDown.end){
+          handleKeyPress(key);
+        }  
+      } 
+      
+    });
+    document.addEventListener('keyup', ({ key }) => {
+      end = Number(new Date());
+      setKeyDown(prevKeyDown => {
+        prevKeyDown.down = false;
+        prevKeyDown.end = end;
+        return prevKeyDown;
+      });
+      delta = keyDown.end - keyDown.start;
+      setDuration((delta / 1000 > 0) ? delta / 1000 : .01);
       handleKeyPress(key);
     });
   }, []); 
+
 
   useEffect(() => {
     //enables the user to play the same note multiple times back to back
