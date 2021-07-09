@@ -31,7 +31,7 @@ export const keys = [
     key : 'b',
   }];
 
-  export const sharpKeys = [
+export const sharpKeys = [
   {
     key :'c#',
   },
@@ -96,6 +96,7 @@ const KeySection = () => {
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
   const [volume, setVolume] = useState(volume);
+  const [octave, setOctave] = useState(4);
  
   //track starts on load currently
   const [songData, setSongData] = useState([
@@ -175,14 +176,15 @@ const KeySection = () => {
     if(recordNow){
       const timing = Tone.now();
       setRecording(prevRecord => {
-        prevRecord.push({ key: keyString, duration, timing });
+        prevRecord.push({ key: keyString, duration, timing, octave });
         return prevRecord;
       });
     }
   }
 
   function keyToKeyString(){
-    const keyString = (note + 4).toUpperCase();
+    // const keyString = (note + 4).toUpperCase();
+    const keyString = (note + octave).toUpperCase();
     return keyString; 
   }
 
@@ -201,9 +203,13 @@ const KeySection = () => {
     }
 
   };
- 
+ console.log(recording);
   const handleVolumeChange = (e) => {
     setVolume(e.target.value);
+  };
+
+  const handleOctaveChange = ({target}) => {
+    setOctave(target.value);
   };
 
   const handleNoteInput = (e) => {
@@ -270,6 +276,10 @@ const KeySection = () => {
             <input type="number" onChange={handleDurationInput} placeholder={duration}/>
           </form>
         </label>
+        <div className={style.volume}>
+          <p>Octave {octave}</p>
+          <input onChange={handleOctaveChange} type="range" min="1" max="7" value={octave} />
+        </div>
       </section>
 
       <section className={style.playbackControls}>
@@ -282,6 +292,7 @@ const KeySection = () => {
         </div>
       </section>
       <section className={style.keys}>
+        
         {
           keys.map(item => {
             // if(['c', 'd', 'f',  'g', 'a'].includes(item.key)){
