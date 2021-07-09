@@ -57,116 +57,85 @@ export const timings = [
     key : '+4',
   }
 ];
+const volume = -20;
+const synthInstance = () => {
+  return new Tone.PolySynth({
+    volume,
+    maxVolume: 0,
+  }).toDestination();
+};
+
 
 const KeySection = () => {
-  const [synth, setSynth] = useState();
-  const [keyStatus, setKeyStatus] = useState(false);
+  const [synth, setSynth] = useState(synthInstance());
   const [note, setNote] = useState('');
   const [duration, setDuration] = useState(1);
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
-  const [volume, setVolume] = useState(-20);
-
+  const [volume, setVolume] = useState(volume);
+ 
   //track starts on load currently
-  const [trackLength, setTrackLength] = useState(0);
-  const [userTrack, setUserTrack] = useState([]);
   const [songData, setSongData] = useState([
     [
       { type: 'string', id: 'Track Name' },
       { type: 'string', id: 'Instrument' },
-      { type: 'date', id: 'Start' },
-      { type: 'date', id: 'End',  value: '50' },
+      { type: 'number', id: 'Start' },
+      { type: 'number', id: 'End' },
     ],
     [
       'Track 01',
       'Total Time',
-      new Date(0, 0, 0, 0, 0, 0),
-      new Date(0, 0, 0, 0, 0, 0),
+      4000, //start
+      5000, //finish
     ],
     ['Track 02', 
       'Piano', 
-      new Date(0, 0, 0, 0, 0, 0), 
-      new Date(0, 0, 0, 0, 0, 0)],
+      0, //start
+      1000, //finish
+    ],
   ]);
-  const [chart, setChart] = useState({});
 
-  const synthInstance = () => {
-    return new Tone.PolySynth({
-      volume,
-      maxVolume: 0,
-    }).toDestination();
-  };
-
-  const handleVolumeChange = (e) => {
-    setVolume(e.target.value);
-  };
-  const handleNoteInput = (e) => {
-    setNote(e.target.value);
-  };
-  
-  const handleKeyPress = (e) => {
-    setNote(e);
-  };
+  const [chart, setChart] = useState({
+    width: '100%',
+    height: '400px',
+    chartType: 'Timeline',
+    loader : '<div>Loading Chart</div>',
+    data: songData,
+    rootProps: { 'data-testid': '3' } 
+  });
 
   useEffect(() => {
-    setSynth(synthInstance({ volume })
-    );
-  }, [volume]);
-
-
-  useEffect(() => {
-    // setSynth(synthInstance());
-    setChart({
-      width: '100%',
-      height: '400px',
-      chartType: 'Timeline',
-      loader : '<div>Loading Chart</div>',
-      data: songData,
-      rootProps: { 'data-testid': '3' } }); 
     document.addEventListener('keydown', ({ key }) => {
       handleKeyPress(key);
     });
-    setTrackLength(Tone.now());
   }, []);
-
-
-
-  useEffect(() => {
-    setChart(prevChart => {
   
-      prevChart.data = songData;
-  
-      return prevChart;
-    });
-
-  }, [songData]);
-
-  //held together in duct tape
-  //enables the user to play the same note multiple times back to back
   useEffect(() => {
+    if(!note){
+      return null;
+    }
+    //held together in duct tape
+    //enables the user to play the same note multiple times back to back
     handleNoteButtonSubmit();
+    if(note){
+      if(recordNow){
+        const recentNote = recording[recording.length - 1];
+        if(recentNote){
+          setSongData(prevSongData => {
+            prevSongData.push([
+              `${recentNote.key}`,
+              `piano`,
+              Number((recentNote.timing * 1000).toFixed(4)),
+              Number(recentNote.timing * 1000 + recentNote.duration * 1000)
+            ]);
+            return prevSongData;
+          });
+        }
+      }
+    }
     //set note here doesnt cause inifinite loop, nothing happens in above function if the note is not a defined value
     setNote('');
   }, [note]);
-
-  useEffect(() => {
-    if(!recordNow){
-      const rec = recording;
-      const arr = [];
-      rec.map(item => {
-        setUserTrack(prevUserTrack => {
-          console.log(prevUserTrack);
-          arr.push({
-            note: item.key,
-            start: item.timing,
-            end: item.timing + item.duration
-          });
-          return arr;
-        });
-      });
-    }
-
-  }, [recordNow]);
 
   const handleDurationInput = (e) => {
     console.log(e.target.value);
@@ -179,30 +148,15 @@ const KeySection = () => {
     } 
   }
   
-  function checkAndSetRecording(keyString){
+  function checkAndSetRec(keyString){
     if(recordNow){
       const timing = Tone.now();
       setRecording(prevRecord => {
         prevRecord.push({ key: keyString, duration, timing });
         return prevRecord;
       });
-
-      recording.map(eachNote => {
-        setSongData(prevSongData => {
-          const arr = [...prevSongData];
-          const songIndex = [
-            `${eachNote.key}`,
-            `${eachNote.duration}`,
-            new Date(0, 0, 0, 0, 0, eachNote.timing),
-            new Date(0, 0, 0, 0, 0, (eachNote.timing + eachNote.duration)),
-          ];
-          arr.push(songIndex);
-          return arr;
-        });
-      });
     }
   }
-  
 
   function keyToKeyString(){
     const keyString = (note + 4).toUpperCase();
@@ -214,20 +168,22 @@ const KeySection = () => {
     //check if user entered key is a real musical note
     if(keys.find(checkKey) !== undefined){
       const keyString = keyToKeyString();
-      checkAndSetRecording(keyString);
-
-      let totalDuration = 0; 
-
-      recording.forEach(item => {
-        totalDuration += item.timing - totalDuration;
-      });
-
-      // setTrackLength(Tone.now());
+      checkAndSetRec(keyString);
       synth.triggerAttackRelease(keyString, duration);
     } 
   };
-
  
+  const handleVolumeChange = (e) => {
+    setVolume(e.target.value);
+  };
+
+  const handleNoteInput = (e) => {
+    setNote(e.target.value);
+  };
+  
+  const handleKeyPress = (e) => {
+    setNote(e);
+  };
 
   function handleRecordNow(){
     if(recordNow){
@@ -256,35 +212,36 @@ const KeySection = () => {
         <span>{timing} </span>
       </li>;
     });
-   
     return list;
   }
 
   return (<>
     
     <ul className={style.trackNotes}>
-      <li>Your recorded notes go here</li>
+      <li>Recordings</li>
       {renderRecording()}
     </ul>
     <div className={style.piano}>
+
       <section className={style.pianoInstructions}>
         <h2>How to record</h2>
-        <p>(1)Hit record</p>
-        <p>(2)Play notes</p>
-        <p>(3)Hit record</p>
-        <p>(4)Hit playback</p>
-        <p>(4)Wait a few seconds</p>
+        <span>(1)Hit record</span>
+        <span>(2)Play notes</span>
+        <span>(3)Hit record</span>
+        <span>(4)Hit playback</span>
+        <span>(4)Wait a few seconds</span>
       </section>
+
       <section>
         <label className={style.duration}>
           <h2>Set the duration of the note</h2>
           <p>Time (seconds)</p>
           <form >
-            {/* <button className={(keyStatus) ? 'pressed' : 'unPressed'} value="seee" onClick={handleNoteButtonSubmit}> play a note</button> */}
             <input type="number" onChange={handleDurationInput} placeholder={duration}/>
           </form>
         </label>
       </section>
+
       <section className={style.playbackControls}>
         <button onClick={handlePlayback}>Playback</button>
         <button onClick={handleRecordNow}>record</button> 
@@ -302,21 +259,16 @@ const KeySection = () => {
             </span>;
           })
         }
-
       </section>
     </div>
-    {
-      
-      <Chart 
-        width={chart.width}
-        height={chart.height}
-        chartType={chart.chartType}
-        loader={chart.loader}
-        data={songData}
-        rootProps={chart.rootProps}
-      />
-    }
-    
+    <Chart 
+      width={chart.width}
+      height={chart.height}
+      chartType={chart.chartType}
+      loader={chart.loader}
+      data={songData}
+      rootProps={chart.rootProps}
+    />
   </>
   ); 
 };
