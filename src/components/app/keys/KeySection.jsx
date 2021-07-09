@@ -31,6 +31,29 @@ export const keys = [
     key : 'b',
   }];
 
+  export const sharpKeys = [
+  {
+    key :'c#',
+  },
+  {
+    key : 'd#',
+  },
+  {
+    key : 'e#',
+  },
+  {
+    key : 'f#',
+  },
+  {
+    key : 'g#',
+  },
+  {
+    key : 'a#',
+  },
+  {
+    key : 'b#',
+  }];
+
 export const timings = [
   {
     key :'+1',
@@ -170,7 +193,13 @@ const KeySection = () => {
       const keyString = keyToKeyString();
       checkAndSetRec(keyString);
       synth.triggerAttackRelease(keyString, duration);
-    } 
+    }
+    if(sharpKeys.find(checkKey) !== undefined){
+      const keyString = keyToKeyString();
+      checkAndSetRec(keyString);
+      synth.triggerAttackRelease(keyString, duration);
+    }
+
   };
  
   const handleVolumeChange = (e) => {
@@ -178,6 +207,7 @@ const KeySection = () => {
   };
 
   const handleNoteInput = (e) => {
+    console.log(e.target.value);
     setNote(e.target.value);
   };
   
@@ -254,9 +284,28 @@ const KeySection = () => {
       <section className={style.keys}>
         {
           keys.map(item => {
+            // if(['c', 'd', 'f',  'g', 'a'].includes(item.key)){
+            //   return <span key={item.key} >
+            //   <button key={item.key} className={`${style.keyButton} ${style[item.key]}`} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
+            //   <button key={item.key + '#'} className={`${style.keyButton} ${style.keyButtonSharp}`}> {item.key + '#'}</button>
+            // </span>;  
+            // };
             return <span key={item.key} >
               <button key={item.key} className={`${style.keyButton} ${style[item.key]}`} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
             </span>;
+          })
+        }
+      </section>
+      <section className={style.itemSharp}>
+        {
+          keys.map(item => {
+            if(['c', 'd', 'f',  'g', 'a'].includes(item.key)){
+              return (
+                <div key={item.key}  >
+                  <button key={item.key + '#'} className={`${style.keyButtonSharp}`} aria-label="note-key" value={item.key + '#'} onClick={handleNoteInput}> {item.key + '#'}</button>
+                </div>
+              );  
+            }
           })
         }
       </section>

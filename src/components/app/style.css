@@ -35,7 +35,55 @@
     top: 1px;
     
 }
-.g{
+.keyButtonSharp:active{
+   
+}
+.itemSharp{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    margin: auto;
+    width:80%;
+   
+}
+
+.keyButtonSharp{
+    display: flex;
+    flex-direction: row;
+    width: 20px;
+    height: 100px;
+    background: black;
+}
+.itemSharp :nth-child(1) button, .itemSharp :nth-child(3) button{
+    position: relative;
+    /* width: 35px; */
+     left: 25px; 
+    bottom: 200px; 
+    
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+.itemSharp :nth-child(2) button, .itemSharp :nth-child(4) button{
+    position: relative;
+    /* width: 35px; */
+    bottom: 200px; 
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+.itemSharp :nth-child(5) button{
+    position: relative;
+    /* width: 35px; */
+    right: 20px;
+    bottom: 200px; 
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* .g{
   color: white;
   background: black;
 }
@@ -50,7 +98,7 @@
 .e{
     color: white;
     background: black;
-}
+} */
 
 .keyButton:nth-child(2){
     background-color: black;
