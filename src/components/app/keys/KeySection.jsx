@@ -4,6 +4,8 @@ import * as Tone from 'tone';
 import style from '../style.css';
 import { Chart } from 'react-google-charts';
 import speaker from './speaker.png';
+import Drop from '../drop/Drop';
+
 
 
 export const keys = [
@@ -126,25 +128,14 @@ const KeySection = () => {
     rootProps: { 'data-testid': '3' } 
   });
   const [arr, setArr] = useState([]);
-  const [noteCount, setNoteCount] = useState(1);
-
-  //currently gets laggy at about 80 notes
-  console.log(noteCount);
 
   useEffect(() => {
     let start;
     let end;
     let delta;
-    // const arr = [];
 
     document.addEventListener('keydown', ({ key }) => {
-      setNoteCount(prev => {
-        console.log(prev);
-        prev++;
-        return prev;
-      });
       start = Number(new Date());
-      // arr.push(key);
       setArr(prevArr => {
         prevArr.push(key);
         return prevArr;
@@ -153,18 +144,15 @@ const KeySection = () => {
         setKeyDown(prevKeyDown => {
           prevKeyDown.down = true;
           prevKeyDown.start = Number(start);
-          // console.log(keyDown.start, keyDown.end);
           if(keyDown.start - prevKeyDown.start > -1000){
             return prevKeyDown;
           }
           return keyDown;
         });
-        
         if(keyDown.start && !keyDown.end){
           handleKeyPress(key);
         }  
       } 
-      
     });
     document.addEventListener('keyup', ({ key }) => {
       end = Number(new Date());
@@ -273,7 +261,8 @@ const KeySection = () => {
     setNote(e);
   };
 
-  function handleRecordNow(){
+  function handleRecordNow(e){
+    e.preventDefault();
     if(recordNow){
       setRecordNow(false);
     } else {
@@ -281,7 +270,8 @@ const KeySection = () => {
     }
   }
 
-  function handlePlayback(){
+  function handlePlayback(e){
+    e.preventDefault();
     recording.forEach(item => {
       const { key, duration, timing } = item;
       synth.triggerAttackRelease(key, duration, Tone.now() + timing);
@@ -312,73 +302,77 @@ const KeySection = () => {
     <div className={style.piano}>
 
       <section className={style.pianoInstructions}>
-        <h2>How to record</h2>
-        <span>(1)Hit record</span>
-        <span>(2)Play notes</span>
-        <span>(3)Hit record</span>
-        <span>(4)Hit playback</span>
-        <span>(4)Wait a few seconds</span>
+        <h3>How to record</h3>
+        <p>(1)Hit record</p>
+        <p>(2)Play notes</p>
+        <p>(3)Hit record</p>
+        <p>(4)Hit playback</p>
+        <p>(4)Wait a few seconds</p>
       </section>
 
       <section>
-        <label className={style.duration}>
+        <label className={style.settings}>
           <h3>Has keyboard support!</h3>
           <p>Press keys c, d, e, f, g, a, b</p>
           <p>Press keys 1 - 5 to play sharp notes</p>
-          <p>Time (seconds)</p>
           <form >
+            <p>Note Length (seconds) <p className={style.hint}>affects length when key is clicked</p></p>
             <input type="number" onChange={handleDurationInput} placeholder={duration}/>
+            <p>Octave {octave}</p>
+            <input onChange={handleOctaveChange} type="range" min="1" max="7" value={octave} />
+            <div className={style.volume}>
+              <img src={speaker} width="20px" alt="volume speaker icon" />
+              <input onChange={handleVolumeChange} type="range" min="-40" max="0" value={volume} />
+            </div>
+            <button onClick={handlePlayback}>Playback</button>
+            <button onClick={handleRecordNow}>record</button> 
+            <div className={(recordNow) ?  style.light : style.dark}></div>
           </form>
         </label>
-        <div className={style.volume}>
-          <p>Octave {octave}</p>
-          <input onChange={handleOctaveChange} type="range" min="1" max="7" value={octave} />
-        </div>
       </section>
 
       <section className={style.playbackControls}>
-        <button onClick={handlePlayback}>Playback</button>
-        <button onClick={handleRecordNow}>record</button> 
-        <div className={(recordNow) ?  style.light : style.dark}></div>
-        <div className={style.volume}>
-          <img src={speaker} width="20px" alt="volume speaker icon" />
-          <input onChange={handleVolumeChange} type="range" min="-40" max="0" value={volume} />
-        </div>
+        
       </section>
 
-      <section className={style.keys}>
-        {
-          keys.map(item => {
-            return <span key={item.key} >
-              <button key={item.key} className={`${style.keyButton} ${style[item.key]}`} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
-            </span>;
-          })
-        }
-      </section>
+      <div className={style.keyBoard}>
+        <section className={style.keys}>
+          {
+            keys.map(item => {
+              return <span key={item.key} >
+                <button key={item.key} className={`${style.keyButton} ${style[item.key]}`} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
+              </span>;
+            })
+          }
+        </section>
 
-      <section className={style.itemSharp}>
-        {
-          keys.map(item => {
-            if(['c', 'd', 'f',  'g', 'a'].includes(item.key)){
-              return (
-                <div key={item.key}  >
-                  <button key={item.key + '#'} className={`${style.keyButtonSharp}`} aria-label="note-key" value={item.key + '#'} onClick={handleNoteInput}> {item.key + '#'}</button>
-                </div>
-              );  
-            }
-          })
-        }
-      </section>
+        <section className={style.itemSharp}>
+          {
+            keys.map(item => {
+              if(['c', 'd', 'f',  'g', 'a'].includes(item.key)){
+                return (
+                  <div key={item.key}  >
+                    <button key={item.key + '#'} className={`${style.keyButtonSharp}`} aria-label="note-key" value={item.key + '#'} onClick={handleNoteInput}> {item.key + '#'}</button>
+                  </div>
+                );  
+              }
+            })
+          }
+        </section>
+      </div>
     </div>
+    <Drop />
+    <section className={style.chart}>
 
-    <Chart 
-      width={chart.width}
-      height={chart.height}
-      chartType={chart.chartType}
-      loader={chart.loader}
-      data={songData}
-      rootProps={chart.rootProps}
-    />
+      <Chart 
+        width={chart.width}
+        height={chart.height}
+        chartType={chart.chartType}
+        loader={chart.loader}
+        data={songData}
+        rootProps={chart.rootProps}
+      />
+    </section>
   </>
   ); 
 };

@@ -1,4 +1,105 @@
-.pressed{
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    *{
+        position: relative;
+      
+    }
+    section{
+        border: 2px solid black;
+       
+        background-color: grey;
+    }
+     :nth-last-child(3) section{
+        border: none;
+        
+    }
+   
+    .piano{
+        display: flex;
+        flex-wrap: wrap;
+        background-color: blue;
+        justify-content: center;
+    }
+    .pianoInstructions{
+        width: 20%;
+    }
+    .settings{
+       width: 10%;
+    }
+    .settings form{
+        border-top: 2px solid black;
+    }
+    .keys{
+        display: flex;
+    }
+    .keyButton{
+        width: 2.5rem;
+        height: 10rem;
+    }
+    .itemSharp{
+        display: flex;
+        background: none;
+        height: 5rem;
+        bottom: 10rem;
+        left: 5rem;
+        
+    }
+    .keyButtonSharp{
+        height: 5rem;
+        width: 1.5rem;
+        background-color: black;
+        color: white;
+    }
+    
+    .itemSharp :nth-child(1){
+        right: 1.6rem;
+    }
+    .itemSharp :nth-child(2){
+        right: .7rem;
+    }
+    .itemSharp :nth-child(3){
+        left: 2.8rem;
+    }
+    .itemSharp :nth-child(4){
+        left: 3.8rem;
+    }
+    .itemSharp :nth-child(5){
+        left: 4.8rem;
+    }
+
+    .keyBoard{
+        /* top: 22rem;
+        right: 16rem; */
+    }
+    .chart{
+       max-width: 100%;
+    }
+    .trackNotes{
+        display: none;
+    }
+  
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+}
+
+/* .pressed{
     position: relative;
     top: -1px;
     background-color: beige;
@@ -52,7 +153,7 @@
 }
 .itemSharp :nth-child(1) button, .itemSharp :nth-child(3) button{
     position: relative;
-    /* width: 35px; */
+     width: 35px; 
      left: 25px; 
     bottom: 200px; 
     
@@ -129,4 +230,4 @@
 }
 .duration{
     box-shadow: 10px 5px 5px red;
-}
+} */
