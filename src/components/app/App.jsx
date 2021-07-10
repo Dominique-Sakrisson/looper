@@ -6,6 +6,5 @@ import Drop from './drop/Drop';
 export default function App() {
   return <>
     <KeySection />
-    <Drop />
   </>;
 }

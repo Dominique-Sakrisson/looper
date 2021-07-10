@@ -35,9 +35,9 @@ const Drop = () => {
   return (
     <label>
       <h2>Create a drop</h2>
-      <p>note start: {dropStart}</p>
-      <p>note end: {dropEnd}</p>
-      <p> duration:  {dropDuration}</p>
+      <span>note start: {dropStart}</span>
+      <span>note end: {dropEnd}</span>
+      <span> duration:  {dropDuration}</span>
       <form action="" onSubmit={handleDropSubmit}>
 
         <span>starting note</span>
