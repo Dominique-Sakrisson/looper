@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import * as Tone from 'tone';
 import { keys, timings } from '../keys/KeySection';
@@ -44,7 +45,7 @@ const Drop = () => {
         <select name="start" id="" onChange={handleDropNoteInput}>
           {
             keys.map(item => {
-              return <option key={item} value={item.key}>{item.key} </option>;
+              return <option key={item.key + 'start'} value={item.key}>{item.key}</option>;
             })
           }
         </select>
@@ -53,7 +54,7 @@ const Drop = () => {
         <select name="end" id="" onChange={handleDropNoteInputEnd}>
           {
             keys.map(item => {
-              return <option key={item} value={item.key}>{item.key} </option>;
+              return <option key={item.key + 'end'} value={item.key}>{item.key}</option>;
             })
           }
         </select>
@@ -61,7 +62,7 @@ const Drop = () => {
         <select name="" id="" onChange={handleDropDurationInput}>
           {
             timings.map(item => {
-              return <option key={item} value={item.key}>{item.key} </option>;
+              return <option key={item.key + 'duration'} value={item.key}>{item.key}</option>;
             })
           }
         </select>
