@@ -3,7 +3,9 @@ import React, { useState, useEffect } from 'react';
 import * as Tone from 'tone';
 import style from '../style.css';
 import { Chart } from 'react-google-charts';
-import speaker from './speaker.png';
+import speaker from '../../../../public/assets/speaker.png';
+import questionMark from '../../../../public/assets/questionMark.png';
+import questionMarkGreen from '../../../../public/assets/questionMarkGreen.png';
 import Drop from '../drop/Drop';
 
 
@@ -89,8 +91,8 @@ const synthInstance = () => {
   }).toDestination();
 };
 
-const questionMark = '/assets/questionMark.png';
-const questionMarkGreen = '/assets/questionMarkGreen.png';
+// const questionMark = '/assets/questionMark.png';
+// const questionMarkGreen = '/assets/questionMarkGreen.png';
 
 const KeySection = () => {
   const [synth, setSynth] = useState(synthInstance());
