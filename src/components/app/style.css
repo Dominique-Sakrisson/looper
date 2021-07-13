@@ -9,74 +9,105 @@
        
         background-color: grey;
     }
-     :nth-last-child(3) section{
-        border: none;
-        
-    }
-   
     .piano{
         display: flex;
         flex-wrap: wrap;
         background-color: blue;
         justify-content: center;
     }
-    .pianoInstructions{
-        width: 20%;
-    }
-    .settings{
-       width: 10%;
-    }
-    .settings form{
-        border-top: 2px solid black;
-    }
-    .keys{
-        display: flex;
-    }
+   
     .keyButton{
-        width: 2.5rem;
+        width: 1.9rem;
         height: 10rem;
-    }
-    .itemSharp{
-        display: flex;
-        background: none;
-        height: 5rem;
-        bottom: 10rem;
-        left: 5rem;
-        
+        padding-top: 5rem;
     }
     .keyButtonSharp{
+        position: absolute;
         height: 5rem;
+        padding: 0cm;
         width: 1.5rem;
         background-color: black;
         color: white;
     }
-    
-    .itemSharp :nth-child(1){
-        right: 1.6rem;
+    .keyButtonSharp:nth-of-type(1){
+        right: 10.6rem;
     }
-    .itemSharp :nth-child(2){
-        right: .7rem;
+    .keyButtonSharp:nth-of-type(2){
+        right: 8.8rem;
     }
-    .itemSharp :nth-child(3){
-        left: 2.8rem;
+    .keyButtonSharp:nth-of-type(3){
+        right:4.9rem;
     }
-    .itemSharp :nth-child(4){
-        left: 3.8rem;
+    .keyButtonSharp:nth-of-type(4){
+        right: 3rem;
     }
-    .itemSharp :nth-child(5){
-        left: 4.8rem;
+    .keyButtonSharp:nth-of-type(5){
+        right: 1.1rem;
     }
 
-    .keyBoard{
-        /* top: 22rem;
-        right: 16rem; */
-    }
+    
     .chart{
        max-width: 100%;
     }
     .trackNotes{
         display: none;
     }
+    .piano img{
+        margin-top: 1rem;
+        
+        width: 2rem;
+        height: 2rem;
+    }
+  
+
+    .pianoInstructions{
+        display: none;
+        position: fixed;
+        background-color: rgba(255,255,55, 1);
+        top: 10%;
+        width: 80%;
+    }
+
+    .onScreen{
+        display: block;
+        top: 10%;
+        /* right: 50%; */
+       
+        background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
+        animation: slideIn .25s linear;
+        border-radius: 1rem;
+        padding: 10px;
+        text-align: center;
+    }
+    .offScreen{
+        top: 10%;
+        right: 50%;
+        opacity: 0;
+        animation: slideOut .5s linear;
+    }
+
+    @keyframes slideIn {
+        from{
+            
+            transform: translateX(-100%);
+        }
+
+        to{
+            transform: translateX(0%);
+        }
+    }
+    @keyframes slideOut {
+        from{
+            display: block;
+            transform: translateX(0%);
+        }
+
+        to{
+            display: none;
+            transform: translateX(0%);
+        }
+    }
+
   
 }
 

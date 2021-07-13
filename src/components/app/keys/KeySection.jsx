@@ -89,6 +89,9 @@ const synthInstance = () => {
   }).toDestination();
 };
 
+const questionMark = 'src/components/app/keys/questionMark.png';
+const questionMarkGreen = 'src/components/app/keys/questionMarkGreen.png';
+
 const KeySection = () => {
   const [synth, setSynth] = useState(synthInstance());
   const [note, setNote] = useState('');
@@ -128,6 +131,8 @@ const KeySection = () => {
     rootProps: { 'data-testid': '3' } 
   });
   const [arr, setArr] = useState([]);
+  const [showInstructions, setShowInstructions] = useState(false);
+
 
   useEffect(() => {
     let start;
@@ -263,11 +268,9 @@ const KeySection = () => {
 
   function handleRecordNow(e){
     e.preventDefault();
-    if(recordNow){
-      setRecordNow(false);
-    } else {
-      setRecordNow(true);
-    }
+
+    (recordNow) ? setRecordNow(false) : setRecordNow(true);
+    
   }
 
   function handlePlayback(e){
@@ -292,6 +295,10 @@ const KeySection = () => {
     return list;
   }
 
+  function handleShowInstructions(){
+    (showInstructions) ? setShowInstructions(false) : setShowInstructions(true);
+  }
+
   return (<>
     
     <ul className={style.trackNotes}>
@@ -300,22 +307,10 @@ const KeySection = () => {
     </ul>
 
     <div className={style.piano}>
-
-      <section className={style.pianoInstructions}>
-        <h3>How to record</h3>
-        <p>(1)Hit record</p>
-        <p>(2)Play notes</p>
-        <p>(3)Hit record</p>
-        <p>(4)Hit playback</p>
-        <p>(4)Wait a few seconds</p>
-      </section>
-
-      <section>
-        <label className={style.settings}>
-          <h3>Has keyboard support!</h3>
-          <p>Press keys c, d, e, f, g, a, b</p>
-          <p>Press keys 1 - 5 to play sharp notes</p>
+      <section className={style.settings}>
+        <label >
           <form >
+            <img src={(showInstructions) ?  questionMarkGreen : questionMark} alt="need help?" onClick={handleShowInstructions}/>
             <p>Note Length (seconds) <p className={style.hint}>affects length when key is clicked</p></p>
             <input type="number" onChange={handleDurationInput} placeholder={duration}/>
             <p>Octave {octave}</p>
@@ -329,6 +324,7 @@ const KeySection = () => {
             <div className={(recordNow) ?  style.light : style.dark}></div>
           </form>
         </label>
+        
       </section>
 
       <section className={style.playbackControls}>
@@ -340,26 +336,42 @@ const KeySection = () => {
           {
             keys.map(item => {
               return <span key={item.key} >
-                <button key={item.key} className={`${style.keyButton} ${style[item.key]}`} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
+                <button className={`${style.keyButton} ${style[item.key]}`} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
               </span>;
             })
           }
-        </section>
 
-        <section className={style.itemSharp}>
+       
           {
             keys.map(item => {
               if(['c', 'd', 'f',  'g', 'a'].includes(item.key)){
                 return (
-                  <div key={item.key}  >
-                    <button key={item.key + '#'} className={`${style.keyButtonSharp}`} aria-label="note-key" value={item.key + '#'} onClick={handleNoteInput}> {item.key + '#'}</button>
-                  </div>
+                  // <div key={item.key}  >
+                  <button key={item.key + '#'} className={`${style.keyButtonSharp}`} aria-label="note-key" value={item.key + '#'} onClick={handleNoteInput}> {item.key + '#'}</button>
+                  // </div>
                 );  
               }
             })
           }
         </section>
       </div>
+     
+
+      <section className={`${style.pianoInstructions} ${(showInstructions) ? style.onScreen : style.offScreen}`}>
+        <img src={(showInstructions) ?  questionMarkGreen : questionMark} alt="need help?" onClick={handleShowInstructions}/><span>CLOSE</span>
+        <div>
+        
+          <h3>How to record</h3>
+          <p>(1)Hit record</p>
+          <p>(2)Play notes</p>
+          <p>(3)Hit record</p>
+          <p>(4)Hit playback</p>
+          <p>(4)Wait a few seconds</p>
+          <h3>Has keyboard support!</h3>
+          <p>Press keys c, d, e, f, g, a, b</p>
+          <p>Press keys 1 - 5 to play sharp notes</p>
+        </div>
+      </section>
     </div>
     <Drop />
     <section className={style.chart}>
