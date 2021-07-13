@@ -89,8 +89,8 @@ const synthInstance = () => {
   }).toDestination();
 };
 
-const questionMark = 'src/components/app/keys/questionMark.png';
-const questionMarkGreen = 'src/components/app/keys/questionMarkGreen.png';
+const questionMark = './src/components/app/keys/questionMark.png';
+const questionMarkGreen = './src/components/app/keys/questionMarkGreen.png';
 
 const KeySection = () => {
   const [synth, setSynth] = useState(synthInstance());
