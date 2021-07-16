@@ -2,9 +2,10 @@
 import React from 'react';
 import KeySection from './keys/KeySection';
 import Drop from './drop/Drop';
-
+import Synth from './synth/Synth';
 export default function App() {
   return <>
-    <KeySection />
+    <Synth />
+    {/* <KeySection /> */}
   </>;
 }
