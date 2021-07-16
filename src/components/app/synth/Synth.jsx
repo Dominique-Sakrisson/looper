@@ -7,9 +7,7 @@ import Drop from '../drop/Drop';
 import Settings from '../settings/Settings';
 import { useInterval } from '../../../hooks/hooks';
 import Instructions from '../instructions/Instructions';
-// import {checkAndSetRec} from '../utils/notes.js'
-// import questionMark from '../../../../public/assets/questionMark.png';
-// import questionMarkGreen from '../../../../public/assets/questionMarkGreen.png';
+
 import { polySynth } from '../modules/AudioContext';
 import KeySection from '../keys/KeySection';
 import Playback from './Playback';

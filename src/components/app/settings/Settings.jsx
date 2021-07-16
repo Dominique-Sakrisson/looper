@@ -26,22 +26,13 @@ const Settings = ({
           
 
           <Duration duration={duration} handleDurationInput={handleDurationInput}/>
-          {/* <p className={style.hint}>Note Clicked Length</p>
-          <input value={duration} type="number" pattern="[0-9]"  placeholder={duration}/>
-          <button onClick={handleDurationInput}>Submit duration</button>
-          
-            
-          <p className={style.hint}>Keyboard presses set duration to how long you held the key</p> */}
+     
 
           <Octave handleOctaveChange={handleOctaveChange} octave={octave}/>
-          {/* <p>Octave {octave}</p>
-          <input onChange={handleOctaveChange} type="range" min="1" max="7" value={octave} /> */}
+       
 
           <Volume handleVolumeChange={handleVolumeChange} volume={volume}/>
-          {/* <div className={style.volume}>
-            <img src={speaker} width="20px" alt="volume speaker icon" />
-            <input onChange={handleVolumeChange} type="range" min="-40" max="0" value={volume} />
-          </div> */}
+      
 
           
         </form>

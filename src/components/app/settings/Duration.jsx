@@ -11,7 +11,7 @@ const Duration = ({
   return (<>
     <p className={style.hint}>Note Length Seconds</p>
     <input value={duration} type="number" pattern="[0-9]"  placeholder={duration} onChange={handleDurationInput} step=".1" />
-    {/* <button onClick={handleDurationInput}>Submit duration</button> */}
+
     <p className={style.hint}>Keyboard presses set duration to how long you held the key</p>
   </>
   );

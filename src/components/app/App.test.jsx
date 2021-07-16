@@ -17,8 +17,6 @@ jest.mock('./modules/AudioContext.js', () => ({
 describe('App component', () => {
   afterEach(() => cleanup());
   it('renders App', () => {
-    // const div = document.createElement('div');
-    // ReactDOM.render(<App />, div);
     const { asFragment } = render(<App />);
     console.log(asFragment());
     expect(asFragment()).toMatchSnapshot();
@@ -26,12 +24,10 @@ describe('App component', () => {
 
   it('checks for keys', async () => {
     const { asFragment } = render(<App />);
-    console.log(asFragment());
-    
     const keys = await screen.findAllByRole('button', {
       name: 'note-key'
     });
-
+    expect(keys).toHaveLength(12);
     expect(asFragment()).toMatchSnapshot();
   });
 });
