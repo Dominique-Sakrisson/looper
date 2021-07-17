@@ -11,101 +11,26 @@ import Instructions from '../instructions/Instructions';
 import { polySynth } from '../modules/AudioContext';
 import KeySection from '../keys/KeySection';
 import Playback from './Playback';
+import { keys, sharpKeys } from '../modules/Keys.js';
 
+const keysData = keys;
+const sharpKeysData = sharpKeys;
+// const timings = timings;
 
-// console.log(JSON.stringify(polySynth()));
-export const keys = [
-  {
-    key :'c',
-  },
-  {
-    key : 'd',
-  },
-  {
-    key : 'e',
-  },
-  {
-    key : 'f',
-  },
-  {
-    key : 'g',
-  },
-  {
-    key : 'a',
-  },
-  {
-    key : 'b',
-  }];
-
-export const sharpKeys = [
-  {
-    key :'c#',
-  },
-  {
-    key : 'd#',
-  },
-  {
-    key : 'e#',
-  },
-  {
-    key : 'f#',
-  },
-  {
-    key : 'g#',
-  },
-  {
-    key : 'a#',
-  },
-  {
-    key : 'b#',
-  }];
-
-export const timings = [
-  {
-    key :'+1',
-  },
-  {
-    key : '+1.5',
-  },
-  {
-    key : '+1.75',
-  },
-  {
-    key : '+2',
-  },
-  {
-    key : '+2.25',
-  },
-  {
-    key : '+2.5',
-  },
-  {
-    key : '+3',
-  },
-  {
-    key : '+4',
-  }
-];
-
-// const synthInstance = () => {
-//   return new Tone.PolySynth({
-//     volume,
-//     maxVolume: 0,
-//   }).toDestination();
-// };
 
 const Synth = () => {
-    const initVolume = -20;
+  const initVolume = -20;
   const [synth, setSynth] = useState();
   const [fakeSynth, setFakeSynth] = useState(polySynth);
   const [note, setNote] = useState('');
   const [duration, setDuration] = useState(Number(1));
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
+  const [preRecording, setPreRecording] = useState([]);
   const [volume, setVolume] = useState(initVolume);
-  const [octave, setOctave] = useState(4);
+  const [octave, setOctave] = useState(Number(4));
   //track starts on load currently
-  const [songData, setSongData] = useState([
+  const [preSongData, setPreSongData] = useState([
     [
       { type: 'string', id: 'Track Name' },
       { type: 'string', id: 'Instrument' },
@@ -118,28 +43,81 @@ const Synth = () => {
       0, //start
       (recTime > 0) ? recTime * 1000 : 5000, //finish
     ],
+    [
+      `C4`,
+      'piano',
+      Number(0),
+      Number(1000)
+    ],
+    [
+      `C4`,
+      'piano',
+      Number(2000),
+      Number(4000)
+    ],
+    [
+      `C#4`,
+      'piano',
+      Number(5000),
+      Number(6000)
+    ],
+    [
+      `F#2`,
+      'piano',
+      Number(6000),
+      Number(7000)
+    ],
+   
+  ]);
+  const [songData, setSongData] = useState([
+    [
+      { type: 'string', id: 'Track Name' },
+      { type: 'string', id: 'Instrument' },
+      { type: 'number', id: 'Start' },
+      { type: 'number', id: 'End' },
+    ],
+    [
+      'Length',
+      `time ${(recTime) ? recTime : 0}`,
+      0, //start
+      5000, //finish
+    ],
   ]);
   const [keyDown, setKeyDown] = useState({ start: 0, end: 0, down: false });
-
-  const [userRecordedNotechart, setChart] = useState({
+  
+  const [songListNotechart, setSongListNoteChart] = useState({
     width: '100%',
     height: '100%',
     chartType: 'Timeline',
     loader : '<div>Loading Chart</div>',
-    data: songData,
+    data: preSongData,
     rootProps: { 'data-testid': '3' } 
   });
+  const [userRecordedNotechart, setChart] = useState({
+    width: '100%',
+    height: '350px',
+    chartType: 'Timeline',
+    loader : '<div>Loading Chart</div>',
+    data: songData,
+    rootProps: { 'data-testid': '5' } 
+  });
+
   const [arr, setArr] = useState([]);
   const [showInstructions, setShowInstructions] = useState(false);
   const [showSettings, setShowSettings] = useState(true);
   const [recTime, setRecTime] = useState(0);
 
+  //starts the timer for each recording
+  //picks up from previous recording state
+  useInterval(songTiming, 100);
 
+  
+  //default page load 
   useEffect(() => {
     let start;
     let end;
     let delta;
-
+    
     document.addEventListener('keydown', ({ key }) => {
       start = Number(new Date());
       setArr(prevArr => {
@@ -171,39 +149,65 @@ const Synth = () => {
       
       setDuration((delta / 1000 > 0) ? delta / 1000 : .01);
       
+     
       handleKeyPress(key);
+
+      
+      
+      setPreRecording((prevPreRecording) => {
+        preSongData.map(item => {
+          if(item === preSongData[0] || item === preSongData[1]){
+            return;
+          }
+          prevPreRecording.push({ key: item[0], duration : item[3], timing: item[2], octave });
+        });
+        return prevPreRecording;
+        
+      });
     });
   }, []); 
 
+  //on note change
   useEffect(() => {
-    //enables the user to play the same note multiple times back to back
     handleNoteButtonSubmit();
     if(note){
       if(recordNow){
         const recentNote = recording[recording.length - 1];
         if(recentNote){
           setSongData(prevSongData => {
+            console.log(prevSongData[1][3]);
+            // prevSongData[1][1] = `time ${(recTime) ? recTime : 0}`;
+           
             prevSongData.push([
               `${recentNote.key}`,
               'piano',
               Number((recentNote.timing * 1000).toFixed(4)),
               Number(recentNote.timing * 1000 + recentNote.duration * 1000)
             ]);
+            
             return prevSongData;
           });
         }
+       
       }
     }
     //set note here doesnt cause inifinite loop, nothing happens in above function if the note is not a defined value
     setNote('');
   }, [note]);
 
-  useEffect(() => {
-    if(!synth){
-      setSynth(polySynth);
-    }
-  }, [recordNow]);
 
+  useEffect(() => {
+    setSongData(prevSongData => {
+      console.log(prevSongData[1][3]);
+      prevSongData[1][1] = `time ${(recTime) ? recTime : 0}`;
+      prevSongData[1][3] += recTime ;
+     
+      
+      return prevSongData;
+    });
+  }, [recTime]);
+
+  //duration was set
   const handleDurationInput = (e) => {
     if(e._reactName === 'onClick'){
       e.preventDefault();
@@ -213,14 +217,14 @@ const Synth = () => {
     setDuration(e.target.value);
   };
 
+  //validate the key entered 
   function checkKey(item){
     if(note){
       return item.key === note;
     } 
   }
 
-  useInterval(songTiming, 100);
-
+  //the function that starts the recording clock
   function songTiming() {
     if(recordNow){
       setRecTime(prevTime => {
@@ -230,6 +234,7 @@ const Synth = () => {
     } 
   }
 
+  //validates recording bool, pushes new note
   function checkAndSetRec(keyString){
     if(recordNow){
       // const timing = Tone.now();
@@ -240,34 +245,17 @@ const Synth = () => {
     }
   }
 
+  //converts target.value of DOM node to playable string
   function keyToKeyString(){
     const keyString = (note + octave).toUpperCase();
     return keyString; 
   }
 
+  //handles the piano being clicked 
   const handleNoteButtonSubmit =  () => {
-    //different paths depending on our recording state
-    if(recordNow){
-      if(!synth){
-        checkAndSetRec(keyToKeyString());
-        //the check ensures the synth wont sound without a valid note
-        if(keys.find(checkKey) !== undefined){
-          const keyString = keyToKeyString();
-          checkAndSetRec(keyString);
-          synth.volume.value = volume;
-          synth.triggerAttackRelease(keyString, duration);
-        }
-        if(sharpKeys.find(checkKey) !== undefined){
-          const keyString = keyToKeyString();
-          checkAndSetRec(keyString);
-          synth.volume.value = volume;
-          synth.triggerAttackRelease(keyString, duration);
-        }
-      }
-    }
-    
+  
     //the check ensures the synth wont sound without a valid note
-    if(keys.find(checkKey) !== undefined){
+    if(keysData.find(checkKey) !== undefined){
       const fakeSynth = new Tone.PolySynth({
         volume,
         maxVolume: 0,
@@ -276,7 +264,7 @@ const Synth = () => {
       checkAndSetRec(keyString);
       fakeSynth.triggerAttackRelease(keyString, duration);
     }
-    if(sharpKeys.find(checkKey) !== undefined){ 
+    if(sharpKeysData.find(checkKey) !== undefined){ 
       const fakeSynth = new Tone.PolySynth({
         volume,
         maxVolume: 0,
@@ -286,19 +274,23 @@ const Synth = () => {
       fakeSynth.triggerAttackRelease(keyString, duration);
     }
   };
-
+  
+  //volume change
   const handleVolumeChange = (e) => {
     setVolume(Number(e.target.value));
   };
 
+  //octave change
   const handleOctaveChange = ({ target }) => {
     setOctave(target.value);
   };
 
+  //a note is clicked
   const handleNoteInput = (e) => {
     setNote(e.target.value);
   };
   
+  //a keyboard button with valid note is pressed
   const handleKeyPress = (e) => {
     if(e === '1'){
       setNote('c#');
@@ -318,20 +310,41 @@ const Synth = () => {
     setNote(e);
   };
 
+  //user begins recording a track
   function handleRecordNow(e){
     e.preventDefault();
     (recordNow) ? setRecordNow(false) : setRecordNow(true);
   }
 
+  //user selects playback track
   function handlePlayback(e){
     e.preventDefault();
     recording.forEach(item => {
       const { key, duration, timing } = item;
+      
+      fakeSynth.volume.value = volume;
+      fakeSynth.triggerAttackRelease(key, duration, Tone.now() + timing);
+      
+    });
+  }
+  //user selects playback track
+  function handlePrePlayback(e){
+    
+    preSongData.forEach(item => {
+      if(item === preSongData[0] || item === preSongData[1]){
+        return;
+      }
+
+      const key = item[0];
+      const duration = (item[3] - item[2]) * .001;
+      const timing = item[3] * .001;
+     
       fakeSynth.volume.value = volume;
       fakeSynth.triggerAttackRelease(key, duration, Tone.now() + timing);
     });
   }
 
+  //shows a detailed list of each note when user plays
   function renderRecording(){
     const list = recording.map((item, index) => {
       index++;
@@ -346,10 +359,25 @@ const Synth = () => {
     return list;
   }
 
+  //user toggles the instructions visible
   function handleShowInstructions(){
     (showInstructions) ? setShowInstructions(false) : setShowInstructions(true);
   }
 
+
+  //half assed attempt at a tracking bar for current place in the track
+  const compStyle = {
+    zIndex: '2',
+    position: 'absolute',
+    width: '5px',
+    height: '200px',
+    border: 'solid 1px black',
+    left: (recTime > 0) ? (recTime * 100) + 67 : 67,
+   
+  };
+
+
+  //user toggles the settings visible
   function handleShowSettings(e){
     e.preventDefault();
     if(e.target.ariaLabel === 'hide-settings' && showSettings){
@@ -368,6 +396,7 @@ const Synth = () => {
     </ul>
 
     <section className={style.chart}>
+      <span style={compStyle}>g</span>
       <Chart 
         width={userRecordedNotechart.width}
         height={userRecordedNotechart.height}
@@ -376,17 +405,25 @@ const Synth = () => {
         data={songData}
         rootProps={userRecordedNotechart.rootProps}
       />
+      <Chart 
+        width={songListNotechart.width}
+        height={songListNotechart.height}
+        chartType={songListNotechart.chartType}
+        loader={songListNotechart.loader}
+        data={preSongData}
+        rootProps={songListNotechart.rootProps}
+      />
+
+      <button onClick={handlePrePlayback}>play pre made track</button>
     </section>
-    {/* <button onClick={handlePlayback}>Playback</button>
-    <button onClick={handleRecordNow}>record</button> 
-    <div className={(recordNow) ?  style.light : style.dark}></div> */}
+
 
     <Playback 
-    handlePlayback={handlePlayback} 
-    handleRecordNow={handleRecordNow} 
-    recordNow={recordNow}
-    showInstructions={showInstructions}
-    handleShowInstructions={handleShowInstructions}/>
+      handlePlayback={handlePlayback} 
+      handleRecordNow={handleRecordNow} 
+      recordNow={recordNow}
+      showInstructions={showInstructions}
+      handleShowInstructions={handleShowInstructions}/>
 
     <div className={style.piano}>
       <div className={style.keyBoard}>
@@ -395,7 +432,7 @@ const Synth = () => {
       
       <Settings 
         volume={volume}
-        octave={octave}
+        octave={Number(octave)}
         duration={duration}
         recordNow={recordNow}
         showSettings={showSettings} 
