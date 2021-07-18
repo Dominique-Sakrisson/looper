@@ -98,14 +98,19 @@ const Synth = () => {
     height: '350px',
     chartType: 'Timeline',
     loader : '<div>Loading Chart</div>',
-    data: songData,
-    rootProps: { 'data-testid': '5' } 
+    data: songData, 
+    rootProps: { 'data-testid': '5' },
   });
 
   const [arr, setArr] = useState([]);
   const [showInstructions, setShowInstructions] = useState(false);
   const [showSettings, setShowSettings] = useState(true);
   const [recTime, setRecTime] = useState(0);
+  const [playing, setPlaying] = useState({
+    activeRound: false,
+    track: [],
+    entered: [],
+  });
 
   //starts the timer for each recording
   //picks up from previous recording state
@@ -334,11 +339,9 @@ const Synth = () => {
       if(item === preSongData[0] || item === preSongData[1]){
         return;
       }
-
       const key = item[0];
       const duration = (item[3] - item[2]) * .001;
       const timing = item[3] * .001;
-     
       fakeSynth.volume.value = volume;
       fakeSynth.triggerAttackRelease(key, duration, Tone.now() + timing);
     });
@@ -404,6 +407,7 @@ const Synth = () => {
         loader={userRecordedNotechart.loader}
         data={songData}
         rootProps={userRecordedNotechart.rootProps}
+        
       />
       <Chart 
         width={songListNotechart.width}
