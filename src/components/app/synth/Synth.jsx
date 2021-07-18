@@ -180,9 +180,6 @@ const Synth = () => {
         const recentNote = recording[recording.length - 1];
         if(recentNote){
           setSongData(prevSongData => {
-            console.log(prevSongData[1][3]);
-            // prevSongData[1][1] = `time ${(recTime) ? recTime : 0}`;
-           
             prevSongData.push([
               `${recentNote.key}`,
               'piano',
@@ -203,11 +200,8 @@ const Synth = () => {
 
   useEffect(() => {
     setSongData(prevSongData => {
-      console.log(prevSongData[1][3]);
       prevSongData[1][1] = `time ${(recTime) ? recTime : 0}`;
       prevSongData[1][3] += recTime ;
-     
-      
       return prevSongData;
     });
   }, [recTime]);
@@ -409,14 +403,7 @@ const Synth = () => {
         rootProps={userRecordedNotechart.rootProps}
         
       />
-      <Chart 
-        width={songListNotechart.width}
-        height={songListNotechart.height}
-        chartType={songListNotechart.chartType}
-        loader={songListNotechart.loader}
-        data={preSongData}
-        rootProps={songListNotechart.rootProps}
-      />
+      
 
       <button onClick={handlePrePlayback}>play pre made track</button>
     </section>
