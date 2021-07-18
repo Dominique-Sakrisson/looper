@@ -9,7 +9,7 @@ import { render, screen,  cleanup, waitFor } from '@testing-library/react';
 import App from './App';
 import * as Tone from 'tone';
 
-
+//tests fail due to not having the initial entries with memeory router
 jest.mock('./modules/AudioContext.js', () => ({
   polySynth: () => [{}]
 }));
