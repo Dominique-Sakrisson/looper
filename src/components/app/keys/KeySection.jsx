@@ -80,13 +80,6 @@ export const timings = [
 ];
 
 
-const synthInstance = () => {
-  return new Tone.PolySynth({
-    volume,
-    maxVolume: 0,
-  }).toDestination();
-};
-
 const KeySection = ({ handleNoteInput }) => {
   return (<>
     <section className={style.keys}>

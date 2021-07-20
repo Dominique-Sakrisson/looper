@@ -22,7 +22,7 @@ export default [
         Number(6000)
       ],
       [
-        `F#2`,
+        `F#4`,
         'piano',
         Number(6000),
         Number(7000)

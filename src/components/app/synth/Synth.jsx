@@ -12,10 +12,11 @@ import { polySynth } from '../modules/AudioContext';
 import KeySection from '../keys/KeySection';
 import Playback from './Playback';
 import { keys, sharpKeys } from '../modules/Keys.js';
+import { useOctave } from '../../../hooks/octave';
+import Octave from '../settings/Octave';
 
 const keysData = keys;
 const sharpKeysData = sharpKeys;
-// const timings = timings;
 
 
 const Synth = () => {
@@ -28,8 +29,12 @@ const Synth = () => {
   const [recording, setRecording] = useState([]);
  
   const [volume, setVolume] = useState(initVolume);
-  const [octave, setOctave] = useState(Number(4));
+  // const [octave, setOctave] = useState(Number(4));
 
+
+  const { octave } = useOctave(oct);
+  const [oct, setOct] = useState(4);
+  
   const [songData, setSongData] = useState([
     [
       { type: 'string', id: 'Track Name' },
@@ -59,7 +64,7 @@ const Synth = () => {
   const [recChart, setRecChart] = useState(<Chart {...userChartConfig}/>);
   const [arr, setArr] = useState([]);
   const [showInstructions, setShowInstructions] = useState(false);
-  const [showSettings, setShowSettings] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
   const [recTime, setRecTime] = useState(0);
 
 
@@ -114,9 +119,11 @@ const Synth = () => {
       setDuration((delta / 1000 > 0) ? delta / 1000 : .01);
       handleKeyPress(key);
     });
+
+    setOct(oct);
   }, []); 
 
-
+console.log(oct);
   //on note change
   useEffect(() => {
     handleNoteButtonSubmit();
@@ -195,6 +202,7 @@ const Synth = () => {
 
   //converts target.value of DOM node to playable string
   function keyToKeyString(){
+    console.log(octave);
     const keyString = (note + octave).toUpperCase();
     return keyString; 
   }
@@ -275,20 +283,7 @@ const Synth = () => {
       
     });
   }
-  //user selects playback track
-  function handlePrePlayback(e){
-    
-    preSongData.forEach(item => {
-      if(item === preSongData[0] || item === preSongData[1]){
-        return;
-      }
-      const key = item[0];
-      const duration = (item[3] - item[2]) * .001;
-      const timing = item[3] * .001;
-      fakeSynth.volume.value = volume;
-      fakeSynth.triggerAttackRelease(key, duration, Tone.now() + timing);
-    });
-  }
+ 
 
   //shows a detailed list of each note when user plays
   function renderRecording(){
@@ -341,6 +336,38 @@ const Synth = () => {
       {renderRecording()}
     </ul>
 
+   
+  <Octave />
+
+    <Playback 
+      handlePlayback={handlePlayback} 
+      handleRecordNow={handleRecordNow} 
+      recordNow={recordNow}
+      showInstructions={showInstructions}
+      handleShowInstructions={handleShowInstructions}/>
+
+    <div className={style.piano}>
+      <div className={style.keyBoard}>
+        <KeySection handleNoteInput={handleNoteInput} />
+      </div>
+      
+      {/* <Settings 
+        volume={volume}
+        octave={Number(octave)}
+        duration={duration}
+        recordNow={recordNow}
+        showSettings={showSettings} 
+        showInstructions={showInstructions}
+        handlePlayback={handlePlayback}
+        handleRecordNow={handleRecordNow}
+        handleShowSettings={handleShowSettings}
+        handleOctaveChange={handleOctaveChange} 
+        handleVolumeChange={handleVolumeChange}
+        handleDurationInput={handleDurationInput}
+        handleShowInstructions={handleShowInstructions} 
+      /> */}
+
+    </div>
     <section className={style.chart}>
       <span style={compStyle}></span>
 
@@ -357,40 +384,8 @@ const Synth = () => {
       /> */}
       
 
-      <button onClick={handlePrePlayback}>play pre made track</button>
+     
     </section>
-
-
-    <Playback 
-      handlePlayback={handlePlayback} 
-      handleRecordNow={handleRecordNow} 
-      recordNow={recordNow}
-      showInstructions={showInstructions}
-      handleShowInstructions={handleShowInstructions}/>
-
-    <div className={style.piano}>
-      <div className={style.keyBoard}>
-        <KeySection handleNoteInput={handleNoteInput} />
-      </div>
-      
-      <Settings 
-        volume={volume}
-        octave={Number(octave)}
-        duration={duration}
-        recordNow={recordNow}
-        showSettings={showSettings} 
-        showInstructions={showInstructions}
-        handlePlayback={handlePlayback}
-        handleRecordNow={handleRecordNow}
-        handleShowSettings={handleShowSettings}
-        handleOctaveChange={handleOctaveChange} 
-        handleVolumeChange={handleVolumeChange}
-        handleDurationInput={handleDurationInput}
-        handleShowInstructions={handleShowInstructions} 
-      />
-
-    </div>
-    
     
     <Drop />
     <Instructions showInstructions={showInstructions} handleShowInstructions={handleShowInstructions} 

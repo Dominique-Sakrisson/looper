@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import songNotes from '../components/app/modules/DefaultSongs';
 
 export const useDefaultSongList = (songNumber) => {
+  //inital seed data to setup chart
   const [songData, setSongData] = useState([
     [
       { type: 'string', id: 'Track Name' },
@@ -16,7 +17,7 @@ export const useDefaultSongList = (songNumber) => {
       1000// (recTime > 0) ? recTime * 1000 : 5000, //finish
     ],
   ]);
-
+    //creating the chart in state
   const [chartObject, setChartObject] = useState({
     width: '100%',
     height: '100%',
@@ -25,7 +26,8 @@ export const useDefaultSongList = (songNumber) => {
     data: songData,
     rootProps: { 'data-testid': '3' } 
   });
-
+    //chart to display notes the user should try to match
+    //listens for user to select a song and adds that songs notes to the initialized chart
   useEffect(() => {
     setSongData(prevData => {
       if(songNumber === undefined){
