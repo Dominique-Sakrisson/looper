@@ -2,8 +2,10 @@
 @media only screen and (max-width: 600px) {
     *{
         position: relative;
+        
       
     }
+ 
     section{
         border: 2px solid black;
        
@@ -14,12 +16,13 @@
         display: flex;
         justify-content: space-around;
         border-radius: 2em;
-        box-shadow:  -1em -1em  4em 3em rgba(51,60,100, 1);
+        background: rgb(2,0,36);
+background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 25%, rgba(0,212,255,1) 37%);    
     }
 
     .header li {
         padding: 1rem;
-        border-radius: 2em;
+        border-radius: 1em;
         background-color: rgba(51,60,100, .5);
 
     }
@@ -28,7 +31,13 @@
     }
     .header li:hover {
         padding: 1rem;
-        background-color: rgba(51,60,100, .1);
+        background-color: rgba(119, 141, 236, 0.1);
+    }
+    
+    .current li{
+        border-radius: 0;
+        background: rgb(2,0,36);
+background: linear-gradient(0deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 25%, rgba(0,212,255,1) 37%);
     }
     .piano{
         display: flex;
@@ -73,23 +82,27 @@
         width:20px;
         height:20px;
         border-radius: 50%;
-        background-color: red;
-        border: 2px solid darkslategray;
+        background: rgb(228,56,26);
+        background: radial-gradient(circle, rgba(228,56,26,1) 0%, rgba(50,11,4,1) 100%);
+        
     }
     .dark{
         display: inline-block;
         width:20px;
         height:20px;
         border-radius: 50%;
-        background-color: grey;
-        border: 2px solid darkslategray;
+        background: rgb(65,228,26);
+background: radial-gradient(circle, rgba(65,228,26,1) 0%, rgba(15,4,50,1) 100%);
     }
     
     .chart{
        width: 100%;
        height: 100%;
        box-sizing: content-box;
+       background: rgb(2,0,36);
+        background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 25%, rgba(0,212,255,1) 100%);
     }
+
     .trackNotes{
         display: none;
     }

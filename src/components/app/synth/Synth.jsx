@@ -26,49 +26,10 @@ const Synth = () => {
   const [duration, setDuration] = useState(Number(1));
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
-  const [preRecording, setPreRecording] = useState([]);
+ 
   const [volume, setVolume] = useState(initVolume);
   const [octave, setOctave] = useState(Number(4));
-  //track starts on load currently
-  const [preSongData, setPreSongData] = useState([
-    [
-      { type: 'string', id: 'Track Name' },
-      { type: 'string', id: 'Instrument' },
-      { type: 'number', id: 'Start' },
-      { type: 'number', id: 'End' },
-    ],
-    [
-      'Sample',
-      'Sample Note',
-      0, //start
-      (recTime > 0) ? recTime * 1000 : 5000, //finish
-    ],
-    [
-      `C4`,
-      'piano',
-      Number(0),
-      Number(1000)
-    ],
-    [
-      `C4`,
-      'piano',
-      Number(2000),
-      Number(4000)
-    ],
-    [
-      `C#4`,
-      'piano',
-      Number(5000),
-      Number(6000)
-    ],
-    [
-      `F#2`,
-      'piano',
-      Number(6000),
-      Number(7000)
-    ],
-   
-  ]);
+
   const [songData, setSongData] = useState([
     [
       { type: 'string', id: 'Track Name' },
@@ -84,16 +45,8 @@ const Synth = () => {
     ],
   ]);
   const [keyDown, setKeyDown] = useState({ start: 0, end: 0, down: false });
-  
-  const [songListNotechart, setSongListNoteChart] = useState({
-    width: '100%',
-    height: '100%',
-    chartType: 'Timeline',
-    loader : '<div>Loading Chart</div>',
-    data: preSongData,
-    rootProps: { 'data-testid': '3' } 
-  });
-  const [userRecordedNotechart, setChart] = useState({
+
+  const [userChartConfig, setChart] = useState({
     width: '100%',
     height: '350px',
     chartType: 'Timeline',
@@ -102,15 +55,13 @@ const Synth = () => {
     rootProps: { 'data-testid': '5' },
   });
 
+
+  const [recChart, setRecChart] = useState(<Chart {...userChartConfig}/>);
   const [arr, setArr] = useState([]);
   const [showInstructions, setShowInstructions] = useState(false);
   const [showSettings, setShowSettings] = useState(true);
   const [recTime, setRecTime] = useState(0);
-  const [playing, setPlaying] = useState({
-    activeRound: false,
-    track: [],
-    entered: [],
-  });
+
 
   //starts the timer for each recording
   //picks up from previous recording state
@@ -119,10 +70,19 @@ const Synth = () => {
   
   //default page load 
   useEffect(() => {
+    setNote(note);
     let start;
     let end;
     let delta;
     
+    setChart({
+      width: '100%',
+      height: '350px',
+      chartType: 'Timeline',
+      loader : '<div>Loading Chart</div>',
+      data: songData, 
+      rootProps: { 'data-testid': '5' },
+    });
     document.addEventListener('keydown', ({ key }) => {
       start = Number(new Date());
       setArr(prevArr => {
@@ -151,26 +111,11 @@ const Synth = () => {
         return prevKeyDown;
       });
       delta = keyDown.end - keyDown.start;
-      
       setDuration((delta / 1000 > 0) ? delta / 1000 : .01);
-      
-     
       handleKeyPress(key);
-
-      
-      
-      setPreRecording((prevPreRecording) => {
-        preSongData.map(item => {
-          if(item === preSongData[0] || item === preSongData[1]){
-            return;
-          }
-          prevPreRecording.push({ key: item[0], duration : item[3], timing: item[2], octave });
-        });
-        return prevPreRecording;
-        
-      });
     });
   }, []); 
+
 
   //on note change
   useEffect(() => {
@@ -189,6 +134,8 @@ const Synth = () => {
             
             return prevSongData;
           });
+        
+          setRecChart(<Chart {...userChartConfig}/>);
         }
        
       }
@@ -196,6 +143,8 @@ const Synth = () => {
     //set note here doesnt cause inifinite loop, nothing happens in above function if the note is not a defined value
     setNote('');
   }, [note]);
+
+
 
 
   useEffect(() => {
@@ -393,16 +342,19 @@ const Synth = () => {
     </ul>
 
     <section className={style.chart}>
-      <span style={compStyle}>g</span>
-      <Chart 
-        width={userRecordedNotechart.width}
-        height={userRecordedNotechart.height}
-        chartType={userRecordedNotechart.chartType}
-        loader={userRecordedNotechart.loader}
+      <span style={compStyle}></span>
+
+      {recChart}
+
+      {/* <Chart 
+        width={userChartConfig.width}
+        height={userChartConfig.height}
+        chartType={userChartConfig.chartType}
+        loader={userChartConfig.loader}
         data={songData}
-        rootProps={userRecordedNotechart.rootProps}
+        rootProps={userChartConfig.rootProps}
         
-      />
+      /> */}
       
 
       <button onClick={handlePrePlayback}>play pre made track</button>

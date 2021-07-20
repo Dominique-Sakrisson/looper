@@ -10,7 +10,7 @@ const Playback = ({ handlePlayback, handleRecordNow, handleShowInstructions, rec
  
   return (<>
     <button onClick={handlePlayback}>Playback</button>
-    <button onClick={handleRecordNow}>record</button> 
+    <button onClick={handleRecordNow}>{(recordNow) ? 'stop' : 'record'}</button> 
     <div className={(recordNow) ?  style.light : style.dark}></div>
     <img src={(showInstructions) ?  questionMarkGreen : questionMark} alt="need help?" onClick={handleShowInstructions}/><span>need help?</span><br/>
 

@@ -1,13 +1,19 @@
+/* eslint-disable max-len */
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import style from '../style.css'
 
 const Header = () => {
   return (
     <ul className={style.header}> 
-      <li> <Link to="/tracks">Tracks</Link></li>
-      <li> <Link to="/record">Record track</Link></li>
-      <li> <Link to="/challenge">Play Challenge</Link></li>
+      <NavLink to="/tracks" activeClassName={style.current} exact> 
+        <li>Tracks</li> 
+      </NavLink>
+
+      <NavLink to="/record" activeClassName={style.current} exact>
+        <li>Record track </li> 
+      </NavLink>
+      <NavLink to="/challenge" activeClassName={style.current} exact><li>Play Challenge</li> </NavLink>
     </ul>
   );
 };

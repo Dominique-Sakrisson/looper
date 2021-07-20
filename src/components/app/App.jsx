@@ -4,6 +4,7 @@ import {Switch, Route, Link, BrowserRouter as Router} from 'react-router-dom';
 import Header from './header/Header'
 import TrackListPage  from '../../containers/TrackListPage/TrackListPage';
 import RecordTrackPage from '../../containers/RecordTrackPage/RecordTrackPage';
+import ChallengeTrackPage from '../../containers/ChallengeTrackPage/ChallengeTrackPage';
 
 export default function App() {
   return <>
@@ -18,6 +19,10 @@ export default function App() {
         <Route exact 
           path="/record"  
           component={RecordTrackPage} 
+        />
+        <Route exact 
+          path="/challenge"  
+          component={ChallengeTrackPage} 
         />
       </Switch>
     </Router>
