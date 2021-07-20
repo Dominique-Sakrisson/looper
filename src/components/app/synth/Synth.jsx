@@ -12,7 +12,7 @@ import { polySynth } from '../modules/AudioContext';
 import KeySection from '../keys/KeySection';
 import Playback from './Playback';
 import { keys, sharpKeys } from '../modules/Keys.js';
-import { useOctave } from '../../../hooks/octave';
+import { useOctave } from '../../../hooks/settings/octave';
 import Octave from '../settings/Octave';
 
 const keysData = keys;
@@ -29,10 +29,10 @@ const Synth = () => {
   const [recording, setRecording] = useState([]);
  
   const [volume, setVolume] = useState(initVolume);
-  // const [octave, setOctave] = useState(Number(4));
+  const [octave, setOctave] = useState(Number(4));
 
 
-  const { octave } = useOctave(oct);
+  // const { octave } = useOctave(oct);
   const [oct, setOct] = useState(4);
   
   const [songData, setSongData] = useState([
@@ -337,7 +337,7 @@ console.log(oct);
     </ul>
 
    
-  <Octave />
+  {/* <Octave /> */}
 
     <Playback 
       handlePlayback={handlePlayback} 
@@ -351,7 +351,7 @@ console.log(oct);
         <KeySection handleNoteInput={handleNoteInput} />
       </div>
       
-      {/* <Settings 
+      <Settings 
         volume={volume}
         octave={Number(octave)}
         duration={duration}
@@ -365,7 +365,7 @@ console.log(oct);
         handleVolumeChange={handleVolumeChange}
         handleDurationInput={handleDurationInput}
         handleShowInstructions={handleShowInstructions} 
-      /> */}
+      />
 
     </div>
     <section className={style.chart}>

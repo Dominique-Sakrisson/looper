@@ -5,12 +5,14 @@ import style from '../style.css';
 import Volume from './Volume';
 import Octave from './Octave';
 import Duration from './Duration';
-import { useOctave } from '../../../hooks/octave';
+// import { useOctave } from '../../../hooks/octave';
 
 const Settings = ({
   volume,
   duration,
+  octave,
   showSettings,
+  handleOctaveChange,
   handleShowSettings,
   handleVolumeChange,
   handleDurationInput,
@@ -28,7 +30,7 @@ const Settings = ({
           <Duration duration={duration} handleDurationInput={handleDurationInput}/>
      
 
-          <Octave />
+          <Octave octave={octave} handleOctaveChange={handleOctaveChange} />
        
 
           <Volume handleVolumeChange={handleVolumeChange} volume={volume}/>
