@@ -1,5 +1,5 @@
 import React from 'react';
-import defaultTracks from './data/defaultTracks';
+import defaultTracks from '../../components/app/modules/DefaultSongs.js';
 
 const tracks = [...defaultTracks];
 const userTracks = localStorage.getItem('tracks');
@@ -13,13 +13,11 @@ const TrackListPage = () => {
           <li key={track} >  
             <span>{track.name}</span>
             <ul>
-              
-              <li>
-                <p>{track[0]}</p>
-                <p>{track[1]}</p> 
-                <p>{track[2]}</p> 
-                <p>{track[3]}</p> 
-              </li>
+              {track.notes.map(note => {
+                return <li key={note}>
+                  <p>{note}</p>
+                </li>;
+              }) }
             
             </ul>
             <button>play track</button>
