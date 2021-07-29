@@ -1,44 +1,33 @@
 /* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import * as Tone from 'tone';
-import style from '../style.css';
 import { Chart } from 'react-google-charts';
-import Settings from '../settings/Settings';
-import { useInterval } from '../../../hooks/hooks';
-import Instructions from '../instructions/Instructions';
-
 import { polySynth } from '../modules/AudioContext';
-import KeySection from '../keys/KeySection';
-import Playback from './Playback';
-import { keys, sharpKeys } from '../modules/Keys.js';
+import { useInterval } from '../../../hooks/hooks';
 import { useSettings } from '../../../hooks/settings/settings';
 import { useSynthHandlers } from '../../../hooks/synthHandlers';
-
-
+import { keys, sharpKeys } from '../modules/Keys.js';
+import Settings from '../settings/Settings';
+import Instructions from '../instructions/Instructions';
+import KeySection from '../keys/KeySection';
+import Playback from './Playback';
+import style from '../style.css';
 
 const keysData = keys;
 const sharpKeysData = sharpKeys;
 
-
 const Synth = () => {
   const initVolume = -20;
-  // const [vol, setVolume] = useState(initVolume);
   const [synth, setSynth] = useState();
   const [fakeSynth, setFakeSynth] = useState(polySynth);
   const [note, setNote] = useState('');
-  // const [duration, setDuration] = useState(Number(1));
+  const [saving, setSaving] = useState(false);
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
-
+  const [recordingName, setRecordingName] = useState('');
   const { volume, setVolume } = useSettings(1, 3, volume);
   const [octave, setOctave] = useState(Number(4));
-
-
-  // const { octave } = useOctave(oct);
   const [oct, setOct] = useState(4);
-  
-  // const { songData } = useSampleTracks(upData);
-
   const [songData, setSongData] = useState([
     [
       { type: 'string', id: 'Track Name' },
@@ -53,10 +42,7 @@ const Synth = () => {
       5000, //finish
     ],
   ]);
-
-
   const [keyDown, setKeyDown] = useState({ start: 0, end: 0, down: false });
-
   const [userChartConfig, setChart] = useState({
     width: '100%',
     height: '350px',
@@ -65,13 +51,10 @@ const Synth = () => {
     data: songData, 
     rootProps: { 'data-testid': '5' },
   });
-
-
   const [recChart, setRecChart] = useState(<Chart {...userChartConfig}/>);
   const [arr, setArr] = useState([]);
   const [showInstructions, setShowInstructions] = useState(false);
   const [recTime, setRecTime] = useState(0);
-
   const { handleShowSettings, handleDurationInput, showSettings, duration, setDuration } = useSynthHandlers();
 
   //starts the timer for each recording
@@ -81,11 +64,9 @@ const Synth = () => {
   
   //default page load 
   useEffect(() => {
-   
     let start;
     let end;
     let delta;
-    
     setChart({
       width: '100%',
       height: '350px',
@@ -125,10 +106,8 @@ const Synth = () => {
       setDuration((delta / 1000 > 0) ? delta / 1000 : .01);
       handleKeyPress(key);
     });
-
     setOct(oct);
     setSongData(songData);
-    
   }, []); 
 
 
@@ -166,15 +145,6 @@ const Synth = () => {
     });
   }, [recTime]);
 
-  // //duration was set
-  // const handleDurationInput = (e) => {
-  //   if(e._reactName === 'onClick'){
-  //     e.preventDefault();
-  
-  //     setDuration(Number(e.target.value));
-  //   }
-  //   setDuration(e.target.value);
-  // };
 
   //validate the key entered 
   function checkKey(item){
@@ -212,7 +182,6 @@ const Synth = () => {
 
   //handles the piano being clicked 
   const handleNoteButtonSubmit =  () => {
-  
     //the check ensures the synth wont sound without a valid note
     if(keysData.find(checkKey) !== undefined){
       const fakeSynth = new Tone.PolySynth({
@@ -280,10 +249,8 @@ const Synth = () => {
     e.preventDefault();
     recording.forEach(item => {
       const { key, duration, timing } = item;
-      
       fakeSynth.volume.value = volume;
       fakeSynth.triggerAttackRelease(key, duration, Tone.now() + timing);
-      
     });
   }
  
@@ -308,7 +275,6 @@ const Synth = () => {
     (showInstructions) ? setShowInstructions(false) : setShowInstructions(true);
   }
 
-
   //half assed attempt at a tracking bar for current place in the track
   const compStyle = {
     zIndex: '2',
@@ -317,22 +283,63 @@ const Synth = () => {
     height: '200px',
     border: 'solid 1px black',
     left: (recTime > 0) ? (recTime * 100) + 67 : 67,
-   
   };
 
 
-  // //user toggles the settings visible
-  // function handleShowSettings(e){
-  //   e.preventDefault();
-  //   if(e.target.ariaLabel === 'hide-settings' && showSettings){
-  //     setShowSettings(false);
-  //   }
-  //   if(e.target.ariaLabel === 'show-settings' && !showSettings){
-  //     setShowSettings(true);
-  //   }
-  // }
+  function handleSaveTrack(){
+    if(recording.length < 1){
+      alert('Please record notes before saving');
+      return;
+    }
+    setSaving(true);
 
+    const prevUserRecord = JSON.parse(localStorage.getItem('trackList'));
+
+  
+
+    const localArr = [];
+
+    if(!prevUserRecord && recording.length > 0){
+      const toAdd = {
+        name: recordingName,
+        recording, 
+      };
+      if(toAdd.name){
+        localArr.push(toAdd);
+        console.log(localArr, 'eeeeeeeeeeeeeeeee');
+        localStorage.setItem('trackList', JSON.stringify(localArr));
+        return;
+      }
+    }
+    
+
+    if(prevUserRecord && recording.length > 0){
+      console.log(localArr, 'localarray');
+      const toAdd = {
+        name: recordingName,
+        recording,
+      };
+    
+      if(toAdd.name){
+        prevUserRecord.push(toAdd);
+        localArr.push(...prevUserRecord);
+        localStorage.setItem('trackList', JSON.stringify(localArr));
+      }
+    }
+
+  }
+
+  function handleRecordingNameChange(e){
+    setRecordingName(e.target.value);
+  }
+ 
   return (<>
+    {
+      (saving) ? <> <button onClick={handleSaveTrack}>Save Track</button> <input onChange={handleRecordingNameChange} type="text" placeholder='trackName' /> </> :  
+        <button onClick={handleSaveTrack}>Save Track</button>
+        
+      
+    }
     
     <ul className={style.trackNotes}>
       <li>Recordings</li>
@@ -368,7 +375,6 @@ const Synth = () => {
 
     <section className={style.chart}>
       <span style={compStyle}></span>
-
       {recChart}   
     </section>
 

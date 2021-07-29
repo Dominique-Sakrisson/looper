@@ -2,12 +2,14 @@ import React from 'react';
 import defaultTracks from '../../components/app/modules/DefaultSongs.js';
 
 const tracks = [...defaultTracks];
-const userTracks = localStorage.getItem('tracks');
+// const userTracks = localStorage.getItem('trackList');
+const userTracks = JSON.parse(localStorage.getItem('trackList'));
 
 const TrackListPage = () => {
 
   return (<>
     <ul >
+      default tracks
       {
         tracks.map((track) => (
           <li key={track} >  
@@ -26,6 +28,27 @@ const TrackListPage = () => {
           </li>
         ))
       }
+    </ul>
+    <ul >
+      <h1>Your Tracks</h1>
+      {(userTracks) ? userTracks.map(track => (
+        <li key={track} >  
+          <h3>{track.name}</h3>
+          <ul>
+            {track.recording.map(note => {
+              return <li key={note.key}>
+                <p>{note.key}</p>
+                <p>timing {note.timing} ==&gt; {note.timing + note.duration} </p>
+              </li>;
+            }) }
+            
+          </ul>
+          <button>play track</button>
+          <button>edit track</button>
+          <button>delete track</button>
+        </li>
+      )) : '' }
+      
     </ul>
   </>
   );
