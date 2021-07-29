@@ -9,11 +9,11 @@ const TrackListPage = () => {
 
   return (<>
     <ul >
-      default tracks
+      <h1>Default Tracks</h1> 
       {
         tracks.map((track) => (
           <li key={track} >  
-            <span>{track.name}</span>
+            <h3>{track.name}</h3>
             <ul>
               {track.notes.map(note => {
                 return <li key={note}>
@@ -38,7 +38,7 @@ const TrackListPage = () => {
             {track.recording.map(note => {
               return <li key={note.key}>
                 <p>{note.key}</p>
-                <p>timing {note.timing} ==&gt; {note.timing + note.duration} </p>
+                <p>note start {note.timing.toFixed(2)} seconds</p>
               </li>;
             }) }
             

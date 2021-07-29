@@ -337,10 +337,8 @@ const Synth = () => {
     {
       (saving) ? <> <button onClick={handleSaveTrack}>Save Track</button> <input onChange={handleRecordingNameChange} type="text" placeholder='trackName' /> </> :  
         <button onClick={handleSaveTrack}>Save Track</button>
-        
-      
     }
-    
+
     <ul className={style.trackNotes}>
       <li>Recordings</li>
       {renderRecording()}
@@ -354,23 +352,23 @@ const Synth = () => {
       handleShowInstructions={handleShowInstructions}
     />
 
-    <div className={style.piano}>
+    <Settings 
+      duration={duration}
+      recordNow={recordNow}
+      showSettings={showSettings} 
+      showInstructions={showInstructions}
+      handlePlayback={handlePlayback}
+      handleShowSettings={handleShowSettings}
+      handleOctaveChange={handleOctaveChange} 
+      handleVolumeChange={handleVolumeChange}
+      handleDurationInput={handleDurationInput}
+      handleShowInstructions={handleShowInstructions} 
+    />
+
+    <div className={style.piano}>   
       <div className={style.keyBoard}>
         <KeySection handleNoteInput={handleNoteInput} />
       </div>
-      
-      <Settings 
-        duration={duration}
-        recordNow={recordNow}
-        showSettings={showSettings} 
-        showInstructions={showInstructions}
-        handlePlayback={handlePlayback}
-        handleShowSettings={handleShowSettings}
-        handleOctaveChange={handleOctaveChange} 
-        handleVolumeChange={handleVolumeChange}
-        handleDurationInput={handleDurationInput}
-        handleShowInstructions={handleShowInstructions} 
-      />
     </div>
 
     <section className={style.chart}>

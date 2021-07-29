@@ -6,7 +6,7 @@ import Volume from './Volume';
 import Octave from './Octave';
 import Duration from './Duration';
 import { useSettings } from '../../../hooks/settings/settings';
-// import { useOctave } from '../../../hooks/octave';
+
 
 const Settings = ({
   showSettings,
@@ -20,29 +20,23 @@ const Settings = ({
     
   return (<>
     <section className={style.settings}>
-      {(showSettings) ? <label >
+      {(showSettings) ? <div>
         <button aria-label="hide-settings"  onClick={handleShowSettings}> hide Settings </button>
-        <form>
-          
-
-          <Duration duration={duration} handleDurationInput={handleDurationInput}/>
-     
-
-          <Octave octave={octave} handleOctaveChange={handleOctaveChange} />
-       
-          {/* <div className={style.volume}>
-            <img  width="20px" alt="volume speaker icon" />
-            <input onChange={e => {
-              setVolume(e.target.value);
-            }} type="range" min="-40" max="0" value={volume} />
-          </div> */}
+        <form className={style.settingsForm}>
 
           <Volume handleVolumeChange={handleVolumeChange} volume={volume}/>
-      
 
-          
+          <Duration duration={duration} handleDurationInput={handleDurationInput}/>
+
+          <Octave octave={octave} handleOctaveChange={handleOctaveChange} />
+
         </form>
-      </label> : <button aria-label="show-settings" onClick={handleShowSettings}> Show Settings </button>}
+        <div>
+          hello
+        </div>
+      </div> 
+        : 
+        <button aria-label="show-settings" onClick={handleShowSettings}> Show Settings </button>}
       
     </section>
   </>

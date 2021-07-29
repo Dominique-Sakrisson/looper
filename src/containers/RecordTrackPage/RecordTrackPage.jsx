@@ -58,7 +58,7 @@ const RecordTrackPage = () => {
 
   return (<>
     <Synth />
-    <Drop />
+    {/* <Drop /> */}
   </>
   );
 };

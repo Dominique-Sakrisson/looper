@@ -10,7 +10,11 @@ const Volume = ({
 }) => {
   return (
     <div className={style.volume}>
-      <img src={speaker} width="20px" alt="volume speaker icon" />
+      <div>
+        Volume {volume}
+        <img src={speaker} width="20px" alt="volume speaker icon" />
+
+      </div>
       <input onChange={handleVolumeChange} type="range" min="-40" max="0" value={volume} />
     </div>
   );
