@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import songNotes from '../components/app/modules/DefaultSongs';
+import songNotes from '../../components/app/modules/DefaultSongs';
 
-export const useDefaultSongList = (songNumber) => {
+export const useSampleTracks = (songNumber) => {
   //inital seed data to setup chart
   const [songData, setSongData] = useState([
     [

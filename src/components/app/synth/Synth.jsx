@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import * as Tone from 'tone';
 import style from '../style.css';
 import { Chart } from 'react-google-charts';
-import Drop from '../drop/Drop';
 import Settings from '../settings/Settings';
 import { useInterval } from '../../../hooks/hooks';
 import Instructions from '../instructions/Instructions';
@@ -12,8 +11,10 @@ import { polySynth } from '../modules/AudioContext';
 import KeySection from '../keys/KeySection';
 import Playback from './Playback';
 import { keys, sharpKeys } from '../modules/Keys.js';
-import { useOctave } from '../../../hooks/settings/octave';
-import Octave from '../settings/Octave';
+import { useSettings } from '../../../hooks/settings/settings';
+import { useSynthHandlers } from '../../../hooks/synthHandlers';
+
+
 
 const keysData = keys;
 const sharpKeysData = sharpKeys;
@@ -21,20 +22,23 @@ const sharpKeysData = sharpKeys;
 
 const Synth = () => {
   const initVolume = -20;
+  // const [vol, setVolume] = useState(initVolume);
   const [synth, setSynth] = useState();
   const [fakeSynth, setFakeSynth] = useState(polySynth);
   const [note, setNote] = useState('');
-  const [duration, setDuration] = useState(Number(1));
+  // const [duration, setDuration] = useState(Number(1));
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
- 
-  const [volume, setVolume] = useState(initVolume);
+
+  const { volume, setVolume } = useSettings(1, 3, volume);
   const [octave, setOctave] = useState(Number(4));
 
 
   // const { octave } = useOctave(oct);
   const [oct, setOct] = useState(4);
   
+  // const { songData } = useSampleTracks(upData);
+
   const [songData, setSongData] = useState([
     [
       { type: 'string', id: 'Track Name' },
@@ -49,6 +53,8 @@ const Synth = () => {
       5000, //finish
     ],
   ]);
+
+
   const [keyDown, setKeyDown] = useState({ start: 0, end: 0, down: false });
 
   const [userChartConfig, setChart] = useState({
@@ -64,9 +70,9 @@ const Synth = () => {
   const [recChart, setRecChart] = useState(<Chart {...userChartConfig}/>);
   const [arr, setArr] = useState([]);
   const [showInstructions, setShowInstructions] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
   const [recTime, setRecTime] = useState(0);
 
+  const { handleShowSettings, handleDurationInput, showSettings, duration, setDuration } = useSynthHandlers();
 
   //starts the timer for each recording
   //picks up from previous recording state
@@ -75,7 +81,7 @@ const Synth = () => {
   
   //default page load 
   useEffect(() => {
-    setNote(note);
+   
     let start;
     let end;
     let delta;
@@ -121,9 +127,11 @@ const Synth = () => {
     });
 
     setOct(oct);
+    setSongData(songData);
+    
   }, []); 
 
-console.log(oct);
+
   //on note change
   useEffect(() => {
     handleNoteButtonSubmit();
@@ -138,7 +146,6 @@ console.log(oct);
               Number((recentNote.timing * 1000).toFixed(4)),
               Number(recentNote.timing * 1000 + recentNote.duration * 1000)
             ]);
-            
             return prevSongData;
           });
         
@@ -151,9 +158,6 @@ console.log(oct);
     setNote('');
   }, [note]);
 
-
-
-
   useEffect(() => {
     setSongData(prevSongData => {
       prevSongData[1][1] = `time ${(recTime) ? recTime : 0}`;
@@ -162,15 +166,15 @@ console.log(oct);
     });
   }, [recTime]);
 
-  //duration was set
-  const handleDurationInput = (e) => {
-    if(e._reactName === 'onClick'){
-      e.preventDefault();
+  // //duration was set
+  // const handleDurationInput = (e) => {
+  //   if(e._reactName === 'onClick'){
+  //     e.preventDefault();
   
-      setDuration(Number(e.target.value));
-    }
-    setDuration(e.target.value);
-  };
+  //     setDuration(Number(e.target.value));
+  //   }
+  //   setDuration(e.target.value);
+  // };
 
   //validate the key entered 
   function checkKey(item){
@@ -202,7 +206,6 @@ console.log(oct);
 
   //converts target.value of DOM node to playable string
   function keyToKeyString(){
-    console.log(octave);
     const keyString = (note + octave).toUpperCase();
     return keyString; 
   }
@@ -318,16 +321,16 @@ console.log(oct);
   };
 
 
-  //user toggles the settings visible
-  function handleShowSettings(e){
-    e.preventDefault();
-    if(e.target.ariaLabel === 'hide-settings' && showSettings){
-      setShowSettings(false);
-    }
-    if(e.target.ariaLabel === 'show-settings' && !showSettings){
-      setShowSettings(true);
-    }
-  }
+  // //user toggles the settings visible
+  // function handleShowSettings(e){
+  //   e.preventDefault();
+  //   if(e.target.ariaLabel === 'hide-settings' && showSettings){
+  //     setShowSettings(false);
+  //   }
+  //   if(e.target.ariaLabel === 'show-settings' && !showSettings){
+  //     setShowSettings(true);
+  //   }
+  // }
 
   return (<>
     
@@ -336,15 +339,13 @@ console.log(oct);
       {renderRecording()}
     </ul>
 
-   
-  {/* <Octave /> */}
-
     <Playback 
       handlePlayback={handlePlayback} 
       handleRecordNow={handleRecordNow} 
       recordNow={recordNow}
       showInstructions={showInstructions}
-      handleShowInstructions={handleShowInstructions}/>
+      handleShowInstructions={handleShowInstructions}
+    />
 
     <div className={style.piano}>
       <div className={style.keyBoard}>
@@ -352,45 +353,27 @@ console.log(oct);
       </div>
       
       <Settings 
-        volume={volume}
-        octave={Number(octave)}
         duration={duration}
         recordNow={recordNow}
         showSettings={showSettings} 
         showInstructions={showInstructions}
         handlePlayback={handlePlayback}
-        handleRecordNow={handleRecordNow}
         handleShowSettings={handleShowSettings}
         handleOctaveChange={handleOctaveChange} 
         handleVolumeChange={handleVolumeChange}
         handleDurationInput={handleDurationInput}
         handleShowInstructions={handleShowInstructions} 
       />
-
     </div>
+
     <section className={style.chart}>
       <span style={compStyle}></span>
 
-      {recChart}
-
-      {/* <Chart 
-        width={userChartConfig.width}
-        height={userChartConfig.height}
-        chartType={userChartConfig.chartType}
-        loader={userChartConfig.loader}
-        data={songData}
-        rootProps={userChartConfig.rootProps}
-        
-      /> */}
-      
-
-     
+      {recChart}   
     </section>
-    
-    <Drop />
+
     <Instructions showInstructions={showInstructions} handleShowInstructions={handleShowInstructions} 
     />
-    
   </>
   ); 
 };

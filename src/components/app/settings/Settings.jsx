@@ -5,12 +5,10 @@ import style from '../style.css';
 import Volume from './Volume';
 import Octave from './Octave';
 import Duration from './Duration';
+import { useSettings } from '../../../hooks/settings/settings';
 // import { useOctave } from '../../../hooks/octave';
 
 const Settings = ({
-  volume,
-  duration,
-  octave,
   showSettings,
   handleOctaveChange,
   handleShowSettings,
@@ -18,7 +16,7 @@ const Settings = ({
   handleDurationInput,
 }) => {
  
- 
+  const { duration, octave, volume, setVolume } = useSettings();
     
   return (<>
     <section className={style.settings}>
@@ -32,6 +30,12 @@ const Settings = ({
 
           <Octave octave={octave} handleOctaveChange={handleOctaveChange} />
        
+          {/* <div className={style.volume}>
+            <img  width="20px" alt="volume speaker icon" />
+            <input onChange={e => {
+              setVolume(e.target.value);
+            }} type="range" min="-40" max="0" value={volume} />
+          </div> */}
 
           <Volume handleVolumeChange={handleVolumeChange} volume={volume}/>
       

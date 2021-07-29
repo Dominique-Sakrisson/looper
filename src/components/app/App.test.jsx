@@ -18,7 +18,6 @@ describe('App component', () => {
   afterEach(() => cleanup());
   it('renders App', () => {
     const { asFragment } = render(<App />);
-    console.log(asFragment());
     expect(asFragment()).toMatchSnapshot();
   });
 

@@ -1,20 +1,18 @@
 /* eslint-disable max-len */
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import { Chart } from 'react-google-charts';
-import { useDefaultSongList } from '../../hooks/defaultSongList';
+import { useSampleTracks } from '../../hooks/timeline/sampleTracks';
 import DefaultSongs from '../../components/app/modules/DefaultSongs';
 import Synth from '../../components/app/synth/Synth';
 
 const ChallengeTrackPage = () => {
   const [songChoice, setSongChoice] = useState(0);
-  const { chartObject, songData } = useDefaultSongList(songChoice);
+  const { chartObject, songData } = useSampleTracks(songChoice);
   const [chart, setChart] = useState(<Chart {...chartObject}/>);
 
 
   // the array of notes to compare user notes to
   const compare = [songData.slice(2, songData.length)];
-
-
 
   //fix this up to listen to each song
    //user selects playback track
@@ -50,7 +48,6 @@ const ChallengeTrackPage = () => {
 
   useEffect(() => {
     setSongChoice(songChoice);
-    console.log(songChoice);
   }, []);
 
   useEffect(() => {
