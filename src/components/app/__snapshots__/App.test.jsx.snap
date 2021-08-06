@@ -232,13 +232,6 @@ exports[`App component renders App 1`] = `
         Record track 
       </li>
     </a>
-    <a
-      href="/challenge"
-    >
-      <li>
-        Play Challenge
-      </li>
-    </a>
   </ul>
   <section
     class="sc-gtsrHT cdQWYq"
