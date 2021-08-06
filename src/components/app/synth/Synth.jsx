@@ -1,110 +1,33 @@
 /* eslint-disable max-len */
 import React, { useState, useEffect } from 'react';
 import * as Tone from 'tone';
-import style from '../style.css';
 import { Chart } from 'react-google-charts';
-import Drop from '../drop/Drop';
-import Settings from '../settings/Settings';
-import { useInterval } from '../../../hooks/hooks';
-import Instructions from '../instructions/Instructions';
-
 import { polySynth } from '../modules/AudioContext';
+import { useInterval } from '../../../hooks/hooks';
+import { useSettings } from '../../../hooks/settings/settings';
+import { useSynthHandlers } from '../../../hooks/synthHandlers';
+import { keys, sharpKeys } from '../modules/Keys.js';
+import Settings from '../settings/Settings';
+import Instructions from '../instructions/Instructions';
 import KeySection from '../keys/KeySection';
 import Playback from './Playback';
+import style from '../style.css';
 
-
-// console.log(JSON.stringify(polySynth()));
-export const keys = [
-  {
-    key :'c',
-  },
-  {
-    key : 'd',
-  },
-  {
-    key : 'e',
-  },
-  {
-    key : 'f',
-  },
-  {
-    key : 'g',
-  },
-  {
-    key : 'a',
-  },
-  {
-    key : 'b',
-  }];
-
-export const sharpKeys = [
-  {
-    key :'c#',
-  },
-  {
-    key : 'd#',
-  },
-  {
-    key : 'e#',
-  },
-  {
-    key : 'f#',
-  },
-  {
-    key : 'g#',
-  },
-  {
-    key : 'a#',
-  },
-  {
-    key : 'b#',
-  }];
-
-export const timings = [
-  {
-    key :'+1',
-  },
-  {
-    key : '+1.5',
-  },
-  {
-    key : '+1.75',
-  },
-  {
-    key : '+2',
-  },
-  {
-    key : '+2.25',
-  },
-  {
-    key : '+2.5',
-  },
-  {
-    key : '+3',
-  },
-  {
-    key : '+4',
-  }
-];
-
-// const synthInstance = () => {
-//   return new Tone.PolySynth({
-//     volume,
-//     maxVolume: 0,
-//   }).toDestination();
-// };
+const keysData = keys;
+const sharpKeysData = sharpKeys;
 
 const Synth = () => {
-    const initVolume = -20;
+  const initVolume = -20;
   const [synth, setSynth] = useState();
   const [fakeSynth, setFakeSynth] = useState(polySynth);
   const [note, setNote] = useState('');
-  const [duration, setDuration] = useState(Number(1));
+  const [saving, setSaving] = useState(false);
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
-  const [volume, setVolume] = useState(initVolume);
-  const [octave, setOctave] = useState(4);
-  //track starts on load currently
+  const [recordingName, setRecordingName] = useState('');
+  // const { volume, setVolume } = useSettings(volume);
+  // const [octave, setOctave] = useState(Number(4));
+  // const [oct, setOct] = useState(4);
   const [songData, setSongData] = useState([
     [
       { type: 'string', id: 'Track Name' },
@@ -113,33 +36,45 @@ const Synth = () => {
       { type: 'number', id: 'End' },
     ],
     [
-      'Sample',
-      'Sample Note',
+      'Length',
+      `time ${(recTime) ? recTime : 0}`,
       0, //start
-      (recTime > 0) ? recTime * 1000 : 5000, //finish
+      5000, //finish
     ],
   ]);
   const [keyDown, setKeyDown] = useState({ start: 0, end: 0, down: false });
-
-  const [userRecordedNotechart, setChart] = useState({
+  const [userChartConfig, setChart] = useState({
     width: '100%',
-    height: '100%',
+    height: '350px',
     chartType: 'Timeline',
     loader : '<div>Loading Chart</div>',
-    data: songData,
-    rootProps: { 'data-testid': '3' } 
+    data: songData, 
+    rootProps: { 'data-testid': '5' },
   });
+  const [recChart, setRecChart] = useState(<Chart {...userChartConfig}/>);
   const [arr, setArr] = useState([]);
   const [showInstructions, setShowInstructions] = useState(false);
-  const [showSettings, setShowSettings] = useState(true);
   const [recTime, setRecTime] = useState(0);
+  const { handleShowSettings, handleDurationInput, showSettings, duration, setDuration, volume, setVolume, octave, setOctave } = useSynthHandlers();
 
+  //starts the timer for each recording
+  //picks up from previous recording state
+  useInterval(songTiming, 100);
 
+  
+  //default page load 
   useEffect(() => {
     let start;
     let end;
     let delta;
-
+    setChart({
+      width: '100%',
+      height: '350px',
+      chartType: 'Timeline',
+      loader : '<div>Loading Chart</div>',
+      data: songData, 
+      rootProps: { 'data-testid': '5' },
+    });
     document.addEventListener('keydown', ({ key }) => {
       start = Number(new Date());
       setArr(prevArr => {
@@ -168,15 +103,16 @@ const Synth = () => {
         return prevKeyDown;
       });
       delta = keyDown.end - keyDown.start;
-      
       setDuration((delta / 1000 > 0) ? delta / 1000 : .01);
-      
       handleKeyPress(key);
     });
+    setOctave(octave);
+    setSongData(songData);
   }, []); 
 
+
+  //on note change
   useEffect(() => {
-    //enables the user to play the same note multiple times back to back
     handleNoteButtonSubmit();
     if(note){
       if(recordNow){
@@ -191,7 +127,10 @@ const Synth = () => {
             ]);
             return prevSongData;
           });
+        
+          setRecChart(<Chart {...userChartConfig}/>);
         }
+       
       }
     }
     //set note here doesnt cause inifinite loop, nothing happens in above function if the note is not a defined value
@@ -199,28 +138,22 @@ const Synth = () => {
   }, [note]);
 
   useEffect(() => {
-    if(!synth){
-      setSynth(polySynth);
-    }
-  }, [recordNow]);
+    setSongData(prevSongData => {
+      prevSongData[1][1] = `time ${(recTime) ? recTime : 0}`;
+      prevSongData[1][3] += recTime ;
+      return prevSongData;
+    });
+  }, [recTime]);
 
-  const handleDurationInput = (e) => {
-    if(e._reactName === 'onClick'){
-      e.preventDefault();
-  
-      setDuration(Number(e.target.value));
-    }
-    setDuration(e.target.value);
-  };
 
+  //validate the key entered 
   function checkKey(item){
     if(note){
       return item.key === note;
     } 
   }
 
-  useInterval(songTiming, 100);
-
+  //the function that starts the recording clock
   function songTiming() {
     if(recordNow){
       setRecTime(prevTime => {
@@ -230,6 +163,7 @@ const Synth = () => {
     } 
   }
 
+  //validates recording bool, pushes new note
   function checkAndSetRec(keyString){
     if(recordNow){
       // const timing = Tone.now();
@@ -240,34 +174,16 @@ const Synth = () => {
     }
   }
 
+  //converts target.value of DOM node to playable string
   function keyToKeyString(){
     const keyString = (note + octave).toUpperCase();
     return keyString; 
   }
 
+  //handles the piano being clicked 
   const handleNoteButtonSubmit =  () => {
-    //different paths depending on our recording state
-    if(recordNow){
-      if(!synth){
-        checkAndSetRec(keyToKeyString());
-        //the check ensures the synth wont sound without a valid note
-        if(keys.find(checkKey) !== undefined){
-          const keyString = keyToKeyString();
-          checkAndSetRec(keyString);
-          synth.volume.value = volume;
-          synth.triggerAttackRelease(keyString, duration);
-        }
-        if(sharpKeys.find(checkKey) !== undefined){
-          const keyString = keyToKeyString();
-          checkAndSetRec(keyString);
-          synth.volume.value = volume;
-          synth.triggerAttackRelease(keyString, duration);
-        }
-      }
-    }
-    
     //the check ensures the synth wont sound without a valid note
-    if(keys.find(checkKey) !== undefined){
+    if(keysData.find(checkKey) !== undefined){
       const fakeSynth = new Tone.PolySynth({
         volume,
         maxVolume: 0,
@@ -276,7 +192,7 @@ const Synth = () => {
       checkAndSetRec(keyString);
       fakeSynth.triggerAttackRelease(keyString, duration);
     }
-    if(sharpKeys.find(checkKey) !== undefined){ 
+    if(sharpKeysData.find(checkKey) !== undefined){ 
       const fakeSynth = new Tone.PolySynth({
         volume,
         maxVolume: 0,
@@ -286,19 +202,23 @@ const Synth = () => {
       fakeSynth.triggerAttackRelease(keyString, duration);
     }
   };
-
+  
+  //volume change
   const handleVolumeChange = (e) => {
     setVolume(Number(e.target.value));
   };
 
+  //octave change
   const handleOctaveChange = ({ target }) => {
     setOctave(target.value);
   };
 
+  //a note is clicked
   const handleNoteInput = (e) => {
     setNote(e.target.value);
   };
   
+  //a keyboard button with valid note is pressed
   const handleKeyPress = (e) => {
     if(e === '1'){
       setNote('c#');
@@ -318,20 +238,26 @@ const Synth = () => {
     setNote(e);
   };
 
+  //user begins recording a track
   function handleRecordNow(e){
     e.preventDefault();
     (recordNow) ? setRecordNow(false) : setRecordNow(true);
   }
 
+  //user selects playback track
   function handlePlayback(e){
     e.preventDefault();
     recording.forEach(item => {
       const { key, duration, timing } = item;
+      console.log(volume);
       fakeSynth.volume.value = volume;
+      
       fakeSynth.triggerAttackRelease(key, duration, Tone.now() + timing);
     });
   }
+ 
 
+  //shows a detailed list of each note when user plays
   function renderRecording(){
     const list = recording.map((item, index) => {
       index++;
@@ -346,76 +272,116 @@ const Synth = () => {
     return list;
   }
 
+  //user toggles the instructions visible
   function handleShowInstructions(){
     (showInstructions) ? setShowInstructions(false) : setShowInstructions(true);
   }
 
-  function handleShowSettings(e){
-    e.preventDefault();
-    if(e.target.ariaLabel === 'hide-settings' && showSettings){
-      setShowSettings(false);
+  //half assed attempt at a tracking bar for current place in the track
+  const compStyle = {
+    zIndex: '2',
+    position: 'absolute',
+    width: '5px',
+    height: '200px',
+    border: 'solid 1px black',
+    left: (recTime > 0) ? (recTime * 100) + 67 : 67,
+  };
+
+
+  function handleSaveTrack(){
+    if(recording.length < 1){
+      alert('Please record notes before saving');
+      return;
     }
-    if(e.target.ariaLabel === 'show-settings' && !showSettings){
-      setShowSettings(true);
+    setSaving(true);
+
+    const prevUserRecord = JSON.parse(localStorage.getItem('trackList'));
+
+  
+
+    const localArr = [];
+
+    if(!prevUserRecord && recording.length > 0){
+      const toAdd = {
+        name: recordingName,
+        recording, 
+      };
+      if(toAdd.name){
+        localArr.push(toAdd);
+        console.log(localArr, 'eeeeeeeeeeeeeeeee');
+        localStorage.setItem('trackList', JSON.stringify(localArr));
+        return;
+      }
     }
+    
+
+    if(prevUserRecord && recording.length > 0){
+      console.log(localArr, 'localarray');
+      const toAdd = {
+        name: recordingName,
+        recording,
+      };
+    
+      if(toAdd.name){
+        prevUserRecord.push(toAdd);
+        localArr.push(...prevUserRecord);
+        localStorage.setItem('trackList', JSON.stringify(localArr));
+      }
+    }
+
   }
 
+  function handleRecordingNameChange(e){
+    setRecordingName(e.target.value);
+  }
+ console.log(volume, 'eyyy');
   return (<>
-    
+    {
+      (saving) ? <> <button onClick={handleSaveTrack}>Save Track</button> <input onChange={handleRecordingNameChange} type="text" placeholder='trackName' /> </> :  
+        <button onClick={handleSaveTrack}>Save Track</button>
+    }
+
     <ul className={style.trackNotes}>
       <li>Recordings</li>
       {renderRecording()}
     </ul>
 
-    <section className={style.chart}>
-      <Chart 
-        width={userRecordedNotechart.width}
-        height={userRecordedNotechart.height}
-        chartType={userRecordedNotechart.chartType}
-        loader={userRecordedNotechart.loader}
-        data={songData}
-        rootProps={userRecordedNotechart.rootProps}
-      />
-    </section>
-    {/* <button onClick={handlePlayback}>Playback</button>
-    <button onClick={handleRecordNow}>record</button> 
-    <div className={(recordNow) ?  style.light : style.dark}></div> */}
-
     <Playback 
-    handlePlayback={handlePlayback} 
-    handleRecordNow={handleRecordNow} 
-    recordNow={recordNow}
-    showInstructions={showInstructions}
-    handleShowInstructions={handleShowInstructions}/>
+      handlePlayback={handlePlayback} 
+      handleRecordNow={handleRecordNow} 
+      recordNow={recordNow}
+      showInstructions={showInstructions}
+      handleShowInstructions={handleShowInstructions}
+    />
 
-    <div className={style.piano}>
+    <Settings 
+      duration={duration}
+      volume={volume}
+      octave={octave}
+      recordNow={recordNow}
+      showSettings={showSettings} 
+      showInstructions={showInstructions}
+      handlePlayback={handlePlayback}
+      handleShowSettings={handleShowSettings}
+      handleOctaveChange={handleOctaveChange} 
+      handleVolumeChange={handleVolumeChange}
+      handleDurationInput={handleDurationInput}
+      handleShowInstructions={handleShowInstructions} 
+    />
+
+    <div className={style.piano}>   
       <div className={style.keyBoard}>
         <KeySection handleNoteInput={handleNoteInput} />
       </div>
-      
-      <Settings 
-        volume={volume}
-        octave={octave}
-        duration={duration}
-        recordNow={recordNow}
-        showSettings={showSettings} 
-        showInstructions={showInstructions}
-        handlePlayback={handlePlayback}
-        handleRecordNow={handleRecordNow}
-        handleShowSettings={handleShowSettings}
-        handleOctaveChange={handleOctaveChange} 
-        handleVolumeChange={handleVolumeChange}
-        handleDurationInput={handleDurationInput}
-        handleShowInstructions={handleShowInstructions} 
-      />
-
     </div>
-    
-    
-    <Drop />
+
+    <section className={style.chart}>
+      <span style={compStyle}></span>
+      {recChart}   
+    </section>
+
     <Instructions showInstructions={showInstructions} handleShowInstructions={handleShowInstructions} 
     />
-    
   </>
   ); 
 };
