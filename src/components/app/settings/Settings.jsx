@@ -5,19 +5,20 @@ import style from '../style.css';
 import Volume from './Volume';
 import Octave from './Octave';
 import Duration from './Duration';
-import { useSettings } from '../../../hooks/settings/settings';
+// import { useSettings } from '../../../hooks/settings/settings';
 
 
 const Settings = ({
   showSettings,
+  volume,
+  duration,
+  octave,
   handleOctaveChange,
   handleShowSettings,
   handleVolumeChange,
   handleDurationInput,
 }) => {
- 
-  const { duration, octave, volume, setVolume } = useSettings();
-    
+  console.log('volume', volume);    
   return (<>
     <section className={style.settings}>
       {(showSettings) ? <div>
@@ -32,7 +33,7 @@ const Settings = ({
 
         </form>
         <div>
-          hello
+          effects playback/recording
         </div>
       </div> 
         : 

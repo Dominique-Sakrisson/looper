@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
 export const useSettings = (dur, oct, vol) => {
-  const [duration, setDuration] = useState(1);
-  const [octave, setOctave] = useState(4);
-  const [volume, setVolume] = useState(-20);
+  const [duration, setDuration] = useState(dur);
+  const [octave, setOctave] = useState(oct);
+  const [volume, setVolume] = useState(vol);
 
-  useEffect(() => {
-    setDuration(dur);
-    setOctave(oct);
-    setVolume(vol);
-  }, []);
+  // useEffect(() => {
+  //   setDuration(dur);
+  //   setOctave(oct);
+  //   setVolume(vol);
+  // }, []);
 
   useEffect(() => {        
     setVolume(vol);

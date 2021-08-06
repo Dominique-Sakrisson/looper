@@ -25,9 +25,9 @@ const Synth = () => {
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
   const [recordingName, setRecordingName] = useState('');
-  const { volume, setVolume } = useSettings(1, 3, volume);
-  const [octave, setOctave] = useState(Number(4));
-  const [oct, setOct] = useState(4);
+  // const { volume, setVolume } = useSettings(volume);
+  // const [octave, setOctave] = useState(Number(4));
+  // const [oct, setOct] = useState(4);
   const [songData, setSongData] = useState([
     [
       { type: 'string', id: 'Track Name' },
@@ -55,7 +55,7 @@ const Synth = () => {
   const [arr, setArr] = useState([]);
   const [showInstructions, setShowInstructions] = useState(false);
   const [recTime, setRecTime] = useState(0);
-  const { handleShowSettings, handleDurationInput, showSettings, duration, setDuration } = useSynthHandlers();
+  const { handleShowSettings, handleDurationInput, showSettings, duration, setDuration, volume, setVolume, octave, setOctave } = useSynthHandlers();
 
   //starts the timer for each recording
   //picks up from previous recording state
@@ -106,7 +106,7 @@ const Synth = () => {
       setDuration((delta / 1000 > 0) ? delta / 1000 : .01);
       handleKeyPress(key);
     });
-    setOct(oct);
+    setOctave(octave);
     setSongData(songData);
   }, []); 
 
@@ -249,7 +249,9 @@ const Synth = () => {
     e.preventDefault();
     recording.forEach(item => {
       const { key, duration, timing } = item;
+      console.log(volume);
       fakeSynth.volume.value = volume;
+      
       fakeSynth.triggerAttackRelease(key, duration, Tone.now() + timing);
     });
   }
@@ -332,7 +334,7 @@ const Synth = () => {
   function handleRecordingNameChange(e){
     setRecordingName(e.target.value);
   }
- 
+ console.log(volume, 'eyyy');
   return (<>
     {
       (saving) ? <> <button onClick={handleSaveTrack}>Save Track</button> <input onChange={handleRecordingNameChange} type="text" placeholder='trackName' /> </> :  
@@ -354,6 +356,8 @@ const Synth = () => {
 
     <Settings 
       duration={duration}
+      volume={volume}
+      octave={octave}
       recordNow={recordNow}
       showSettings={showSettings} 
       showInstructions={showInstructions}

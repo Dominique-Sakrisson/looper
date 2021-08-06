@@ -4,8 +4,8 @@ export const useSynthHandlers = () => {
   const [duration, setDuration] = useState(1);
   const [showSettings, setShowSettings] = useState(false);
 
-  //   const [octave, setOctave] = useState(4);
-  //   const [volume, setVolume] = useState(-20);
+    const [octave, setOctave] = useState(3);
+    const [volume, setVolume] = useState(0);
   
   const handleDurationInput = (e) => {
     if(e._reactName === 'onClick'){
@@ -31,5 +31,5 @@ export const useSynthHandlers = () => {
 
   }, []);
 
-  return { handleDurationInput, handleShowSettings, duration, showSettings, setDuration };
+  return { handleDurationInput, handleShowSettings, duration, showSettings, setDuration, volume, setVolume, octave, setOctave };
 };
