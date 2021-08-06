@@ -8,7 +8,11 @@ import questionMarkGreen from '../../../../public/assets/questionMarkGreen.png';
 const Instructions = ({ showInstructions, handleShowInstructions }) => {
 
   return (
-    <section className={`${style.pianoInstructions} ${(showInstructions) ? style.onScreen : style.offScreen}`}>
+    <section className={
+      //assign pianoInstructions
+      `${style.pianoInstructions} 
+      // conditional to assign onScreen or OffScreen as well
+      ${(showInstructions) ? style.onScreen : style.offScreen}`}>
       <img src={(showInstructions) ?  questionMarkGreen : questionMark} alt="need help?" onClick={handleShowInstructions}/><span>CLOSE</span>
       <div>
         <h3>How to record</h3>

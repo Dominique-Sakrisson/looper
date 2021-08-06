@@ -2,18 +2,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import style from '../style.css';
+import clock from '../../../../public/assets/clock.png';
+// import { useSettings } from '../../../hooks/settings/settings';
 
 const Duration = ({
   duration,
   handleDurationInput,
 
 }) => {
-  return (<>
-    <p className={style.hint}>Note Length Seconds</p>
-    <input value={duration} type="number" pattern="[0-9]"  placeholder={duration} onChange={handleDurationInput} step=".1" />
 
-    <p className={style.hint}>Keyboard presses set duration to how long you held the key</p>
-  </>
+  return (<div className={style.duration}>
+    <div>
+      Duration {`${duration}`}
+      <img src={clock} alt="" />
+    </div>
+    <input value={duration} type="range" min='0.0625' max='4'
+    step='0.0625' placeholder="Note Length Seconds" onChange={handleDurationInput} />
+  </div>
   );
 };
 

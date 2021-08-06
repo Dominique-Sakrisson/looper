@@ -5,38 +5,39 @@ import style from '../style.css';
 import Volume from './Volume';
 import Octave from './Octave';
 import Duration from './Duration';
+// import { useSettings } from '../../../hooks/settings/settings';
+
 
 const Settings = ({
-  volume,
-  octave,
-  duration,
   showSettings,
-  handleShowSettings,
+  volume,
+  duration,
+  octave,
   handleOctaveChange,
+  handleShowSettings,
   handleVolumeChange,
   handleDurationInput,
 }) => {
- 
-    
+  console.log('volume', volume);    
   return (<>
     <section className={style.settings}>
-      {(showSettings) ? <label >
+      {(showSettings) ? <div>
         <button aria-label="hide-settings"  onClick={handleShowSettings}> hide Settings </button>
-        <form>
-          
-
-          <Duration duration={duration} handleDurationInput={handleDurationInput}/>
-     
-
-          <Octave handleOctaveChange={handleOctaveChange} octave={octave}/>
-       
+        <form className={style.settingsForm}>
 
           <Volume handleVolumeChange={handleVolumeChange} volume={volume}/>
-      
 
-          
+          <Duration duration={duration} handleDurationInput={handleDurationInput}/>
+
+          <Octave octave={octave} handleOctaveChange={handleOctaveChange} />
+
         </form>
-      </label> : <button aria-label="show-settings" onClick={handleShowSettings}> Show Settings </button>}
+        <div>
+          effects playback/recording
+        </div>
+      </div> 
+        : 
+        <button aria-label="show-settings" onClick={handleShowSettings}> Show Settings </button>}
       
     </section>
   </>

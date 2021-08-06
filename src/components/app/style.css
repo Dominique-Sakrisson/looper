@@ -2,8 +2,253 @@
 @media only screen and (max-width: 600px) {
     *{
         position: relative;
+    }
+ 
+    section{
+        border: 2px solid black;
+        background-color: grey;
+    }
+    .header{
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+        background: rgb(2,0,36);
+        padding: 2px;
+    }
+
+    .header li {
+        padding: 1rem;
+    }
+    .header a {
+        text-decoration: none;
+        color: white;
+        font-size: 1.2rem;
+    }
+
+    .header li:hover {
+        padding: 1rem;
+        background-color: rgba(119, 141, 236, 0.1);
+    }
+
+    .current li:before {
+        top: 0;
+        right: 0;
+        content: "";
+        padding: 1rem;
+        position: absolute;
+        border-top: 3px solid red;
+        border-right: 3px white solid;
+    }
+
+    .current li{
+        border-radius: 0;
+        background: rgb(2,0,36);
+    }
+
+
+    
+    .piano{
+        display: flex;
+        flex-wrap: wrap;
+        background-color: blue;
+        justify-content: center;
+    }
+
+    .keyButton{
+        width: 3.3rem;
+        height: 10rem;
+        border-radius: 0 0 .4rem .4rem;
+        padding-top: 5rem;
+    }
+    .keyButtonSharp{
+        position: absolute;
+        height: 6rem;
+        padding: 0cm;
+        width: 2rem;
+        background-color: black;
+        border-radius: 0  0 .4rem .4rem;
+        color: white;
+    }
+    .keyButtonSharp:nth-of-type(1){
+        right: 18.8rem;
+    }
+    .keyButtonSharp:nth-of-type(2){
+        right: 15.5rem;
+    }
+    .keyButtonSharp:nth-of-type(3){
+        right: 8.9rem;
+    }
+    .keyButtonSharp:nth-of-type(4){
+        right: 5.6rem;
+    }
+    .keyButtonSharp:nth-of-type(5){
+        right: 2.4rem;
+    }
+
+
+    .light{
+        display: inline-block;
+        width:20px;
+        height:20px;
+        border-radius: 50%;
+        background: rgb(228,56,26);
+        background: radial-gradient(circle, rgba(228,56,26,1) 0%, rgba(50,11,4,1) 100%);
+    }
+    .dark{
+        display: inline-block;
+        width:20px;
+        height:20px;
+        border-radius: 50%;
+        background: rgb(65,228,26);
+        background: radial-gradient(circle, rgba(65,228,26,1) 0%, rgba(15,4,50,1) 100%);
+    }
+    
+    .chart{
+        width: 100%;
+        height: 100%;
+        box-sizing: content-box;
+        background: rgb(2,0,36);
+        background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 25%, rgba(0,212,255,1) 100%);
+    }
+
+    .trackNotes{
+        display: none;
+    }
+    .piano img{
+        margin-top: 1rem;
+        width: 2rem;
+        height: 2rem;
+    }
+     img{
+        margin-top: 1rem;
+        width: 2rem;
+        height: 2rem;
+    }
+  
+
+    .pianoInstructions{
+        display: none;
+        position: fixed;
+        background-color: rgba(255,255,55, 1);
+        top: 10%;
+        width: 80%;
+    }
+
+    .settings{
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+        width: 100%;
+       color: white;
+        padding: 10px;
+        animation: appear 1s infinite;
+    }
+
+    .volume{
+        display: flex;
+        flex-wrap: wrap;
+        box-sizing:border-box;
+       width: 8.5rem;
+    }
+    .octave{
+        display: flex;
+        flex-wrap: wrap;
+        box-sizing:border-box;
+       width: 8.5rem;
+    }
+    .duration{
+        display: flex;
+        flex-wrap: wrap;
+        box-sizing:border-box;
+       width: 8.5rem;
+    }
+    .settingsForm{
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        border: 2px solid black;
+        
+        /* background-color: cyan; */
+    }
+   
+    .settingsForm :nth-child(2){
+
+
+    }
+    .settingsForm :nth-child(2){
+        /* background-color: blue; */
+        margin: 5px;
+       
+    }
+    .settingsForm :nth-child(3){
+        margin: 5px;
+        /* background-color: blue; */
+
+    }
+  
+    .onScreen{
+        display: block;
+        top: 10%;
+        /* right: 50%; */
+        background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
+        animation: slideIn .25s linear;
+        border-radius: 1rem;
+        padding: 10px;
+        text-align: center;
+    }
+    .offScreen{
+        top: 10%;
+        right: 50%;
+        opacity: 0;
+        animation: slideOut .5s linear;
+    }
+
+    @keyframes slideIn {
+        from{
+            
+            transform: translateX(-100%);
+        }
+
+        to{
+            transform: translateX(0%);
+        }
+    }
+    @keyframes slideOut {
+        from{
+            display: block;
+            transform: translateX(0%);
+        }
+
+        to{
+            display: none;
+            transform: translateX(0%);
+        }
+    }
+    /* @keyframes appear {
+        from{
+            background-color: rgba(255,255,55, 1);
+            display: block;
+            transform: translateX(0%);
+        }
+
+        to{
+            background-color: rgba(50,11,4,1);
+            display: none;
+            transform: translateX(0%);
+        }
+    } */
+
+  
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    *{
+        position: relative;
+        
       
     }
+ 
     section{
         border: 2px solid black;
        
@@ -13,23 +258,39 @@
         list-style: none;
         display: flex;
         justify-content: space-around;
-        border-radius: 2em;
-        box-shadow:  -1em -1em  4em 3em rgba(51,60,100, 1);
+        background: rgb(2,0,36);
+        padding: 2px;
     }
 
     .header li {
         padding: 1rem;
-        border-radius: 2em;
-        background-color: rgba(51,60,100, .5);
-
     }
     .header a {
         text-decoration: none;
+        color: white;
+        font-size: 1.2rem;
     }
+
     .header li:hover {
         padding: 1rem;
-        background-color: rgba(51,60,100, .1);
+        background-color: rgba(119, 141, 236, 0.1);
     }
+
+    .current li:before {
+        top: 0;
+        right: 0;
+        content: "";
+        padding: 1rem;
+        position: absolute;
+        border-top: 3px solid red;
+        border-right: 3px white solid;
+    }
+
+    .current li{
+        border-radius: 0;
+        background: rgb(2,0,36);
+    }
+
     .piano{
         display: flex;
         flex-wrap: wrap;
@@ -73,23 +334,27 @@
         width:20px;
         height:20px;
         border-radius: 50%;
-        background-color: red;
-        border: 2px solid darkslategray;
+        background: rgb(228,56,26);
+        background: radial-gradient(circle, rgba(228,56,26,1) 0%, rgba(50,11,4,1) 100%);
+        
     }
     .dark{
         display: inline-block;
         width:20px;
         height:20px;
         border-radius: 50%;
-        background-color: grey;
-        border: 2px solid darkslategray;
+        background: rgb(65,228,26);
+background: radial-gradient(circle, rgba(65,228,26,1) 0%, rgba(15,4,50,1) 100%);
     }
     
     .chart{
        width: 100%;
        height: 100%;
        box-sizing: content-box;
+       background: rgb(2,0,36);
+        background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 25%, rgba(0,212,255,1) 100%);
     }
+
     .trackNotes{
         display: none;
     }
@@ -114,6 +379,56 @@
         width: 80%;
     }
 
+    .settings{
+        display: flex;
+        flex-wrap: wrap;
+          width: 100%;
+         color: white;
+          padding: 10px;
+          animation: appear 1s infinite;
+      }
+  
+      .volume{
+          
+      }
+      .octave{
+  
+      }
+      .duration{
+         
+      }
+      .settingsForm{
+          display: flex;
+          flex-wrap: wrap;
+     
+      }
+     
+      .settingsForm :nth-child(1){
+          /* background-color: blue; */
+          align-content: ;
+          margin: 5px;
+      }
+      .settingsForm :nth-child(2){
+          /* background-color: blue; */
+          margin: 5px;
+         
+      }
+      .settingsForm :nth-child(3){
+          margin: 5px;
+          /* background-color: blue; */
+  
+      }
+    
+      .onScreen{
+          display: block;
+          top: 10%;
+          /* right: 50%; */
+          background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
+          animation: slideIn .25s linear;
+          border-radius: 1rem;
+          padding: 10px;
+          text-align: center;
+      }
     .onScreen{
         display: block;
         top: 10%;
@@ -152,12 +467,6 @@
             transform: translateX(0%);
         }
     }
-
-  
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
