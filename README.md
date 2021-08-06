@@ -1,10 +1,11 @@
 # looper
-deployed site heree
+deployed site here
 
 https://loopernet.netlify.app/
 
 
-dedvevlopment here 
+development here 
+
 https://looper-net-development.netlify.app/
 
 Have fun playing notes either with your keyboard or by clicking the on screen buttons.
