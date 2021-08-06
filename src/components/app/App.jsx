@@ -22,9 +22,9 @@ export default function App() {
         <Route exact path="/record"  
           component={RecordTrackPage} 
         />
-        <Route exact path="/challenge"  
+        {/* <Route exact path="/challenge"  
           component={ChallengeTrackPage} 
-        />
+        /> */}
       </Switch>
     </Router>
      
