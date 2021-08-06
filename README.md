@@ -4,7 +4,7 @@ deployed site here
 https://loopernet.netlify.app/
 
 
-development here 
+development here (often most up to date features, may be buggy)
 
 https://looper-net-development.netlify.app/
 
