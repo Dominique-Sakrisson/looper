@@ -86,7 +86,7 @@ const KeySection = ({ handleNoteInput }) => {
       {
         keys.map(item => {
           return <span key={item.key} >
-            <button className={`${style.keyButton} ${style[item.key]}`} aria-label="note-key" value={item.key} onClick={handleNoteInput}>{item.key}</button>
+            <button className={`${style.keyButton} ${style[item.key]}`} aria-label="note-key" role="button" value={item.key} onClick={handleNoteInput}>{item.key}</button>
           </span>;
         })
       }
@@ -94,7 +94,7 @@ const KeySection = ({ handleNoteInput }) => {
         keys.map(item => {
           if(['c', 'd', 'f',  'g', 'a'].includes(item.key)){
             return (
-              <button key={item.key + '#'} className={`${style.keyButtonSharp}`} aria-label="note-key" value={item.key + '#'} onClick={handleNoteInput}> {item.key + '#'}</button>
+              <button key={item.key + '#'} className={`${style.keyButtonSharp}`} aria-label="note-key" role="button" value={item.key + '#'} onClick={handleNoteInput}> {item.key + '#'}</button>
             );  
           }
         })

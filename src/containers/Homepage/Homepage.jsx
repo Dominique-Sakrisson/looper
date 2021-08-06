@@ -10,7 +10,7 @@ const Homepage = () => {
     
     display: 'flex',
     justifyContent: 'center',
-    animation: `${pulse} linear 1s`
+ 
   });
 
   const ImageSlider = styled.div`
@@ -21,24 +21,14 @@ const Homepage = () => {
 
   return <>
     <SectionStyle >
-       <Image></Image>
-      <Button>faf</Button>
+      <h1>Welcome to the homepage</h1>
+      <h3>(A work in progress)</h3>
+      <Image></Image>
+      
     </SectionStyle>
   </>;
 };
 
-
-const pulse = css`keyframes
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
-
-
-const buttonAnimation = `${pulse} 1s infinite`;
 
 const ImageSlider = styled.div`
 width: 50%,
@@ -53,19 +43,9 @@ const Image = styled.img.attrs(() => ({
 }))`
 width: 80%;
 height: 20%;
-animation-name: ${pulse};
+
  animation-duration: 1s;
  animation-iteration-count: infinite;
-`;
-function alo() {
-    console.log('hello');
-}
-const Button = styled.button.attrs(() => ({
-  onClick: alo,
-}))`
-width: 80%;
-height: 20%;
-
 `;
 
 

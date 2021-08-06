@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { render, screen,  cleanup, waitFor } from '@testing-library/react';
 import App from './App';
+import Synth from './synth/Synth';
 import * as Tone from 'tone';
 
 //tests fail due to not having the initial entries with memeory router
@@ -22,7 +23,7 @@ describe('App component', () => {
   });
 
   it('checks for keys', async () => {
-    const { asFragment } = render(<App />);
+    const { asFragment } = render(<Synth />);
     const keys = await screen.findAllByRole('button', {
       name: 'note-key'
     });
