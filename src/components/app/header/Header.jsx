@@ -15,9 +15,9 @@ const Header = () => {
         <li>Record track </li> 
       </NavLink>
 
-      <NavLink to="/challenge" activeClassName={style.current} exact>
+      {/* <NavLink to="/challenge" activeClassName={style.current} exact>
         <li>Play Challenge</li> 
-      </NavLink>
+      </NavLink> */}
       
     </ul>
   );
