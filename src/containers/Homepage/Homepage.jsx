@@ -14,8 +14,8 @@ const Homepage = () => {
   });
 
   const ImageSlider = styled.div`
-  width: 50%,
-  height: 400px
+  width: 35%,
+  height: 300px
 `;
 
 

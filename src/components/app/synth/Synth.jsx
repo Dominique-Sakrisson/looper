@@ -113,7 +113,9 @@ const Synth = () => {
 
   //on note change
   useEffect(() => {
-    handleNoteButtonSubmit();
+    if(!saving){
+      handleNoteButtonSubmit();
+    }
     if(note){
       if(recordNow){
         const recentNote = recording[recording.length - 1];
@@ -293,7 +295,11 @@ const Synth = () => {
       alert('Please record notes before saving');
       return;
     }
-    setSaving(true);
+    if(!saving){
+      setSaving(true);
+    } else {
+      setSaving(false);
+    }
 
     const prevUserRecord = JSON.parse(localStorage.getItem('trackList'));
 
@@ -337,7 +343,7 @@ const Synth = () => {
  console.log(volume, 'eyyy');
   return (<>
     {
-      (saving) ? <> <button onClick={handleSaveTrack}>Save Track</button> <input onChange={handleRecordingNameChange} type="text" placeholder='trackName' /> </> :  
+      (saving) ? <> <button onClick={handleSaveTrack}>Confirm</button> <input onChange={handleRecordingNameChange} type="text" placeholder='Enter name here, hit confirm' /> </> :  
         <button onClick={handleSaveTrack}>Save Track</button>
     }
 
