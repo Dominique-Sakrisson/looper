@@ -1,4 +1,5 @@
 /* Extra small devices (phones, 600px and down) */
+
 @media only screen and (max-width: 600px) {
     *{
         position: relative;
@@ -136,6 +137,7 @@
 
     .settings{
       display: flex;
+      flex-direction: column;
       flex-wrap: wrap;
       justify-content: center;
         width: 100%;

@@ -29,9 +29,6 @@ export const sharpKeys = [
     key : 'd#',
   },
   {
-    key : 'e#',
-  },
-  {
     key : 'f#',
   },
   {
@@ -40,9 +37,7 @@ export const sharpKeys = [
   {
     key : 'a#',
   },
-  {
-    key : 'b#',
-  }];
+];
   
 export const timings = [
   {

@@ -1,14 +1,16 @@
 /* eslint-disable max-len */
 import React, { useState } from 'react';
-import {Switch, Route, Link, BrowserRouter as Router} from 'react-router-dom';
+import "tailwindcss/tailwind.css"
+import { Switch, Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import Header from './header/Header';
 import HomePage from '../../containers/Homepage/Homepage.jsx';
 import TrackListPage  from '../../containers/TrackListPage/TrackListPage';
 import RecordTrackPage from '../../containers/RecordTrackPage/RecordTrackPage';
 import ChallengeTrackPage from '../../containers/ChallengeTrackPage/ChallengeTrackPage';
+import Footer from './footer/Footer';
 
 export default function App() {
-  const [appPage, setAppPage] = useState(false);
+
   return <>
     <Router>
       <Header />
@@ -27,6 +29,6 @@ export default function App() {
         /> */}
       </Switch>
     </Router>
-     
+    <Footer />
   </>;
 }

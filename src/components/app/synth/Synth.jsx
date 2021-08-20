@@ -360,6 +360,8 @@ const Synth = () => {
       handleShowInstructions={handleShowInstructions}
     />
 
+
+    <div className={style.piano}>   
     <Settings 
       duration={duration}
       volume={volume}
@@ -374,8 +376,6 @@ const Synth = () => {
       handleDurationInput={handleDurationInput}
       handleShowInstructions={handleShowInstructions} 
     />
-
-    <div className={style.piano}>   
       <div className={style.keyBoard}>
         <KeySection handleNoteInput={handleNoteInput} />
       </div>
