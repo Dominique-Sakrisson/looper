@@ -247,9 +247,11 @@ const Synth = () => {
     setNote(e);
   };
 
-  //user begins recording a track
+  //toggles the currently recording status
   function handleCurrentlyRecording(e){
     e.preventDefault();
+    //if previously recording, set recording to now be false
+    //if not previously recording, set recording to now be true
     (recordNow) ? setRecordNow(false) : setRecordNow(true);
   }
 
