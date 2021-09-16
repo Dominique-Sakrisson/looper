@@ -12,6 +12,7 @@ import Instructions from '../instructions/Instructions';
 import KeySection from '../keys/KeySection';
 import Playback from './Playback';
 import style from '../style.css';
+import {songTiming} from './synthHelper';
 
 const keysData = keys;
 const sharpKeysData = sharpKeys;
@@ -25,9 +26,6 @@ const Synth = () => {
   const [recordNow, setRecordNow] = useState(false);
   const [recording, setRecording] = useState([]);
   const [recordingName, setRecordingName] = useState('');
-  // const { volume, setVolume } = useSettings(volume);
-  // const [octave, setOctave] = useState(Number(4));
-  // const [oct, setOct] = useState(4);
   const [songData, setSongData] = useState([
     [
       { type: 'string', id: 'Track Name' },
@@ -56,11 +54,19 @@ const Synth = () => {
   const [showInstructions, setShowInstructions] = useState(false);
   const [recTime, setRecTime] = useState(0);
   const { handleShowSettings, handleDurationInput, showSettings, duration, setDuration, volume, setVolume, octave, setOctave } = useSynthHandlers();
-
   //starts the timer for each recording
   //picks up from previous recording state
   useInterval(songTiming, 100);
 
+  //half assed attempt at a tracking bar for current place in the track
+  const compStyle = {
+    zIndex: '2',
+    position: 'absolute',
+    width: '5px',
+    height: '200px',
+    border: 'solid 1px black',
+    left: (recTime > 0) ? (recTime * 100) + 67 : 67,
+  };
   
   //default page load 
   useEffect(() => {
@@ -147,14 +153,8 @@ const Synth = () => {
     });
   }, [recTime]);
 
-
-  //validate the key entered 
-  function checkKey(item){
-    if(note){
-      return item.key === note;
-    } 
-  }
-
+  
+  
   //the function that starts the recording clock
   function songTiming() {
     if(recordNow){
@@ -164,7 +164,7 @@ const Synth = () => {
       });
     } 
   }
-
+  
   //validates recording bool, pushes new note
   function checkAndSetRec(keyString){
     if(recordNow){
@@ -175,11 +175,18 @@ const Synth = () => {
       });
     }
   }
-
+  
   //converts target.value of DOM node to playable string
   function keyToKeyString(){
     const keyString = (note + octave).toUpperCase();
     return keyString; 
+  }
+
+  //validate the key entered 
+  function checkKey(item){
+    if(note){
+      return item.key === note;
+    } 
   }
 
   //handles the piano being clicked 
@@ -241,7 +248,7 @@ const Synth = () => {
   };
 
   //user begins recording a track
-  function handleRecordNow(e){
+  function handleCurrentlyRecording(e){
     e.preventDefault();
     (recordNow) ? setRecordNow(false) : setRecordNow(true);
   }
@@ -251,7 +258,7 @@ const Synth = () => {
     e.preventDefault();
     recording.forEach(item => {
       const { key, duration, timing } = item;
-      console.log(volume);
+ 
       fakeSynth.volume.value = volume;
       
       fakeSynth.triggerAttackRelease(key, duration, Tone.now() + timing);
@@ -279,17 +286,6 @@ const Synth = () => {
     (showInstructions) ? setShowInstructions(false) : setShowInstructions(true);
   }
 
-  //half assed attempt at a tracking bar for current place in the track
-  const compStyle = {
-    zIndex: '2',
-    position: 'absolute',
-    width: '5px',
-    height: '200px',
-    border: 'solid 1px black',
-    left: (recTime > 0) ? (recTime * 100) + 67 : 67,
-  };
-
-
   function handleSaveTrack(){
     if(recording.length < 1){
       alert('Please record notes before saving');
@@ -314,7 +310,7 @@ const Synth = () => {
       };
       if(toAdd.name){
         localArr.push(toAdd);
-        console.log(localArr, 'eeeeeeeeeeeeeeeee');
+      
         localStorage.setItem('trackList', JSON.stringify(localArr));
         return;
       }
@@ -322,7 +318,7 @@ const Synth = () => {
     
 
     if(prevUserRecord && recording.length > 0){
-      console.log(localArr, 'localarray');
+      
       const toAdd = {
         name: recordingName,
         recording,
@@ -340,45 +336,51 @@ const Synth = () => {
   function handleRecordingNameChange(e){
     setRecordingName(e.target.value);
   }
- console.log(volume, 'eyyy');
+
   return (<>
-    {
-      (saving) ? <> <button onClick={handleSaveTrack}>Confirm</button> <input onChange={handleRecordingNameChange} type="text" placeholder='Enter name here, hit confirm' /> </> :  
-        <button onClick={handleSaveTrack}>Save Track</button>
-    }
-
-    <ul className={style.trackNotes}>
-      <li>Recordings</li>
-      {renderRecording()}
-    </ul>
-
-    <Playback 
-      handlePlayback={handlePlayback} 
-      handleRecordNow={handleRecordNow} 
-      recordNow={recordNow}
-      showInstructions={showInstructions}
-      handleShowInstructions={handleShowInstructions}
-    />
-
-
     <div className={style.piano}>   
-    <Settings 
-      duration={duration}
-      volume={volume}
-      octave={octave}
-      recordNow={recordNow}
-      showSettings={showSettings} 
-      showInstructions={showInstructions}
-      handlePlayback={handlePlayback}
-      handleShowSettings={handleShowSettings}
-      handleOctaveChange={handleOctaveChange} 
-      handleVolumeChange={handleVolumeChange}
-      handleDurationInput={handleDurationInput}
-      handleShowInstructions={handleShowInstructions} 
-    />
-      <div className={style.keyBoard}>
-        <KeySection handleNoteInput={handleNoteInput} />
+    
+      <div className={style.pianoTop}>
+        {
+          (recording.length > 0) ? 
+            <div className={style.saveTrack}> 
+              <button onClick={handleSaveTrack}>Confirm</button> 
+              <input onChange={handleRecordingNameChange} type="text" placeholder='Enter name here, hit confirm' /> 
+            </div> 
+            :
+          
+            < div className={style.saveTrack}>
+              <button onClick={handleSaveTrack}>Save Track</button>
+              <br/>
+            </div>
+        }
+        <Playback 
+          handlePlayback={handlePlayback} 
+          handleCurrentlyRecording={handleCurrentlyRecording} 
+          recordNow={recordNow}
+          showInstructions={showInstructions}
+          handleShowInstructions={handleShowInstructions}
+        />
+
+        <Settings 
+          duration={duration}
+          volume={volume}
+          octave={octave}
+          recordNow={recordNow}
+          showSettings={showSettings} 
+          showInstructions={showInstructions}
+          handlePlayback={handlePlayback}
+          handleShowSettings={handleShowSettings}
+          handleOctaveChange={handleOctaveChange} 
+          handleVolumeChange={handleVolumeChange}
+          handleDurationInput={handleDurationInput}
+          handleShowInstructions={handleShowInstructions} 
+        />
       </div>
+
+    
+      <KeySection handleNoteInput={handleNoteInput} />
+ 
     </div>
 
     <section className={style.chart}>

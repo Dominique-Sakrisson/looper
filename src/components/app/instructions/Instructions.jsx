@@ -13,7 +13,7 @@ const Instructions = ({ showInstructions, handleShowInstructions }) => {
       `${style.pianoInstructions} 
       // conditional to assign onScreen or OffScreen as well
       ${(showInstructions) ? style.onScreen : style.offScreen}`}>
-      <img src={(showInstructions) ?  questionMarkGreen : questionMark} alt="need help?" onClick={handleShowInstructions}/><span>CLOSE</span>
+      <img src={(showInstructions) ?  questionMarkGreen : questionMark} alt="need help?" onClick={handleShowInstructions}/><span></span>
       <div>
         <h3>How to record</h3>
         <p>(1)Hit record</p>

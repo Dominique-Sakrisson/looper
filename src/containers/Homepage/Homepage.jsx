@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import piano from '../../../public/assets/piano.png';
 import styled, { createGlobalStyle, keyframes, css } from "styled-components";
-
+import Synth from '/home/domcs/app/src/components/app/synth/Synth.jsx';
+import play from '../../../public/assets/play-button.png';
 
 const Homepage = () => {
   // const [slides, setSlides] = useState([{ src: piano, alt: '' }]);
@@ -11,6 +12,16 @@ const Homepage = () => {
     display: 'flex',
     justifyContent: 'center',
   });
+  const imageRoll = [piano, play];
+  const [i, setI] = useState(0);
+  
+  const [currentImage, setCurrentImage] = useState(imageRoll[i]);
+
+
+  useEffect(() => {
+    setCurrentImage(imageRoll[i]);
+    
+  }), [i];
 
   const GlobalStyle = createGlobalStyle`
   body{
@@ -18,7 +29,7 @@ const Homepage = () => {
   }
 `; 
 
-const pulse = keyframes`
+  const pulse = keyframes`
   50% {
     opacity: 0;
   }
@@ -26,13 +37,13 @@ const pulse = keyframes`
     opacity: 1;
   }
 `;
-const clear = keyframes`
+  const clear = keyframes`
   100% {
     opacity: 1;
   }
 `;
 
-const Header = styled.div`
+  const Header = styled.div`
 height: 50px;
 margin: 20px;
 font-size: 2rem;
@@ -44,31 +55,58 @@ animation: ${pulse} 2000ms infinite;
 
 };
 `;
+  const Slider = styled.div`
+  display: flex;
+  // flex-direction: column;
+  width: 30%
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 3rem;
+  column-gap: 4em
 
-  const ImageSlider = styled.div`
-background-image: url('../../../public/assets/piano.png');
-min-height: 250px;
+`;
+  const ImageB = styled.div.attrs({
+    'aria-label' : 'slider of images'
+  })`
+background-image: url(${currentImage});
+min-height:  20rem;
+width: 500px;
 
-margin-bottom: 10px;
-border: 2px solid orange;
-background-attachment: fixed;
+// background-attachment: fixed;
 background-position: center;
 background-repeat: no-repeat;
 background-size: cover;
+box-sizing: content-box;
+
 `;
 
+  const ButRow = styled.div`
+  display: flex;
+  height: 20rem;
+  // margin: 0 12rem;
+  width: 100%
+  position: relative;
+  justify-content: space-between;
+`;
+
+  const NavB = styled.button`
+  background: green;
+  color: white;
+  box-sizing: content-box;
+  padding: 1rem;
+  border: 2px solid black;
+`;
 
   const Par = styled.p`
+  display: flex;
   height: 300px;
-::before{
-  content: 'hmm';
-}
-::after{
-  " (" attr(href) ")"
-
-}
-
+  margin: 20px;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  box-shadow: 0px 0px 10px 4px  rgba(200,200,200, .5);
 `;
+  
   const Next = styled.div`
 height: 250px;
 `;
@@ -76,27 +114,43 @@ height: 250px;
   const SectionStyle = styled.section`
 width: 100%
 `;
-  // const Image = styled.img.attrs(() => ({
-  //   src: piano,
-  // }))`
-  // width: 20%;
-  // height: 30%;
-
-  //  animation-duration: 1s;
-  //  animation-iteration-count: infinite;
-  // `;
-  console.log(piano);  
-
+  
+  function handleImageChange(e) {
+    if(e.target.ariaLabel === 'previous-button'){
+      if(i === 0){
+        setI(imageRoll.length - 1);
+        return;
+      } 
+      setI(i - 1);
+    }
+    if(e.target.ariaLabel === 'next-button'){
+      if(i === imageRoll.length - 1){
+        setI(0);
+        return;
+      } 
+      setI(i + 1);
+    }
+    
+  }
 
   return (<>
     <GlobalStyle />
     <SectionStyle >
+      <Par>Call to action stuff here</Par>
       <Header> Create tracks on the piano</Header>
-      <ImageSlider></ImageSlider>
-      <Next></Next>
-      <Par></Par>
+      <Slider>
+        <ButRow> 
+          <NavB aria-label="previous-button" onClick={(e) => handleImageChange(e)}>
+            back 
+          </NavB>
+          <ImageB></ImageB>
+          <NavB aria-label="next-button" onClick={(e) => handleImageChange(e)}>
+            next 
+          </NavB>
+        </ButRow>
+      </Slider>
+      <Par>Another section for information here</Par>
     </SectionStyle>
-    
   </>
   );
 };
