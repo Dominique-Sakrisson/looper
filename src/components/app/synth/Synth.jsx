@@ -256,53 +256,46 @@ const Synth = () => {
   //user selects playback track
   function handlePlayback(e){
     e.preventDefault();
+    //grab the entire recording, 
+    //shape out the needed properties for the synth to play the note
+    //key: the note and the octave for the note to be played
+    //duration: the length of the note to be played
+    //timing: the starting time for the note to be played
     recording.forEach(item => {
       const { key, duration, timing } = item;
- 
+      //set the volume for the synth playback equal to the value of the volume the user selected in the synth settings
       fakeSynth.volume.value = volume;
-      
+      //execute the synth method that plays the sound
       fakeSynth.triggerAttackRelease(key, duration, Tone.now() + timing);
     });
   }
  
-
-  //shows a detailed list of each note when user plays
-  function renderRecording(){
-    const list = recording.map((item, index) => {
-      index++;
-      const { key, duration, timing } = item;
-      return <li key={`${key + duration + timing}`}>
-        <span>({index})</span>
-        <span>{key} </span>
-        <span>{duration} </span>
-        <span>{timing} </span>
-      </li>;
-    });
-    return list;
-  }
 
   //user toggles the instructions visible
   function handleShowInstructions(){
     (showInstructions) ? setShowInstructions(false) : setShowInstructions(true);
   }
 
+  //implementation of saving a recorded track to the users previous saved tracks
   function handleSaveTrack(){
+    //first checks that there is at least 1 note in the track before saving
     if(recording.length < 1){
       alert('Please record notes before saving');
       return;
     }
+    //toggle the saving state to fire off the useEffect for saving
     if(!saving){
       setSaving(true);
     } else {
       setSaving(false);
     }
-
+    
+    //grab the current tracklist values from local storage
+    //we will append to this list with a new entry for the currently recorded track
     const prevUserRecord = JSON.parse(localStorage.getItem('trackList'));
 
-  
-
     const localArr = [];
-
+    //verify the recording length is greater than 0 
     if(!prevUserRecord && recording.length > 0){
       const toAdd = {
         name: recordingName,
@@ -310,7 +303,6 @@ const Synth = () => {
       };
       if(toAdd.name){
         localArr.push(toAdd);
-      
         localStorage.setItem('trackList', JSON.stringify(localArr));
         return;
       }
@@ -318,7 +310,6 @@ const Synth = () => {
     
 
     if(prevUserRecord && recording.length > 0){
-      
       const toAdd = {
         name: recordingName,
         recording,
@@ -333,6 +324,7 @@ const Synth = () => {
 
   }
 
+  //the function to make the  new track name input a controlled input
   function handleRecordingNameChange(e){
     setRecordingName(e.target.value);
   }
