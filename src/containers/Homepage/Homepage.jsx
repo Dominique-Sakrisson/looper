@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import piano from '../../../public/assets/piano.png';
 import styled, { createGlobalStyle, keyframes, css } from "styled-components";
-import Synth from '/home/domcs/app/src/components/app/synth/Synth.jsx';
+// import Synth from '../../components/app/synth/Synth';
 import play from '../../../public/assets/play-button.png';
 
 const Homepage = () => {
