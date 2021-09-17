@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { render, screen,  cleanup, waitFor } from '@testing-library/react';
 import App from './App';
-import Synth from './synth/Synth';
+import Synth from './synth/Synth.jsx';
 import * as Tone from 'tone';
 
 //tests fail due to not having the initial entries with memeory router
