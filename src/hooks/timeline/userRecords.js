@@ -16,9 +16,5 @@ export const useUserRecords = () => {
     ],
   ]);
 
- 
-
-
-
 };
 
