@@ -18,8 +18,7 @@ const Settings = ({
   handleVolumeChange,
   handleDurationInput,
 }) => {
-  console.log('volume', volume);    
-  return (<>
+  return (
     <section className={style.settings}>
       {(showSettings) ? <div>
         <button aria-label="hide-settings"  onClick={handleShowSettings}> hide Settings </button>
@@ -32,15 +31,12 @@ const Settings = ({
           <Octave octave={octave} handleOctaveChange={handleOctaveChange} />
 
         </form>
-        <div>
-          effects playback/recording
-        </div>
+       
       </div> 
         : 
         <button aria-label="show-settings" onClick={handleShowSettings}> Show Settings </button>}
       
     </section>
-  </>
   );
 };
 
@@ -50,7 +46,7 @@ Settings.propTypes = {
   duration: PropTypes.number,
   recordNow: PropTypes.bool,
   handlePlayback: PropTypes.func,
-  handleRecordNow: PropTypes.func,
+  handleCurrentlyRecording: PropTypes.func,
   showSettings: PropTypes.bool,
   handleOctaveChange: PropTypes.func,
   handleVolumeChange: PropTypes.func,

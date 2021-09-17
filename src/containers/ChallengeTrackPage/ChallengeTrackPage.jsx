@@ -81,7 +81,7 @@ const ChallengeTrackPage = () => {
       <Synth />
       {/* <Playback 
       handlePlayback={handlePlayback} 
-      handleRecordNow={handleRecordNow} 
+      handleCurrentlyRecording={handleCurrentlyRecording} 
       recordNow={recordNow}
       showInstructions={showInstructions}
       handleShowInstructions={handleShowInstructions}/>
@@ -99,7 +99,7 @@ const ChallengeTrackPage = () => {
         showSettings={showSettings} 
         showInstructions={showInstructions}
         handlePlayback={handlePlayback}
-        handleRecordNow={handleRecordNow}
+        handleCurrentlyRecording={handleCurrentlyRecording}
         handleShowSettings={handleShowSettings}
         handleOctaveChange={handleOctaveChange} 
         handleVolumeChange={handleVolumeChange}

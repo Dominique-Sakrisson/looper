@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import React, { useState } from 'react';
 import * as Tone from 'tone';
-import { keys, timings } from '../keys/KeySection';
+import { keys, timings } from '../modules/Keys';
 const Drop = () => {
     
   const [dropStart, setDropStart] = useState('select a note');
@@ -24,9 +24,9 @@ const Drop = () => {
   const handleDropSubmit = (e) => {
     e.preventDefault();
     const osc = new Tone.Oscillator().toDestination();
-    // start at "C4"
+    // start at first chosen note
     osc.frequency.value = dropStart;
-    // ramp to "C2" over 2 seconds
+    // ramp to second chosen note over 2 seconds
     osc.frequency.rampTo(dropEnd, 2);
    
     // start the oscillator for 2 seconds

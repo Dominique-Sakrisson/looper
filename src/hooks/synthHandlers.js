@@ -4,8 +4,8 @@ export const useSynthHandlers = () => {
   const [duration, setDuration] = useState(1);
   const [showSettings, setShowSettings] = useState(false);
 
-    const [octave, setOctave] = useState(3);
-    const [volume, setVolume] = useState(0);
+  const [octave, setOctave] = useState(3);
+  const [volume, setVolume] = useState(0);
   
   const handleDurationInput = (e) => {
     if(e._reactName === 'onClick'){
@@ -18,14 +18,19 @@ export const useSynthHandlers = () => {
 
   function handleShowSettings(e){
     e.preventDefault();
-    console.log(duration);
-    console.log(showSettings);
-    if(e.target.ariaLabel === 'hide-settings' && showSettings){
+
+    if(!showSettings){
+      setShowSettings(true);
+    } else {
       setShowSettings(false);
     }
-    if(e.target.ariaLabel === 'show-settings' && !showSettings){
-      setShowSettings(true);
-    }
+    //this caused problems however having an aria label will be of benefit for testing
+    // if(e.target.ariaLabel === 'hide-settings' && showSettings){
+    //   setShowSettings(false);
+    // }
+    // if(e.target.ariaLabel === 'show-settings' && !showSettings){
+    //   setShowSettings(true);
+    // }
   }
   useEffect(() => {
 

@@ -2,163 +2,170 @@
 
 exports[`App component checks for keys 1`] = `
 <DocumentFragment>
-  <button>
-    Save Track
-  </button>
-  <ul
-    class="trackNotes"
-  >
-    <li>
-      Recordings
-    </li>
-  </ul>
-  <button>
-    Playback
-  </button>
-  <button>
-    record
-  </button>
-  <div
-    class="dark"
-  />
-  <img
-    alt="need help?"
-    src="/path/image"
-  />
-  <span>
-    need help?
-  </span>
-  <br />
-  <section
-    class="settings"
-  >
-    <button
-      aria-label="show-settings"
-    >
-       Show Settings 
-    </button>
-  </section>
   <div
     class="piano"
   >
     <div
-      class="keyBoard"
+      class="pianoTop"
     >
-      <section
-        class="keys"
+      <div
+        class="saveTrack"
       >
-        <span>
-          <button
-            aria-label="note-key"
-            class="keyButton c"
-            role="button"
-            value="c"
-          >
-            c
-          </button>
-        </span>
-        <span>
-          <button
-            aria-label="note-key"
-            class="keyButton d"
-            role="button"
-            value="d"
-          >
-            d
-          </button>
-        </span>
-        <span>
-          <button
-            aria-label="note-key"
-            class="keyButton e"
-            role="button"
-            value="e"
-          >
-            e
-          </button>
-        </span>
-        <span>
-          <button
-            aria-label="note-key"
-            class="keyButton f"
-            role="button"
-            value="f"
-          >
-            f
-          </button>
-        </span>
-        <span>
-          <button
-            aria-label="note-key"
-            class="keyButton g"
-            role="button"
-            value="g"
-          >
-            g
-          </button>
-        </span>
-        <span>
-          <button
-            aria-label="note-key"
-            class="keyButton a"
-            role="button"
-            value="a"
-          >
-            a
-          </button>
-        </span>
-        <span>
-          <button
-            aria-label="note-key"
-            class="keyButton b"
-            role="button"
-            value="b"
-          >
-            b
-          </button>
-        </span>
-        <button
-          aria-label="note-key"
-          class="keyButtonSharp"
-          role="button"
-          value="c#"
-        >
-           c#
+        <button>
+          Save Track
         </button>
-        <button
-          aria-label="note-key"
-          class="keyButtonSharp"
-          role="button"
-          value="d#"
-        >
-           d#
+        <br />
+      </div>
+      <div
+        class="playback"
+      >
+        <button>
+           
+          <img
+            alt=""
+            src="/path/image"
+            width="10px"
+          />
+           Play  
         </button>
-        <button
-          aria-label="note-key"
-          class="keyButtonSharp"
-          role="button"
-          value="f#"
-        >
-           f#
+        <button>
+          record
+          <div
+            class="dark"
+          />
         </button>
-        <button
-          aria-label="note-key"
-          class="keyButtonSharp"
-          role="button"
-          value="g#"
-        >
-           g#
+        <button>
+          <img
+            alt="need help?"
+            src="/path/image"
+          />
+          need help?
         </button>
+      </div>
+      <section
+        class="settings"
+      >
         <button
-          aria-label="note-key"
-          class="keyButtonSharp"
-          role="button"
-          value="a#"
+          aria-label="show-settings"
         >
-           a#
+           Show Settings 
         </button>
       </section>
     </div>
+    <section
+      class="keys"
+    >
+      <span>
+        <button
+          aria-label="note-key"
+          class="keyButton c"
+          role="button"
+          value="c"
+        >
+          c
+        </button>
+      </span>
+      <span>
+        <button
+          aria-label="note-key"
+          class="keyButton d"
+          role="button"
+          value="d"
+        >
+          d
+        </button>
+      </span>
+      <span>
+        <button
+          aria-label="note-key"
+          class="keyButton e"
+          role="button"
+          value="e"
+        >
+          e
+        </button>
+      </span>
+      <span>
+        <button
+          aria-label="note-key"
+          class="keyButton f"
+          role="button"
+          value="f"
+        >
+          f
+        </button>
+      </span>
+      <span>
+        <button
+          aria-label="note-key"
+          class="keyButton g"
+          role="button"
+          value="g"
+        >
+          g
+        </button>
+      </span>
+      <span>
+        <button
+          aria-label="note-key"
+          class="keyButton a"
+          role="button"
+          value="a"
+        >
+          a
+        </button>
+      </span>
+      <span>
+        <button
+          aria-label="note-key"
+          class="keyButton b"
+          role="button"
+          value="b"
+        >
+          b
+        </button>
+      </span>
+      <button
+        aria-label="note-key"
+        class="keyButtonSharp"
+        role="button"
+        value="c#"
+      >
+         c#
+      </button>
+      <button
+        aria-label="note-key"
+        class="keyButtonSharp"
+        role="button"
+        value="d#"
+      >
+         d#
+      </button>
+      <button
+        aria-label="note-key"
+        class="keyButtonSharp"
+        role="button"
+        value="f#"
+      >
+         f#
+      </button>
+      <button
+        aria-label="note-key"
+        class="keyButtonSharp"
+        role="button"
+        value="g#"
+      >
+         g#
+      </button>
+      <button
+        aria-label="note-key"
+        class="keyButtonSharp"
+        role="button"
+        value="a#"
+      >
+         a#
+      </button>
+    </section>
   </div>
   <section
     class="chart"
@@ -173,31 +180,23 @@ exports[`App component checks for keys 1`] = `
       // conditional to assign onScreen or OffScreen as well
       offScreen"
   >
-    <img
-      alt="need help?"
-      src="/path/image"
-    />
-    <span>
-      CLOSE
-    </span>
-    <div>
+    <div
+      class="instructionText"
+    >
       <h3>
-        How to record
+        How to record 
       </h3>
       <p>
-        (1)Hit record
+        (1)When record light is green you are not recording
       </p>
       <p>
-        (2)Play notes
+        (2)Select record to turn light red
       </p>
       <p>
-        (3)Hit record
+        (3)Playing notes will now save them to a track
       </p>
       <p>
-        (4)Hit playback
-      </p>
-      <p>
-        (4)Wait a few seconds
+        (4)Select playback to play your current track
       </p>
       <h3>
         Has keyboard support!
@@ -209,6 +208,11 @@ exports[`App component checks for keys 1`] = `
         Press keys 1 - 5 to play sharp notes
       </p>
     </div>
+    <img
+      alt="need help?"
+      class="close"
+      src="/path/image"
+    />
   </section>
 </DocumentFragment>
 `;
@@ -232,27 +236,62 @@ exports[`App component renders App 1`] = `
         Record track 
       </li>
     </a>
-    <a
-      href="/challenge"
-    >
-      <li>
-        Play Challenge
-      </li>
-    </a>
   </ul>
   <section
-    class="sc-gtsrHT cdQWYq"
+    class="sc-iCoGMd fyCuRb"
   >
-    <h1>
-      Welcome to the homepage
-    </h1>
-    <h3>
-      (A work in progress)
-    </h3>
-    <img
-      class="sc-dlnjwi jvXKti"
-      src="/path/image"
-    />
+    <p
+      class="sc-jSFjdj bpXKGN"
+    >
+      Call to action stuff here
+    </p>
+    <div
+      class="sc-bdnxRM lbyISz"
+    >
+       Create tracks on the piano
+    </div>
+    <div
+      class="sc-gtsrHT jiPPVr"
+    >
+      <div
+        class="sc-hKFxyN lmlViE"
+      >
+        <button
+          aria-label="previous-button"
+          class="sc-eCApnc lkunDH"
+        >
+          back
+        </button>
+        <div
+          aria-label="slider of images"
+          class="sc-dlnjwi lcamkI"
+        />
+        <button
+          aria-label="next-button"
+          class="sc-eCApnc lkunDH"
+        >
+          next
+        </button>
+      </div>
+    </div>
+    <p
+      class="sc-jSFjdj bpXKGN"
+    >
+      Another section for information here
+    </p>
   </section>
+  <div>
+    <a
+      href="https://tonejs.github.io/"
+    >
+      Powered by
+      <img
+        alt="contribution"
+        height="100px"
+        src="/path/image"
+        width="200px"
+      />
+    </a>
+  </div>
 </DocumentFragment>
 `;
