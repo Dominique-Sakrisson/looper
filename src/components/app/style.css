@@ -146,16 +146,6 @@
         height: 2rem;
     }
   
-
-    .pianoInstructions{
-        display: none;
-        position: fixed;
-        background-color: rgba(255,255,55, 1);
-        top: 10%;
-        width: 80%;
-    }
-
-   
     .settings{
       display: flex;
       flex-direction: column;
@@ -194,10 +184,6 @@
     }
    
     .settingsForm :nth-child(2){
-
-
-    }
-    .settingsForm :nth-child(2){
         /* background-color: blue; */
         margin: 5px;
        
@@ -207,16 +193,28 @@
         /* background-color: blue; */
 
     }
-  
-    .onScreen{
-        display: block;
+    .pianoInstructions{
+        display: none;
+        position: fixed;
+        margin: 0 auto;
         top: 10%;
+        width: 50%;
+    }
+  .instructionText{
+      font-family: monospace;
+      text-align: center;
+  }
+    .onScreen{
+        display: flex;
+        width: 60%;
+        flex-direction:row;
+        margin:0 0 0 5rem;
+        z-index: 2;
         /* right: 50%; */
         background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
         animation: slideIn .25s linear;
         border-radius: 1rem;
         padding: 10px;
-        text-align: center;
     }
     .offScreen{
         top: 10%;
@@ -224,7 +222,14 @@
         opacity: 0;
         animation: slideOut .5s linear;
     }
-
+    .close{
+        position: relative;
+        /* left:2rem; */
+    }
+    .close:hover{
+        border-radius: 50%;
+        box-shadow: 0 0 1rem rgb(206, 35, 35);
+    }
     @keyframes slideIn {
         from{
             
@@ -246,21 +251,6 @@
             transform: translateX(0%);
         }
     }
-    /* @keyframes appear {
-        from{
-            background-color: rgba(255,255,55, 1);
-            display: block;
-            transform: translateX(0%);
-        }
-
-        to{
-            background-color: rgba(50,11,4,1);
-            display: none;
-            transform: translateX(0%);
-        }
-    } */
-
-  
 
     .playback{
         width: 100%;
@@ -427,6 +417,7 @@
     .pianoInstructions{
         display: none;
         position: fixed;
+        margin: 0 auto;
         background-color: rgba(255,255,55, 1);
         top: 10%;
         width: 80%;
@@ -486,14 +477,20 @@
     }
   
     .onScreen{
-        display: block;
+        display: flex;
+        justify-content: center;
+        margin: 0 auto;
         top: 10%;
-        /* right: 50%; */
+        z-index: 2;
         background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
         animation: slideIn .25s linear;
         border-radius: 1rem;
-        padding: 10px;
+        padding: 10px 0 10px 0;
         text-align: center;
+    }
+
+    .onScreen h3 {
+        width: 100%;
     }
     .offScreen{
         top: 10%;

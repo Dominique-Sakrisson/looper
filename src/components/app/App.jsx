@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, { useState } from 'react';
-import "tailwindcss/tailwind.css"
+
 import { Switch, Route, Link, BrowserRouter as Router } from 'react-router-dom';
 import Header from './header/Header';
 import HomePage from '../../containers/Homepage/Homepage.jsx';

@@ -382,7 +382,9 @@ const Synth = () => {
       {recChart}   
     </section>
 
-    <Instructions showInstructions={showInstructions} handleShowInstructions={handleShowInstructions} 
+    <Instructions 
+      showInstructions={showInstructions} 
+      handleShowInstructions={handleShowInstructions} 
     />
   </>
   ); 
