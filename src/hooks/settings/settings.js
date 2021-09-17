@@ -5,12 +5,6 @@ export const useSettings = (dur, oct, vol) => {
   const [octave, setOctave] = useState(oct);
   const [volume, setVolume] = useState(vol);
 
-  // useEffect(() => {
-  //   setDuration(dur);
-  //   setOctave(oct);
-  //   setVolume(vol);
-  // }, []);
-
   useEffect(() => {        
     setVolume(vol);
   }, [vol]);

@@ -2,8 +2,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import style from '../style.css';
-import questionMark from '../../../../public/assets/questionMark.png';
-import questionMarkGreen from '../../../../public/assets/questionMarkGreen.png';
 import closeButton from '../../../../public/assets/close-button.png';
 const Instructions = ({ showInstructions, handleShowInstructions }) => {
 
@@ -23,12 +21,12 @@ const Instructions = ({ showInstructions, handleShowInstructions }) => {
         <p>Press keys c, d, e, f, g, a, b</p>
         <p>Press keys 1 - 5 to play sharp notes</p>
       </div>
-       <img 
-          className={style.close}
-          src={closeButton} 
-          alt="need help?" 
-          onClick={handleShowInstructions}
-        />
+      <img 
+        className={style.close}
+        src={closeButton} 
+        alt="need help?" 
+        onClick={handleShowInstructions}
+      />
     </section>
   );
 };

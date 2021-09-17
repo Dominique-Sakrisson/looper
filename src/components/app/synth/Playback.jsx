@@ -6,12 +6,7 @@ import questionMark from '../../../../public/assets/questionMark.png';
 import questionMarkGreen from '../../../../public/assets/questionMarkGreen.png';
 import playButton from '../../../../public/assets/play-button.png';
 
-
-
 const Playback = ({ handlePlayback, handleCurrentlyRecording, handleShowInstructions, recordNow, showInstructions }) => {
- 
-  // const {handlePlayback, handleCurrentlyRecording, recordNow} = usePlayback();
-  
   return (
     <div className={style.playback}>
       <button onClick={handlePlayback}> <img src={playButton} width="10px" alt="" /> Play  </button>

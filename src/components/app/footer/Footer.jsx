@@ -7,7 +7,7 @@ const Footer = () => {
     <div>
       <a href="https://tonejs.github.io/">
           Powered by 
-          <img height='100px' width='200px' src={tonejs} alt="contribution" />
+        <img height='100px' width='200px' src={tonejs} alt="contribution" />
       </a>
       
     </div>

@@ -58,7 +58,7 @@ const Synth = () => {
   //picks up from previous recording state
   useInterval(songTiming, 100);
 
-  //half assed attempt at a tracking bar for current place in the track
+  
   const compStyle = {
     zIndex: '2',
     position: 'absolute',
@@ -168,7 +168,7 @@ const Synth = () => {
   //validates recording bool, pushes new note
   function checkAndSetRec(keyString){
     if(recordNow){
-      // const timing = Tone.now();
+  
       setRecording(prevRecord => {
         prevRecord.push({ key: keyString, duration, timing: recTime, octave });
         return prevRecord;

@@ -5,7 +5,7 @@ import style from '../style.css';
 import Volume from './Volume';
 import Octave from './Octave';
 import Duration from './Duration';
-// import { useSettings } from '../../../hooks/settings/settings';
+
 
 
 const Settings = ({

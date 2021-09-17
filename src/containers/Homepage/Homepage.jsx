@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import ReactDOM from 'react-dom';
 import piano from '../../../public/assets/piano.png';
 import styled, { createGlobalStyle, keyframes, css } from "styled-components";
-// import Synth from '../../components/app/synth/Synth';
 import play from '../../../public/assets/play-button.png';
 
 const Homepage = () => {
-  // const [slides, setSlides] = useState([{ src: piano, alt: '' }]);
   const [activeSlide, setActiveSlide] = useState(0);
   const [sectionStyle, setSectionStyle] = useState({
     display: 'flex',
@@ -51,13 +48,11 @@ text-align: center;
 animation: ${pulse} 2000ms infinite;
 &:hover{
   animation: ${clear} 2000ms infinite;
-  // animation-play-state: paused;
-
 };
 `;
   const Slider = styled.div`
   display: flex;
-  // flex-direction: column;
+
   width: 30%
   flex-wrap: wrap;
   justify-content: center;
@@ -71,8 +66,6 @@ animation: ${pulse} 2000ms infinite;
 background-image: url(${currentImage});
 min-height:  20rem;
 width: 500px;
-
-// background-attachment: fixed;
 background-position: center;
 background-repeat: no-repeat;
 background-size: cover;
@@ -83,7 +76,6 @@ box-sizing: content-box;
   const ButRow = styled.div`
   display: flex;
   height: 20rem;
-  // margin: 0 12rem;
   width: 100%
   position: relative;
   justify-content: space-between;

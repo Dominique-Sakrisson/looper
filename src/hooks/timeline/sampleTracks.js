@@ -14,7 +14,7 @@ export const useSampleTracks = (songNumber) => {
       'sample',
       'Sample',
       0, //start
-      1000// (recTime > 0) ? recTime * 1000 : 5000, //finish
+      1000//finish
     ],
   ]);
     //creating the chart in state

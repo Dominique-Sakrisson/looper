@@ -24,13 +24,6 @@ export const useSynthHandlers = () => {
     } else {
       setShowSettings(false);
     }
-    //this caused problems however having an aria label will be of benefit for testing
-    // if(e.target.ariaLabel === 'hide-settings' && showSettings){
-    //   setShowSettings(false);
-    // }
-    // if(e.target.ariaLabel === 'show-settings' && !showSettings){
-    //   setShowSettings(true);
-    // }
   }
   useEffect(() => {
 

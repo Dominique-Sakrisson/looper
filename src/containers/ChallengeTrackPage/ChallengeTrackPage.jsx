@@ -14,22 +14,6 @@ const ChallengeTrackPage = () => {
   // the array of notes to compare user notes to
   const compare = [songData.slice(2, songData.length)];
 
-  //fix this up to listen to each song
-   //user selects playback track
-  //  function handlePrePlayback(e){
-    
-  //   preSongData.forEach(item => {
-  //     if(item === preSongData[0] || item === preSongData[1]){
-  //       return;
-  //     }
-  //     const key = item[0];
-  //     const duration = (item[3] - item[2]) * .001;
-  //     const timing = item[3] * .001;
-  //     fakeSynth.volume.value = volume;
-  //     fakeSynth.triggerAttackRelease(key, duration, Tone.now() + timing);
-  //   });
-  // }
-
 
 
   /* 

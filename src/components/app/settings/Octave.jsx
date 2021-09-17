@@ -1,9 +1,9 @@
 /* eslint-disable max-len */
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import style from '../style.css'
+import style from '../style.css';
 import octavePic from '../../../../public/assets/octave.png';
-// import { useOctave } from '../../../hooks/settings/octave';
+
 
 const Octave = ({ octave, handleOctaveChange }) => {
  

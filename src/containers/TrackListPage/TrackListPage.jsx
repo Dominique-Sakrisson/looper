@@ -3,8 +3,6 @@ import defaultTracks from '../../components/app/modules/DefaultSongs.js';
 import styled, { createGlobalStyle, keyframes, css } from "styled-components";
 
 const tracks = [...defaultTracks];
-// const userTracks = localStorage.getItem('trackList');
-
 const TrackListPage = () => {
   const [userTracks, setUserTracks] = useState(
     (JSON.parse(localStorage.getItem('trackList'))) ? JSON.parse(localStorage.getItem('trackList')) : []);
