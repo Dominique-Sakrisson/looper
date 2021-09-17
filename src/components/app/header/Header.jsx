@@ -6,6 +6,9 @@ import style from '../style.css';
 const Header = () => {
   return (
     <ul className={style.header}> 
+      <NavLink to="/" activeClassName={style.current} exact>
+        <li>Home Page</li> 
+      </NavLink>
 
       <NavLink to="/tracks" activeClassName={style.current} exact> 
         <li>Tracks</li> 
