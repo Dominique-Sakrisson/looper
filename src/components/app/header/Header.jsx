@@ -17,6 +17,9 @@ const Header = () => {
       <NavLink to="/record" activeClassName={style.current} exact>
         <li>Record track </li> 
       </NavLink>
+      <NavLink to="/signUp" activeClassName={style.current} exact>
+        <li>Sign Up </li> 
+      </NavLink>
 
       {/* <NavLink to="/challenge" activeClassName={style.current} exact>
         <li>Play Challenge</li> 

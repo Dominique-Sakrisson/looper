@@ -1,0 +1,18 @@
+.signUpForm{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    box-shadow: 0 0 20px #000;
+    width: 65%;
+    justify-content: center;
+    align-items: center;
+    background-color: aqua;
+    padding: 3rem;
+    font-family: monospace;
+}
+.signUpForm input{
+    font-size: 1.25rem;
+}
+.signUpForm p{
+    font-size: 1.5rem;
+}

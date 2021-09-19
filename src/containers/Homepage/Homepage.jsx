@@ -99,12 +99,14 @@ box-sizing: content-box;
 
   const Par = styled.p`
   display: flex;
+  flex-direction: column;
   height: 300px;
   margin: 20px;
   justify-content: center;
   align-items: center;
   background: #fff;
   box-shadow: 0px 0px 10px 4px  rgba(200,200,200, .5);
+  padding-bottom: 1rem;
 `;
   
   const Next = styled.div`
@@ -136,7 +138,16 @@ width: 100%
   return (<>
     <GlobalStyle />
     <SectionStyle >
-      <Par>Call to action stuff here</Par>
+      <Par>
+        <h1>Sign Up to..</h1>
+        <h2>Play with friends 😀</h2>
+        <h2>Network 😀</h2>
+        <h2>Challenge Mode! 😀</h2>
+        <form action="/api" method="post" className="form">
+          <button type="submit">User Sign Up</button>
+        </form>
+        
+      </Par>
       <Header> Create tracks on the piano</Header>
       <Slider>
         <ButRow> 

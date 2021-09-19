@@ -17,13 +17,21 @@ const env = Object.entries({
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: 'bundle.[hash].js',
+    filename: 'bundle.[fullhash].js',
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
   },
   devServer: {
     port: 7891,
     historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000/api'
+      },
+      '/api/users': {
+        target: 'http://localhost:3000/api/users'
+      }
+    }
   },
   plugins: [
     new HtmlPlugin({ template: './src/index.html' }),
