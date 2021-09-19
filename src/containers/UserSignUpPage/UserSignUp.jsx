@@ -6,23 +6,23 @@ const userSignUp = () => {
 
   const [first_name, set_first_name] = useState('');
   const [acceptName, setAcceptName] = useState(false);
-  // const [confirmName, setConfirmName] = useState('');
+
   
-  const [lastName, setLastName] = useState('');
+  const [last_name, setLastName] = useState('');
   const [acceptLastName, setAcceptLastName] = useState(false);
-  const [confirmLastName, setConfirmLastName] = useState('');
+
   const [email, setEmail] = useState('');
   const [acceptEmail, setAcceptEmail] = useState(false);
-  const [confirmEmail, setConfirmEmail] = useState('');
+
   const [phone, setPhone] = useState('');
   const [acceptPhone, setAcceptPhone] = useState(false);
-  const [confirmPhone, setConfirmPhone] = useState('');
+ 
   const [formValid, setFormValid] = useState(false);
 
 
   
   useEffect(() => {
-    document.getElementById('lastName').style.display = 'none';
+    document.getElementById('last_name').style.display = 'none';
     document.getElementById('email').style.display = 'none';
     // document.getElementById('email').style.backgroundColor = 'blue';
     // // document.getElementById('phone').style.backgroundColor = 'red';
@@ -33,52 +33,54 @@ const userSignUp = () => {
     if(acceptName){
       // setConfirmName(name);
       document.getElementById('first_name').style.display = 'none';
-      document.getElementById('lastName').style.display = 'block';
+      document.getElementById('last_name').style.display = 'block';
     }
   }), [acceptName];
 
   useEffect(() => {
     if(acceptLastName){
-      setConfirmLastName(lastName);
+      document.getElementById('last_name').style.display = 'none';
+      document.getElementById('email').style.display = 'block';
     }
   }), [acceptLastName];
 
-  useEffect(() => {
-    if(confirmLastName.length > 0){
-      document.getElementById('lastName').style.display = 'none';
-      document.getElementById('email').style.display = 'block';
-    }
-  }), [confirmLastName];
+  // useEffect(() => {
+  //   if(confirmLastName.length > 0){
+  //     document.getElementById('last_name').style.display = 'none';
+  //     document.getElementById('email').style.display = 'block';
+  //   }
+  // }), [confirmLastName];
 
   useEffect(() => {
     if(acceptEmail){
-      setConfirmEmail(email);
-    }
-  }), [acceptEmail];
-
-  useEffect(() => {
-    if(confirmEmail.length > 0){
       document.getElementById('email').style.display = 'none';
       document.getElementById('phone').style.display = 'block';
     }
-  }), [confirmEmail];
+  }), [acceptEmail];
+
+  // useEffect(() => {
+  //   if(confirmEmail.length > 0){
+  //     document.getElementById('email').style.display = 'none';
+  //     document.getElementById('phone').style.display = 'block';
+  //   }
+  // }), [confirmEmail];
   useEffect(() => {
     if(acceptPhone){
-      setConfirmPhone(phone);
-
-    }
-  }), [acceptPhone];
-
-  useEffect(() => {
-    if(confirmPhone.length > 9){
       document.getElementById('phone').style.display = 'none';
-    }
-  }), [confirmPhone];
 
-  function confirmInput(e){ 
-    e.preventDefault();
-    console.log(e.nativeEvent.path);
-  }
+    }
+  }), [phone];
+
+  // useEffect(() => {
+  //   if(confirmPhone.length > 9){
+  //     document.getElementById('phone').style.display = 'none';
+  //   }
+  // }), [confirmPhone];
+
+  // function confirmInput(e){ 
+  //   e.preventDefault();
+  //   console.log(e.nativeEvent.path);
+  // }
   return (<div className={style.signUpForm}>
     {/* the form for collecting user information */}
     <form id="userForm" action="/api/users" method="post">
@@ -88,20 +90,21 @@ const userSignUp = () => {
       <h1>Sign Up</h1>
       
       { //Check input first and last name to greet user
-        (first_name && lastName && email && confirmPhone) ? 
+        (first_name && last_name && email && acceptPhone) ? 
         //prompt of complete form
           <p>Hello {first_name} 
-            {confirmLastName} <br/>
-          Email: {confirmEmail}<br/> 
-          phone: {confirmPhone}<br/>
+            {last_name} <br/>
+          Email: {email}<br/> 
+          phone: {phone}<br/>
         Is this all correct?
-            <button type="submit" onClick={() => {
+            <button type="submit" onClick={(e) => {
+              console.log(e);
               setFormValid(true);
             }}> Confirm</button> 
           </p>
           : 
         //prompt if form isnt complete
-          <p>Hello {(first_name) ? `${first_name} ${confirmLastName}` : '...what was your name?'} </p>
+          <p>Hello {(first_name) ? `${first_name} ${last_name}` : '...what was your name?'} </p>
       }
 
       <div id="inputLabels">
@@ -114,7 +117,7 @@ const userSignUp = () => {
                 {/* onclick fire confirmInput to determine which input were working on and then will proceed with grabbing this input labels htmlFor */}
                 <button onClick={(e) => {
                   e.preventDefault();
-                  confirmInput(e);
+                  // confirmInput(e);
                   setAcceptName(true);
                 }}> confirm name</button>
               </div> : ''
@@ -124,13 +127,13 @@ const userSignUp = () => {
 
         {/* this div displays the confirm button once the name has been entered */}
       
-        <label id="lastName" htmlFor="lastName" >
+        <label id="last_name" htmlFor="last_name" >
           <p>Last name?</p>
-          <input onChange={(e) => setLastName(e.target.value)} type="text" value={lastName} name="lastName"/>
+          <input onChange={(e) => setLastName(e.target.value)} type="text" value={last_name} name="last_name"/>
           {/* this div displays the confirm button once the last name has been entered */}
           <div>
             { //does last name have a value?
-              (lastName.length > 0) 
+              (last_name.length > 0) 
                 ? <div>
                   <button onClick={(e) => {
                     e.preventDefault();

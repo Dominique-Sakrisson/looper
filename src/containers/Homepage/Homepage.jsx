@@ -143,7 +143,7 @@ width: 100%
         <h2>Play with friends 😀</h2>
         <h2>Network 😀</h2>
         <h2>Challenge Mode! 😀</h2>
-        <form action="/api" method="post" className="form">
+        <form action="/api/userForm" method="get" className="form">
           <button type="submit">User Sign Up</button>
         </form>
         
