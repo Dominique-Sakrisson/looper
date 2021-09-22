@@ -4,6 +4,10 @@ import piano from '../../../public/assets/piano.png';
 import styled, { createGlobalStyle, keyframes, css } from "styled-components";
 // import Synth from '../../components/app/synth/Synth';
 import play from '../../../public/assets/play-button.png';
+import pianoIcon from '../../../public/assets/piano-icon.png';
+import violinIcon from '../../../public/assets/violin-icon.png';
+import baseGuitarIcon from '../../../public/assets/base-guitar-icon.png';
+import saxaphoneIcon from '../../../public/assets/saxaphone-icon.png';
 
 const Homepage = () => {
   // const [slides, setSlides] = useState([{ src: piano, alt: '' }]);
@@ -12,7 +16,7 @@ const Homepage = () => {
     display: 'flex',
     justifyContent: 'center',
   });
-  const imageRoll = [piano, play];
+  const imageRoll = [piano, play, pianoIcon, violinIcon, saxaphoneIcon, baseGuitarIcon];
   const [i, setI] = useState(0);
   
   const [currentImage, setCurrentImage] = useState(imageRoll[i]);
@@ -20,12 +24,15 @@ const Homepage = () => {
 
   useEffect(() => {
     setCurrentImage(imageRoll[i]);
-    
+     
   }), [i];
 
   const GlobalStyle = createGlobalStyle`
   body{
     background-color: #eee;
+  }
+  img {
+    width: '300px';
   }
 `; 
 
@@ -83,7 +90,7 @@ box-sizing: content-box;
   const ButRow = styled.div`
   display: flex;
   height: 20rem;
-  // margin: 0 12rem;
+
   width: 100%
   position: relative;
   justify-content: space-between;
@@ -97,24 +104,49 @@ box-sizing: content-box;
   border: 2px solid black;
 `;
 
-  const Par = styled.p`
+  const Par = styled.div`
   display: flex;
   flex-direction: column;
-  height: 300px;
   margin: 20px;
   justify-content: center;
   align-items: center;
   background: #fff;
   box-shadow: 0px 0px 10px 4px  rgba(200,200,200, .5);
   padding-bottom: 1rem;
+  
+`;
+
+const InstrIcon = styled.div`
+width: 10%;
+border-radius: 50%;
+padding: 2rem;
+box-shadow: 0px 0px 10px 4px  rgba(200,200,200, .5);
+text-align: center;
+img{
+  margin: .5rem;
+  width: 100px;
+  height: 100px;
+}
 `;
   
   const Next = styled.div`
 height: 250px;
 `;
 
-  const SectionStyle = styled.section`
-width: 100%
+const TopSection = styled.section`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+`;
+const MidSection = styled.section`
+  width: 95%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
+  background: #fff;
+  padding: 2rem;
 `;
   
   function handleImageChange(e) {
@@ -137,18 +169,31 @@ width: 100%
 
   return (<>
     <GlobalStyle />
-    <SectionStyle >
+    <TopSection >
       <Par>
         <h1>Sign Up to..</h1>
         <h2>Play with friends 😀</h2>
         <h2>Network 😀</h2>
         <h2>Challenge Mode! 😀</h2>
-        <form action="/api/userForm" method="get" className="form">
+
+        
+        <form action="/api/v1/forms" method="get" className="form">
           <button type="submit">User Sign Up</button>
         </form>
+
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          fetch('http://localhost:3000/api/v1/forms', {
+            method: 'GET'
+          });
+        }}className="form">
+          <button type="submit">blorp</button>
+        </form>
+        
         
       </Par>
-      <Header> Create tracks on the piano</Header>
+      <Header> Create tracks <br/>Share with friends</Header>
+      
       <Slider>
         <ButRow> 
           <NavB aria-label="previous-button" onClick={(e) => handleImageChange(e)}>
@@ -160,8 +205,33 @@ width: 100%
           </NavB>
         </ButRow>
       </Slider>
-      <Par>Another section for information here</Par>
-    </SectionStyle>
+
+      <Par>
+        Another section for information here
+      </Par>
+      
+    
+    </TopSection>
+    <MidSection>
+      
+      
+      <InstrIcon > 
+        <img src={pianoIcon} alt="piano icon" />
+      </InstrIcon>
+      
+      <InstrIcon > 
+        <img src={violinIcon} alt="violin icon" />
+      </InstrIcon>
+
+      <InstrIcon > 
+        <img src={baseGuitarIcon} alt="base guitar icon" />
+      </InstrIcon>
+
+      <InstrIcon > 
+        <img src={saxaphoneIcon} alt="saxaphone icon" />
+      </InstrIcon>
+    
+    </MidSection>
   </>
   );
 };
