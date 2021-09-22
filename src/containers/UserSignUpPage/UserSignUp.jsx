@@ -9,20 +9,12 @@ const userSignUp = () => {
   const search = useLocation().search;
   const name = new URLSearchParams(search).get('error');
 
- console.log(search,' is the search');
- console.log(name,' is the name');
+ console.log(search, ' is the search');
+ console.log(name, ' is the name');
   const [user, setUser] = useState({});
-
-  const [first_name, set_first_name] = useState('');
-  const [acceptName, setAcceptName] = useState(false);
-
-  
-  const [last_name, setLastName] = useState('');
-  const [acceptLastName, setAcceptLastName] = useState(false);
 
   const [email, setEmail] = useState('');
   const [acceptEmail, setAcceptEmail] = useState(false);
-
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [acceptPassword, setAcceptPassword] = useState(false);
@@ -41,21 +33,21 @@ const userSignUp = () => {
   // useEffect(() => {
   //   if(acceptName){
   //     // setConfirmName(name);
-  //     document.getElementById('first_name').style.display = 'none';
-  //     document.getElementById('last_name').style.display = 'block';
+  //     document.getElementById('').style.display = 'none';
+  //     document.getElementById('').style.display = 'block';
   //   }
   // }), [acceptName];
 
   // useEffect(() => {
   //   if(acceptLastName){
-  //     document.getElementById('last_name').style.display = 'none';
+  //     document.getElementById('').style.display = 'none';
   //     document.getElementById('email').style.display = 'block';
   //   }
   // }), [acceptLastName];
 
   // useEffect(() => {
   //   if(confirmLastName.length > 0){
-  //     document.getElementById('last_name').style.display = 'none';
+  //     document.getElementById('').style.display = 'none';
   //     document.getElementById('email').style.display = 'block';
   //   }
   // }), [confirmLastName];
@@ -88,11 +80,12 @@ const userSignUp = () => {
     }
   }), [acceptPassword2];
 
-
   return (<div className={style.signUpForm}>
     {/* main header for the form
       displays users name as they fill out forms */}
-    <h1>Sign Up</h1>
+    <h1>Sign Up Form</h1>
+
+    <p>Welcome To Looper</p>
     {/* the form for collecting user information */}
     <form id="userForm" action="/api/v1/users" method="post">
       { //Check input first and last name to greet user
@@ -102,7 +95,7 @@ const userSignUp = () => {
             <h3>You entered</h3>
             <p>
           Email: {email}<br/> 
-          password: {password}<br/>
+          password: {'*'.repeat(password.length)} <br/>
             </p>
         Is this all correct?
             <button type="submit" onClick={(e) => {
@@ -112,7 +105,7 @@ const userSignUp = () => {
           </div>
           : 
         //prompt if form isnt complete
-          <p>Welcome {(first_name) ? `${first_name} ${last_name}` : 'to Looper'} </p>
+          ''
       }
 
       <div id="inputLabels">
