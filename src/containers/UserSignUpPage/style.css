@@ -1,3 +1,7 @@
+*{
+    text-align: center;
+}
+
 .signUpForm{
     display: flex;
     flex-direction: column;
@@ -10,11 +14,14 @@
     padding: 3rem;
     font-family: monospace;
 }
+
 .signUpForm input{
     font-size: 1.25rem;
+    margin-bottom: .5rem;
 }
 .signUpForm p{
     font-size: 1.5rem;
+    text-align: center;
 }
 
 .errorMessage{
