@@ -29,34 +29,6 @@ const userSignUp = () => {
     document.getElementById('password2').style.display = 'none';
   }), [];
 
-  // useEffect(() => {
-  //   if(acceptName){
-  //     // setConfirmName(name);
-  //     document.getElementById('').style.display = 'none';
-  //     document.getElementById('').style.display = 'block';
-  //   }
-  // }), [acceptName];
-
-  // useEffect(() => {
-  //   if(acceptLastName){
-  //     document.getElementById('').style.display = 'none';
-  //     document.getElementById('email').style.display = 'block';
-  //   }
-  // }), [acceptLastName];
-
-  // useEffect(() => {
-  //   if(confirmLastName.length > 0){
-  //     document.getElementById('').style.display = 'none';
-  //     document.getElementById('email').style.display = 'block';
-  //   }
-  // }), [confirmLastName];
-  // useEffect(() => {
-  //   if(acceptEmail > 0){
-  //     document.getElementById('email').style.display = 'none';
-  //     document.getElementById('password').style.display = 'block';
-  //   }
-  // }), [email];
-
   useEffect(() => {
     if(acceptEmail){
       document.getElementById('email').style.display = 'none';
@@ -82,6 +54,7 @@ const userSignUp = () => {
 
   const CheckedIcon = styled.img`
     position: relative;
+    text-align: start;
     top: .75rem;
     width: 2rem;
     height: 2rem;

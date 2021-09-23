@@ -140,12 +140,6 @@
         width: 2rem;
         height: 2rem;
     }
-     /* img{
-        margin-top: 1rem;
-        width: 2rem;
-        height: 2rem;
-    } */
-  
     .settings{
       display: flex;
       flex-direction: column;
@@ -411,6 +405,16 @@
         margin-top: 1rem;
         width: 2rem;
         height: 2rem;
+        padding: 1rem;
+    }
+    * > img {
+        background: white;
+        display: flex;
+    }
+    * > * > * > img:hover{
+        background: none;
+        display: flex;
+
     }
   
 
@@ -544,19 +548,6 @@
             transform: translateX(0%);
         }
     }
-    /* @keyframes appear {
-        from{
-            background-color: rgba(255,255,55, 1);
-            display: block;
-            transform: translateX(0%);
-        }
-
-        to{
-            background-color: rgba(50,11,4,1);
-            display: none;
-            transform: translateX(0%);
-        }
-    } */
 }
 
 /* Medium devices (landscape tablets, 768px and up) */
@@ -576,6 +567,7 @@
     width: 100%;
     margin: 1.5rem;
     padding: 1.5rem;
+    
     display: flex;
     justify-content: space-evenly;
 }
@@ -595,13 +587,17 @@
     position: relative;
     bottom: .5rem;
     right: .25rem
+
 }
 .light, .dark {
     position: relative;
     left: .25rem;
 }
 
-
+.trackTypeTitle{
+    position: fixed;
+    top: 0;
+}
 .settings{
     width: 50%;
 }

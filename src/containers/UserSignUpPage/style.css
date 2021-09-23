@@ -27,10 +27,14 @@
 .errorMessage{
     padding: 1rem;
     margin: 1rem;
-    background-color: rgba(214, 35, 35, 0.8);
+    
     color: #FFF;
     border-radius: 1rem;
     animation: fadeIn 500ms linear;
+}
+
+* > .errorMessage{
+    background-color: rgba(214, 35, 35, 0.8);
 }
 
 @keyframes fadeIn{
