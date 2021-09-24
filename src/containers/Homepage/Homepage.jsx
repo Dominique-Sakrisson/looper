@@ -44,10 +44,10 @@ background-position: center;
 background-repeat: no-repeat;
 background-size: cover;
 box-sizing: content-box;
-animation: cycle 6s infinite;
-@keyframes cycle{
-  10%{background-image: url(${imageRoll[i]});
-}
+animation: cycleImg 6s infinite;
+@keyframes cycleImg{
+//   10%{background-image: url(${imageRoll[i]});
+// }
   25%{background-image: url(${imageRoll[i + 1]});
 }
   40%{background-image: url(${imageRoll[i + 2]});
@@ -160,11 +160,11 @@ img{
           <h2>Create songs with your friends</h2>
           <ImageB></ImageB>
         </CtaCol>
-
+{/* 
         <CtaCol>
           <h2>Choose from our selection of instruments</h2>
           <ImageB></ImageB>
-        </CtaCol>
+        </CtaCol> */}
         
         <form action="/api/v1/forms" method="get" className="form">
           <SubmitButton type="submit">Play now!</SubmitButton>
