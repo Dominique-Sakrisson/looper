@@ -249,7 +249,7 @@ const userSignUp = () => {
 
       </form>
 
-      {(name) ? <div className={style.errorMessage}>Entered Email already exists</div> : ''}
+      {(name && !acceptEmail) ? <div className={style.errorMessage}>Entered Email already exists</div> : ''}
     </div>
   );
 };
