@@ -1,63 +1,45 @@
-/* Extra small devices (phones, 600px and down) */
+/* Extra small devices (phones, 615px and down) */
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width:600px) {
     *{
         position: relative;
-    }
- 
-    section{
-        color: blue;
-        /* border: 2px solid black; */
-        /* background-color: grey; */
     }
     .header{
         list-style: none;
         display: flex;
         justify-content: space-around;
         background: rgb(2,0,36);
-        padding: 2px;
+        padding: 1rem;
     }
-
-    .header li {
+    .header img{
+        background: rgba(255,255,255, 1);
+        width: 2rem;
+        height: 2rem;
         padding: 1rem;
     }
     .header a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-decoration: none;
         color: white;
-        font-size: 1.2rem;
-    }
-
-    .header li:hover {
-        padding: 1rem;
-        background-color: rgba(119, 141, 236, 0.1);
-    }
-
-    .current li:before {
-        top: 0;
-        right: 0;
-        content: "";
-        padding: 1rem;
-        position: absolute;
-        border-top: 3px solid red;
-        border-right: 3px white solid;
-    }
-
-    .current li{
-        border-radius: 0;
-        background: rgb(2,0,36);
+        font-size: 1.3rem;
     }
 
     .piano{
         display: flex;
         flex-wrap: wrap;
-        /* background-color: blue; */
         justify-content: center;
+        padding: .1rem;
+        border: ridge rgba(0,0,0, 1);
+        
     }
     .pianoTop{
         background-color: rgba(177,173,173,.6);
         display: flex;
         flex-wrap: wrap;
         /* background-color: blue; */
+        margin-bottom: .25rem;
         justify-content: space-between;
     }
     .saveTrack{
@@ -67,6 +49,31 @@
     }
     .saveTrack input{
         border: 2px solid black;
+    }
+    .playback{
+        width: 100%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .playback button{
+        display: flex;
+        align-items: center;   
+        justify-content: center;
+        height: 2.5rem;
+        min-width: 5rem;
+        /* box-shadow: 0px 0px 5px 4px #bbb; */
+        /* margin: .5rem; */
+        padding: 1rem;
+        background-color: grey;
+    }
+    .playback button:hover{
+        box-shadow: 0px 0px 5px 4px #bbb;
+        
+    }
+    .playback button img{
+        position: relative;
+        bottom: .5rem;
+        right: .25rem
     }
     .keyButton{
         width: 3.3rem;
@@ -140,41 +147,32 @@
         width: 2rem;
         height: 2rem;
     }
-    .settings{
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      justify-content: center;
+    .settingsSection{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
         width: 100%;
-        padding: 10px;
         animation: appear 1s infinite;
     }
-
-    .volume{
-        display: flex;
-        flex-wrap: wrap;
-        box-sizing:border-box;
-       width: 8.5rem;
+    .settingsSection button{
+        padding: .25rem;
+        margin: .25rem;
+        box-sizing: border-box;
     }
-    .octave{
+   
+    .settingsControl{
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
         box-sizing:border-box;
-       width: 8.5rem;
-    }
-    .duration{
-        display: flex;
-        flex-wrap: wrap;
-        box-sizing:border-box;
-       width: 8.5rem;
+        width: 8.5rem;
     }
     .settingsForm{
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
         width: 100%;
-        border: 2px solid black;
-        
-        /* background-color: cyan; */
     }
    
     .settingsForm :nth-child(2){
@@ -246,10 +244,62 @@
         }
     }
 
+    
+}
+
+/* Medium devices (landscape tablets, 600px and up) */
+@media only screen and (min-width: 600px) {
+    *{
+        position: relative;
+    }
+    .header{
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+        background: rgb(2,0,36);
+        padding: 1rem;
+    }
+    .header img{
+        background: rgba(255,255,255, 1);
+        width: 2rem;
+        height: 2rem;
+        padding: 1rem;
+    }
+    .header a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+        font-size: 1.3rem;
+    }
+
+    .piano{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: .1rem;
+        border: ridge rgba(0,0,0, 1);
+        
+    }
+    .pianoTop{
+        background-color: rgba(177,173,173,.6);
+        display: flex;
+        flex-wrap: wrap;
+        width: fill;
+        margin-bottom: .25rem;
+        justify-content: space-between;
+    }
+    .saveTrack{
+        display: flex;
+        width: 100%;
+        margin: .5rem;
+    }
+    .saveTrack input{
+        border: 2px solid black;
+    }
     .playback{
         width: 100%;
-        margin: 1.5rem;
-        padding: 1.5rem;
         display: flex;
         justify-content: space-evenly;
     }
@@ -257,78 +307,22 @@
         display: flex;
         align-items: center;   
         justify-content: center;
-        height: 50px;
-        min-width: 85px;
-        width: 100px;
-        box-shadow: 0px 0px 5px 4px #bbb;
-        margin: .5rem;
-        padding: .5rem;
+        height: 2.5rem;
+        min-width: 5rem;
+        /* box-shadow: 0px 0px 5px 4px #bbb; */
+        /* margin: .5rem; */
+        padding: 1rem;
         background-color: grey;
+    }
+    .playback button:hover{
+        box-shadow: 0px 0px 5px 4px #bbb;
+        
     }
     .playback button img{
         position: relative;
         bottom: .5rem;
         right: .25rem
     }
-}
-
-/* Small devices (portrait tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) {
-    *{
-        position: relative;
-    }
- 
-    section{
-        color: blue;
-        /* border: 2px solid black; */
-        /* background-color: grey; */
-    }
-    .header{
-        list-style: none;
-        display: flex;
-        justify-content: space-around;
-        background: rgb(2,0,36);
-        padding: 2px;
-    }
-
-    .header li {
-        padding: 1rem;
-    }
-    .header a {
-        text-decoration: none;
-        color: white;
-        font-size: 1.2rem;
-    }
-
-    .header li:hover {
-        padding: 1rem;
-        background-color: rgba(119, 141, 236, 0.1);
-    }
-
-    .current li:before {
-        top: 0;
-        right: 0;
-        content: "";
-        padding: 1rem;
-        position: absolute;
-        border-top: 3px solid red;
-        border-right: 3px white solid;
-    }
-
-    .current li{
-        border-radius: 0;
-        background: rgb(2,0,36);
-    }
-
-
-    
-    .piano{
-        display: flex;
-        flex-wrap: wrap;
-        /* background-color: blue; */
-        justify-content: center;
-    }
-
     .keyButton{
         width: 3.3rem;
         height: 10rem;
@@ -401,74 +395,34 @@
         width: 2rem;
         height: 2rem;
     }
-     img{
-        margin-top: 1rem;
-        width: 2rem;
-        height: 2rem;
-        padding: 1rem;
-    }
-    * > img {
-        background: white;
+    .settingsSection{
         display: flex;
-    }
-    * > * > * > img:hover{
-        background: none;
-        display: flex;
-
-    }
-  
-
-    .pianoInstructions{
-        display: none;
-        position: fixed;
-        margin: 0 auto;
-        background-color: rgba(255,255,55, 1);
-        top: 10%;
-        width: 80%;
-    }
-
-   
-    .settings{
-      display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      justify-content: center;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: center;
         width: 100%;
-        padding: 10px;
         animation: appear 1s infinite;
     }
-
-    .volume{
-        display: flex;
-        flex-wrap: wrap;
-        box-sizing:border-box;
-       width: 8.5rem;
+    .settingsSection button{
+        padding: .25rem;
+        margin: .25rem;
+        box-sizing: border-box;
     }
-    .octave{
+   
+    .settingsControl{
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
         box-sizing:border-box;
-       width: 8.5rem;
-    }
-    .duration{
-        display: flex;
-        flex-wrap: wrap;
-        box-sizing:border-box;
-       width: 8.5rem;
+        width: 8.5rem;
     }
     .settingsForm{
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
         width: 100%;
-        border: 2px solid black;
-        
-        /* background-color: cyan; */
     }
    
-    .settingsForm :nth-child(2){
-
-
-    }
     .settingsForm :nth-child(2){
         /* background-color: blue; */
         margin: 5px;
@@ -479,22 +433,28 @@
         /* background-color: blue; */
 
     }
-  
-    .onScreen{
-        display: flex;
-        justify-content: center;
+    .pianoInstructions{
+        display: none;
+        position: fixed;
         margin: 0 auto;
         top: 10%;
+        width: 50%;
+    }
+  .instructionText{
+      font-family: monospace;
+      text-align: center;
+  }
+    .onScreen{
+        display: flex;
+        width: 60%;
+        flex-direction:row;
+        margin:0 0 0 5rem;
         z-index: 2;
+        /* right: 50%; */
         background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);
         animation: slideIn .25s linear;
         border-radius: 1rem;
-        padding: 10px 0 10px 0;
-        text-align: center;
-    }
-
-    .onScreen h3 {
-        width: 100%;
+        padding: 10px;
     }
     .offScreen{
         top: 10%;
@@ -502,30 +462,13 @@
         opacity: 0;
         animation: slideOut .5s linear;
     }
-
-    .playback{
-        width: 100%;
-        margin: 1.5rem;
-        padding: 1.5rem;
-        display: flex;
-        justify-content: space-evenly;
-    }
-    .playback button{
-        display: flex;
-        align-items: center;   
-        justify-content: center;
-        height: 50px;
-        min-width: 85px;
-        width: 100px;
-        box-shadow: 0px 0px 5px 4px #bbb;
-        margin: .5rem;
-        padding: .5rem;
-        background-color: grey;
-    }
-    .playback button img{
+    .close{
         position: relative;
-        bottom: .5rem;
-        right: .25rem
+        /* left:2rem; */
+    }
+    .close:hover{
+        border-radius: 50%;
+        box-shadow: 0 0 1rem rgb(206, 35, 35);
     }
     @keyframes slideIn {
         from{
@@ -549,58 +492,35 @@
         }
     }
 }
-
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-
+    *{
+        position: relative;
+    }
+    .piano{
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+    .pianoTop{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        width: 45%;
+        background-color: rgba(177,173,173,.6);
+        justify-content: space-between;
+        margin: 0 1rem 0 1rem;
+    }
+    .settingsControl{
+        display: flex;
+        flex-direction: column;
+        
+    }
 }
 
 /* Large devices (laptops/desktops, 992px and up) */
 @media only screen and (min-width: 992px) {
 
-.piano{
-    display: flex;
-    justify-content: flex-start;
-}
-
-.playback{
-    width: 100%;
-    margin: 1.5rem;
-    padding: 1.5rem;
-    
-    display: flex;
-    justify-content: space-evenly;
-}
-.playback button{
-    display: flex;
-    align-items: center;   
-    justify-content: center;
-    height: 50px;
-    min-width: 85px;
-    width: 100px;
-    box-shadow: 0px 0px 5px 4px #bbb;
-    margin: .5rem;
-    padding: .5rem;
-    background-color: grey;
-}
-.playback button img{
-    position: relative;
-    bottom: .5rem;
-    right: .25rem
-
-}
-.light, .dark {
-    position: relative;
-    left: .25rem;
-}
-
-.trackTypeTitle{
-    position: fixed;
-    top: 0;
-}
-.settings{
-    width: 50%;
-}
 
 
 }

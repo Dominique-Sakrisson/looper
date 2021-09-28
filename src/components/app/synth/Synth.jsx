@@ -440,7 +440,7 @@ const Synth = () => {
           (recording.length > 0) ? 
             <div className={style.saveTrack}> 
               <button onClick={handleSaveTrack}>Confirm</button> 
-              <input onChange={handleRecordingNameChange} type="text" placeholder='Enter name here, hit confirm' /> 
+              <input onChange={handleRecordingNameChange} type="text" placeholder="Enter name here, hit confirm" /> 
             </div> 
             :
           
@@ -479,21 +479,10 @@ const Synth = () => {
     </div>
 
    
-    <button onClick={() => {
-      const el = document.getElementById('chart');
-      console.log(recChart);
-      // const xpath = '//a[contains(text(),'Searching')]';
-      for(const a of document.getElementById("chart")) {
-        if(a.textContent.includes("c3")) {
-          console.log(a.textContent);
-        }
-      }
-      el.scrollIntoView();  
-      
-    }}>scroll to c3</button>
+    
 
 
-    <section id='chart' className={style.chart}>
+    <section id="chart" className={style.chart}>
       <span style={compStyle}></span>
       {recChart}   
       

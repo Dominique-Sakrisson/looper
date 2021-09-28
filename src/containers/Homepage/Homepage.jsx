@@ -38,8 +38,9 @@ const Homepage = () => {
     'aria-label' : 'slider of images'
   })`
 background-image: url(${currentImage});
-min-height:  20rem;
-width: 20rem;
+min-height: 10rem;
+min-width: 5rem;
+width: 10rem;
 background-position: center;
 background-repeat: no-repeat;
 background-size: cover;
@@ -65,11 +66,12 @@ animation: cycleImg 6s infinite;
   const Cta = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: start;
   box-shadow: 0px 0px 10px 4px  rgba(200,200,200, .5);
   padding: 1rem;
   background: black;
   h1{
+    margin-top: 0;
     width: 100%;
     text-align: start;
     font-size: 2.5rem;
@@ -85,7 +87,7 @@ flex-direction: column;
 justify-content: center;
 background: white;
 width: 40%;
-margin: 2rem;
+margin: 1rem;
 padding: 1rem;
 box-shadow: 0rem 0rem 1rem 1rem grey;
 h2{
@@ -94,16 +96,23 @@ h2{
 `;
 
   const InstrIcon = styled.div`
-width: 12%;
+width: 5rem;
+height:
 border-radius: 50%;
 padding: 2rem;
+margin: 1rem;
 background: white;
 box-shadow: 0px 0px 10px 4px  rgba(200,200,200, .5);
 text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
 img{
   margin: .5rem;
-  width: 100px;
-  height: 100px;
+  width: 5rem;
+  height: 5rem;
+  display: block;
 }
 &:hover{
   opacity: .6;
@@ -120,14 +129,12 @@ img{
   flex-wrap: wrap;
 `;
   const MidSection = styled.section`
-  width: 95%;
+  width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   flex-direction: row;
-  flex-wrap: wrap;
   background: #fff;
-  margin: 2rem;
-  padding: 2rem;
 `;
 
   const SubmitButton = styled.button.attrs({
@@ -177,8 +184,10 @@ img{
       
       
       <InstrIcon > 
-        <img src={pianoIcon} alt="piano icon" />
-        Piano
+        <img src={pianoIcon} alt="piano icon" /> 
+        <p>
+          Piano
+        </p>
       </InstrIcon>
       
       <InstrIcon > 
