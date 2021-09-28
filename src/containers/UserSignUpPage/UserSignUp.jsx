@@ -77,7 +77,7 @@ const userSignUp = () => {
     if(num === 2) {
       //and do the same as above
       if(password2.length >= 7){
-        result = { src: '../../../public/assets/check-button.png', status: true };
+        result = { src: check, status: true };
       }
     }
     //return that object
@@ -86,7 +86,7 @@ const userSignUp = () => {
  
   const passCase = (num) => {
     let result = {
-      src: '../../../public/assets/close-button.png',
+      src: close,
       status: false
     };
     if(num === 1){
@@ -95,7 +95,7 @@ const userSignUp = () => {
         //there is an uppercase
         if(item === item.toUpperCase() && isNaN(item) && item.match(/[a-z]/i)) {
           result = {
-            src: '../../../public/assets/check-button.png',
+            src: check,
             status: true
           };
           //there is no uppercase
@@ -109,7 +109,7 @@ const userSignUp = () => {
         //there is an uppercase
         if(item === item.toUpperCase() && isNaN(item) && item.match(/[a-z]/i)) {
           result = {
-            src: '../../../public/assets/check-button.png',
+            src: check,
             status: true
           };
           //there is no uppercase
@@ -121,13 +121,13 @@ const userSignUp = () => {
 
   const passSym = (num) => {
     let result = {
-      src: '../../../public/assets/close-button.png',
+      src: close,
       status: false
     };
     if(num === 1){
       for(const item of password){
         if(!item.isNaN && !item.match(/[a-z]/i)) {
-          result = { src:'../../../public/assets/check-button.png', status: true };
+          result = { src:check, status: true };
           return result;
         }
       }
@@ -135,7 +135,7 @@ const userSignUp = () => {
     if(num === 2){
       for(const item of password2){
         if(!item.isNaN && !item.match(/[a-z]/i)) {
-          result = { src: '../../../public/assets/check-button.png', status: true };
+          result = { src: check, status: true };
           return result;
         }
       }
@@ -145,9 +145,9 @@ const userSignUp = () => {
 
   function passMatch(){
     if(password === password2) {
-      return '../../../public/assets/check-button.png';
+      return check;
     }
-    return '../../../public/assets/close-button.png';
+    return close;
   }
   
  
