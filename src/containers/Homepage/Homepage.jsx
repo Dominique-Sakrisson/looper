@@ -10,7 +10,6 @@ import baseGuitarIcon from '../../../public/assets/base-guitar-icon.png';
 import saxophoneIcon from '../../../public/assets/saxophone-icon.png';
 
 const Homepage = () => {
-  // const [slides, setSlides] = useState([{ src: piano, alt: '' }]);
   const [activeSlide, setActiveSlide] = useState(0);
   const [sectionStyle, setSectionStyle] = useState({
     display: 'flex',

@@ -62,14 +62,14 @@ const userSignUp = () => {
 
   const passLength = (num) => {
     let result = {
-      src: '../../../public/assets/close-button.png',
+      src: close,
       status: false
     };
     //if number ==== 1 that means were in the first password field
     if(num === 1){
     //if first input && password >= 7 set the object src to a check, and the status to true
       if(password.length >= 7){
-        result = { src: '../../../public/assets/check-button.png', status: true };
+        result = { src: check, status: true };
       }
     }
 
