@@ -19,20 +19,22 @@ const Settings = ({
   handleDurationInput,
 }) => {
   return (
-    <section className={style.settings}>
-      {(showSettings) ? <div>
+    <section className={style.settingsSection}>
+      {(showSettings) ? <>
         <button aria-label="hide-settings"  onClick={handleShowSettings}> hide Settings </button>
         <form className={style.settingsForm}>
-
-          <Volume handleVolumeChange={handleVolumeChange} volume={volume}/>
-
-          <Duration duration={duration} handleDurationInput={handleDurationInput}/>
-
-          <Octave octave={octave} handleOctaveChange={handleOctaveChange} />
-
+          <div className={style.settingsControl}>
+            <Volume handleVolumeChange={handleVolumeChange} volume={volume}/>
+          </div>
+          <div className={style.settingsControl}>
+            <Duration duration={duration} handleDurationInput={handleDurationInput}/>
+          </div>
+          <div className={style.settingsControl}>
+            <Octave octave={octave} handleOctaveChange={handleOctaveChange} />
+          </div>
         </form>
        
-      </div> 
+      </> 
         : 
         <button aria-label="show-settings" onClick={handleShowSettings}> Show Settings </button>}
       

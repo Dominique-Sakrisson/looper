@@ -5,6 +5,9 @@ import Header from './header/Header';
 import HomePage from '../../containers/Homepage/Homepage.jsx';
 import TrackListPage  from '../../containers/TrackListPage/TrackListPage';
 import RecordTrackPage from '../../containers/RecordTrackPage/RecordTrackPage';
+import UserSignUpPage from '../../containers/UserSignUpPage/UserSignUp';
+import UserSignInPage from '../../containers/UserSignInPage/UserSignIn';
+// import ChallengeTrackPage from '../../containers/ChallengeTrackPage/ChallengeTrackPage';
 import Footer from './footer/Footer';
 
 export default function App() {
@@ -20,8 +23,18 @@ export default function App() {
         <Route exact path="/record"  
           component={RecordTrackPage} 
         />
+        <Route exact path="/signUp"  
+          component={() => <UserSignUpPage/>} 
+        />
+        <Route exact path="/signIn"  
+          component={() => <UserSignInPage/>} 
+        />
+        {/* <Route exact path="/challenge"  
+          component={ChallengeTrackPage} 
+        /> */}
       </Switch>
     </Router>
+    
     <Footer />
   </>;
 }
