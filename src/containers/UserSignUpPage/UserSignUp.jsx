@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {useLocation} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import close from '../../../public/assets/close-button.png';
 import check from '../../../public/assets/check-button.png';
 
@@ -7,6 +7,7 @@ import styled, { createGlobalStyle, keyframes, css } from "styled-components";
 
 import style from './style.css';
 import { signUpUser, getUsers} from '../../utils/userFunctions';
+import { theWindow } from 'tone/build/esm/core/context/AudioContext';
 
 const CheckedIcon = styled.img`
   position: relative;
@@ -17,7 +18,8 @@ const CheckedIcon = styled.img`
 `;
 const userSignUp = () => {
   const search = useLocation().search;
-  const name = new URLSearchParams(search).get('error');
+  const emailError = new URLSearchParams(search).get('error');
+  
 
   const [user, setUser] = useState({});
   const [email, setEmail] = useState('');
@@ -57,8 +59,15 @@ const userSignUp = () => {
     }
   }), [acceptPassword2];
   
-  useEffect(()=> {
-    if(formValid) signUpUser(email,password);
+  useEffect(async() => {
+    const userResult= {};
+    if(formValid) {
+        userResult = await signUpUser(email,password);
+      }
+      (userResult.error) ? 
+      window.location.href = `./signUp?error=${userResult.error}` 
+      : 
+      ''
   }), [user];
 
 
@@ -251,7 +260,7 @@ const userSignUp = () => {
 
       </form>
 
-      {(name && !acceptEmail) ? <div className={style.errorMessage}>Entered Email already exists</div> : ''}
+      {(emailError && !acceptEmail) ? <div className={style.errorMessage}>Entered Email already exists</div> : ''}
     </div>
   );
 };

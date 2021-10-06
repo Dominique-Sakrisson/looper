@@ -8,13 +8,14 @@ export const signUpUser = async (email, password) => {
   const requestOptions = {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body:  JSON.stringify({email, password})
+    body:  JSON.stringify({email, password}),
+    
   }
   console.log(requestOptions);
   const res = await fetch(`${localUrl}/api/v1/users/signUp`, requestOptions);
 
   const json = await res.json();
-  console.log(json, 'helllooo');
+  console.log(json, 'mightt be my query');
   return json;
 };
 
