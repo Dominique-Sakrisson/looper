@@ -21,7 +21,7 @@ export const signUpUser = async (email, password) => {
   return json;
 };
 
-export const loginUser = async ({email, password}) => {
+export const loginUser = async (email, password) => {
   const requestOptions = {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
@@ -30,18 +30,12 @@ export const loginUser = async ({email, password}) => {
   }
   const res = await fetch(`${localUrl}/api/v1/users/login`, requestOptions);
   const json = await res.json();
-  // if(!typeof(res) === object){
-  //   console.log('this is happening');
-  //  return json; 
-  // }
-  console.log(json, 'should be uysers');
   return json;
 };
 
 export const getUsers = async () => {
   const res = await fetch(localUrl + '/api/v1/users/', {
     method: 'get',
-    
   });
   const json = await res.json();
   console.log(json, 'should be uysers');

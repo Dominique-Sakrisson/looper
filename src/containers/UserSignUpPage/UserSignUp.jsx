@@ -6,7 +6,7 @@ import check from '../../../public/assets/check-button.png';
 import styled, { createGlobalStyle, keyframes, css } from "styled-components";
 
 import style from './style.css';
-import { signUpUser, getUsers} from '../../utils/userFunctions';
+import { signUpUser, getUsers, loginUser} from '../../utils/userFunctions';
 import { theWindow } from 'tone/build/esm/core/context/AudioContext';
 
 const CheckedIcon = styled.img`
@@ -60,14 +60,17 @@ const userSignUp = () => {
   }), [acceptPassword2];
   
   useEffect(async() => {
-    const userResult= {};
+    let userResult = {};
     if(formValid) {
         userResult = await signUpUser(email,password);
+        (userResult.error) ? 
+        window.location.href = `./signUp?error=${userResult.error}` 
+        : 
+        '';
+        console.log(userResult, 'frontent user result');
+        const userLogged = await loginUser(email, password);
+        if(userLogged) window.location.href = `./user/tracks/${userLogged.id}`;
       }
-      (userResult.error) ? 
-      window.location.href = `./signUp?error=${userResult.error}` 
-      : 
-      ''
   }), [user];
 
 

@@ -48,7 +48,7 @@ const userSignIn = () => {
 
   useEffect(async ()=> {
     if(user.password && user.email) {
-      const userResult = await loginUser(user);
+      const userResult = await loginUser(user.email, user.password);
       (userResult.error) ? 
       window.location.href = `./signIn?error=${userResult.error}`
       :

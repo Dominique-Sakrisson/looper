@@ -17,6 +17,9 @@ export default function App() {
       <Switch>
         <Route exact path="/"  
           component={HomePage} />
+        <Route exact path="/tracks/"  
+          component={TrackListPage} 
+        />
         <Route exact path="/user/tracks/:id"  
           component={TrackListPage} 
         />
