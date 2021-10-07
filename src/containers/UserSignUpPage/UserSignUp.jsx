@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import close from '../../../public/assets/close-button.png';
 import check from '../../../public/assets/check-button.png';
 
@@ -167,6 +167,11 @@ const userSignUp = () => {
  
   return (
     <div className={style.signUpForm}>
+      <div className={style.toggleUserForm}>
+        <Link rel="stylesheet" to='/signIn'>
+        Have an account?
+        </Link>
+        </div>
       <h1>Sign Up Form</h1>
       <p>Welcome To Looper</p>
       <form id="userForm" onSubmit={(e) =>{

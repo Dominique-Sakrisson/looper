@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import styled, { createGlobalStyle, keyframes, css } from "styled-components";
 import { loginUser } from '../../utils/userFunctions';
 import style from './style.css';
@@ -59,6 +59,11 @@ const userSignIn = () => {
 
   return (
     <div className={style.signUpForm}>
+      <div className={style.toggleUserForm}>
+        <Link rel="stylesheet" to='/signUp'>
+        Need an account?
+        </Link>
+        </div>
       {/* main header for the form
       displays users name as they fill out forms */}
       <h1>Looper</h1>

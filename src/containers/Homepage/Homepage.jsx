@@ -170,8 +170,11 @@ img{
           <ImageB></ImageB>
         </CtaCol> */}
         
-        <form action="/api/v1/forms" method="get" className="form">
-          <SubmitButton type="submit">Play now!</SubmitButton>
+        <form onSubmit={async(e) => {
+          e.preventDefault();
+          await fetch(`${process.env.BACKEND_URL}/signUp`)
+        }} className="form">
+          <SubmitButton onClick={(e) => window.location.href = '/signIn'} type="submit">Play now!</SubmitButton>
         </form>
         
       </Cta> 
