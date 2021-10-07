@@ -49,6 +49,7 @@ const userSignIn = () => {
   useEffect(async ()=> {
     if(user.password && user.email) {
       const userResult = await loginUser(user.email, user.password);
+      console.log(userResult);
       (userResult.error) ? 
       window.location.href = `./signIn?error=${userResult.error}`
       :
@@ -131,7 +132,7 @@ const userSignIn = () => {
         </div>
 
       </form>
-
+      {(name && !acceptEmail) ? <div className={style.errorMessage}>{name}</div> : ''}
     </div>
   );
 };

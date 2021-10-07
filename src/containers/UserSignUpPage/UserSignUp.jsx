@@ -268,7 +268,7 @@ const userSignUp = () => {
 
       </form>
 
-      {(emailError && !acceptEmail) ? <div className={style.errorMessage}>Entered Email already exists</div> : ''}
+      {(emailError && !acceptEmail) ? <div className={style.errorMessage}>{emailError}</div> : ''}
     </div>
   );
 };
