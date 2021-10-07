@@ -1,5 +1,4 @@
-const backendUrl = 'https://looper-net-backend.herokuapp.com/api/v1/';
-const localUrl = 'http://localhost:3000'
+const backendUrl = 'https://looper-net-backend.herokuapp.com'
 
 export const signUpUser = async (email, password) => {
   const requestOptions = {
