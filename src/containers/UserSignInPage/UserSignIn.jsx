@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled, { createGlobalStyle, keyframes, css } from "styled-components";
+import { loginUser } from '../../utils/userFunctions';
 import style from './style.css';
 
-const userSignUp = () => {
+const userSignIn = () => {
   const search = useLocation().search;
   const name = new URLSearchParams(search).get('error');
 
@@ -11,6 +12,7 @@ const userSignUp = () => {
   const [acceptEmail, setAcceptEmail] = useState(false);
   const [password, setPassword] = useState('');
   const [acceptPassword, setAcceptPassword] = useState(false);
+  const [user, setUser] = useState({});
 
 
   useEffect(() => {
@@ -26,18 +28,35 @@ const userSignUp = () => {
 
 
 
-  // useEffect(() => {
-  //   if(acceptPassword){
-  //     document.getElementById('password').style.display = 'none';
+  useEffect(() => {
+    if(acceptPassword){
+      document.getElementById('password').style.display = 'none';
       
-  //   }
-  // }), [acceptPassword];
+    }
+  }), [acceptPassword];
 
   const InputLabel = styled.div`
   font-size: .8rem;
   padding: 0;
   margin: 0;
   `;
+
+  function handleLogIn(e){
+    e.preventDefault();
+    setUser({email, password});
+  }
+
+  useEffect(async ()=> {
+    if(user.password && user.email) {
+      const userResult = await loginUser(user);
+      (userResult.error) ? 
+      window.location.href = `./signIn?error=${userResult.error}`
+      :
+      window.location.href = `./user/tracks/${userResult.id}`
+      
+    }
+  }), [user];
+
   return (
     <div className={style.signUpForm}>
       {/* main header for the form
@@ -46,7 +65,7 @@ const userSignUp = () => {
 
       <p>Sign In</p>
       {/* the form for collecting user information */}
-      <form id="userForm" action="/api/v1/users/signIn" method="post">
+      <form id="userForm" onSubmit={handleLogIn}>
         { //Check input first and last name to greet user
           (acceptPassword) ? 
           //prompt of complete form
@@ -112,4 +131,4 @@ const userSignUp = () => {
   );
 };
 
-export default userSignUp;
+export default userSignIn;
