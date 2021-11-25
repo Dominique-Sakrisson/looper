@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import defaultTracks from '../../components/app/modules/DefaultSongs.js';
 import styled, { createGlobalStyle, keyframes, css } from "styled-components";
+import TrackList from '../../components/app/trackList/TrackList.jsx';
 
 const tracks = [...defaultTracks];
 const TrackListPage = () => {
@@ -13,33 +14,31 @@ const TrackListPage = () => {
   }, [userTracks]);
   
   const DefSongList = styled.ul`
-    width: 300px;
-    height: 300px;	
-    background-color: #FFFFFF;	
-    position: relative;	
-    box-shadow: 0px 0px 25px 1px #939083;
-  }
-  `;
-  const SongList = styled.ul`
-    width: 300px;
-    height: 800px;	
-    background-color: #FFFFFF;	
-    position: relative;	
+  width: 100%;
+  display:flex;
+  flex-direction: row;
+  height: 40rem;	
+  background-color: #FFFFFF;	
+  position: relative;	
+  overflow: scroll;
+  box-shadow: 0px 0px 25px 1px #939083;
+  list-style: none;
+  & > li {
+    width: 100%;
+    border: 1px ridge black;
     overflow: scroll;
-    box-shadow: 0px 0px 25px 1px #939083;
+    flex-direction: row;
+    flex-wrap: wrap;
   }
-  `;
-
+}
+`;
   const TrackTitle = styled.div`
-    font-size: 2rem;
-    background-color: grey;
-  `;
-  const TrackButton = styled.div`
+  font-size: 2rem;
+  background-color: grey;
+  width: 100%;
+`;
+  const ControllButton = styled.button`
     font-size: 1rem;
-    background-color: grey;
-    padding: 1rem;
-    border: 1px solid black;
-    max-width: 3rem;
     box-sizing:content-box;
     &:hover{
       background-color: lightblue;
@@ -47,21 +46,13 @@ const TrackListPage = () => {
     }
   `;
 
-  function handleDeleteTrack(track){
-    const updatedTracks = userTracks.filter((item) => {
-      return item.name !== track.name;
-    });
-    setUserTracks(updatedTracks);
-  }
-
   return (<>
-    <h2><i>If you saved a track and it does not show, refresh page</i></h2>
+    <h1 className={styled.trackTypeTitle}>Default Tracks</h1> 
     <DefSongList>
-      <h1>Default Tracks</h1> 
       {
         tracks.map((track) => (
           <li key={track} >  
-            <TrackTitle>{track.name}</TrackTitle>
+            <TrackTitle>Track: {track.name}</TrackTitle>
             <ul>
               {track.notes.map(note => {
                 return <li key={note}>
@@ -70,36 +61,13 @@ const TrackListPage = () => {
               }) }
             
             </ul>
-            <button>play track</button>
-            <button>edit track</button>
-            <button>delete track</button>
+            <ControllButton>edit track</ControllButton>
           </li>
         ))
       }
     </DefSongList>
-    <SongList >
-      <h1>Your Tracks</h1>
-      {(userTracks.length > 0) ? userTracks.map(track => (
-        <li key={track} >  
-          <TrackTitle>{track.name}</TrackTitle>
-          <ul>
-            {track.recording.map(note => {
-              return <li key={note.key}>
-                <p>{note.key}</p>
-                <p>note start {note.timing.toFixed(2)} seconds</p>
-              </li>;
-            }) }
-            
-          </ul>
-          <button>play track</button>
-          <button>edit track</button>
-          <TrackButton onClick={() => {
-           handleDeleteTrack(track);
-          }}>delete track</TrackButton>
-        </li>
-      )) : '' }
-      
-    </SongList>
+    <h1>Your Tracks</h1>
+    <TrackList />
   </>
   );
 };

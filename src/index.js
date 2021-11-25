@@ -1,12 +1,14 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { hydrate, render } from 'react-dom';
 import App from './components/app/App';
 import {
-  MemoryRouter as Router,
+  BrowserRouter as Router,
 } from 'react-router-dom';
 
-render(
-  
-  <App />,
+hydrate(
+  <Router>
+    <App />
+  </Router>,
   document.getElementById('root')
 );
+

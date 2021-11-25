@@ -16,14 +16,20 @@ const env = Object.entries({
 // eslint-disable-next-line
 module.exports = {
   entry: './src/index.js',
+  mode: 'development',
   output: {
-    filename: 'bundle.[hash].js',
+    filename: 'bundle.[fullhash].js',
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
   },
   devServer: {
     port: 7891,
     historyApiFallback: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000'
+      }
+    }
   },
   plugins: [
     new HtmlPlugin({ template: './src/index.html' }),
